@@ -1,4 +1,4 @@
-// import MainPage from './components/pages/community/MainPage';
+import MainPage from './components/pages/post/MainPage';
 // import MyPage from './components/pages/mypage/MyPage';
 // import ManageSurvey from './components/pages/management/ManageSurvey';
 // // import ManageSurvey from './components/pages/management/ManageSurveyPage';
@@ -7,7 +7,7 @@
 // import SelectSurveyPage from './components/pages/community/SelectSurveyPage';
 // // import StoreSurveyPage from './components/pages/management/StoreSurveyPage';
 import NotFound from './components/common/NotFound';
-import Home from './components/pages/home/Home';
+import Home from './components/pages/Home';
 // import CreateSurvey, { SurveyShared } from './components/pages/create/CreateSurvey';
 // import TemporarySurvey from './components/pages/management/TemporarySurvey';
 // import ResultSurvey from './components/pages/result/ResultSurvey';
@@ -42,8 +42,8 @@ function App() {
                       <Route path="respondentclose" element={<RespondentClose />} />
                       <Route path="respondentnotopen" element={<RespondentNotOpen />} /> */}
                       <Route path="/" element={<Home />} />
-                      {/* <Route path="community" element={<MainPage />} />
-                      <Route path="mypage" element={<MyPage />} />
+                      <Route path="/mainPage" element={<MainPage />} />
+                      {/* <Route path="mypage" element={<MyPage />} />
                       <Route path="post/:postId" element={<ViewPostPage />} />
                       <Route path="selectSurvey" element={<SelectSurveyPage />} />
                       <Route path="post/createPost/:surveyId" element={<CreatePostPage />} />
