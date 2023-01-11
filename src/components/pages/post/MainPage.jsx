@@ -106,38 +106,119 @@ function MainPage(props) {
             
           </div>
 
-          <button className="mt-40 ml-4 mr-4 text-4xl font-bold tracking-tight text-gray-500 focus:text-black focus:underline underline-offset-8 decoration-sky-300 decoration-4">모집중</button>
-          <button className="mt-40 ml-4 mr-4 text-4xl font-bold tracking-tight text-gray-500 focus:text-black focus:underline underline-offset-8 decoration-sky-300 decoration-4">모집완료</button>
-          <hr class="h-px mt-4 mb-5 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+          <div className="min-w-max mt-40 mb-5">
+            <button className="ml-4 mr-4 text-4xl font-bold tracking-tight text-gray-500 focus:text-black focus:underline underline-offset-8 decoration-sky-300 decoration-4">모집중</button>
+            <button className="ml-4 mr-4 text-4xl font-bold tracking-tight text-gray-500 focus:text-black focus:underline underline-offset-8 decoration-sky-300 decoration-4">모집완료</button>
+            <button className="ml-4 mr-4 float-right text-4xl font-bold tracking-tight">새 글 쓰기</button>
+            <hr class="h-px mt-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+          </div>
 
-          <div className="min-w-max mb-4 grid grid-cols-3 gap-x-4 gap-y-10 text-center">
-              <div className="min-w-max rounded-2xl border py-40 flex-column bg-sky-100 hover:scale-105 transition" >
-                <h3 className="m-2 text-dark text-2xl font-weight-bold">게시글1</h3>
-              </div>
+          <div className="min-w-max grid grid-cols-3 gap-x-4 gap-y-10 ">
+             <a href ="/viewPost">
+              <div className="min-w-max rounded-2xl border py-10 flex-column hover:scale-105 transition">
+                <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">프로젝트 제목: 오늘 뭐먹지</h3>
+                <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">모집기한: 2023-01-12</h3>
+                <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">진행기간: 3개월</h3>
+                
+                <hr class="h-px mx-4 my-2 first-line:mt-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+                <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold text-center">모집분야</h3>
 
-              <div className="min-w-max rounded-2xl border py-40 flex-column bg-sky-100 hover:scale-105 transition">
-                <h3 className="m-2 text-dark text-2xl font-weight-bold">게시글2</h3>
-              </div>
+                <div className="min-w-max mx-2 grid grid-rows-2 grid-cols-3 gap-x-2 gap-y-2">
+                  <div className="flex border rounded-2xl ">
+                    <img className="rounded-2xl w-9 h-10" src={react} alt="" />
+                    <p className="m-auto">React</p>
+                  </div>
 
-              <div className="min-w-max rounded-2xl border py-40 flex-column bg-sky-100 hover:scale-105 transition">
-                <h3 className="m-2 text-dark text-2xl font-weight-bold">게시글3</h3>
-              </div>
+                  <div className="flex border rounded-2xl">
+                    <img className="rounded-2xl w-9 h-10" src={springBoot} alt="" />
+                    <p className="m-auto">SpringBoot</p>
+                  </div>
+                </div>
+                  <hr class="h-px mx-4 my-4 first-line:mt-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
 
-              <div className="min-w-max rounded-2xl border py-40 flex-column bg-red-100 ">
-                <h3 className="m-2 text-dark text-2xl font-weight-bold">게시글4</h3>
-              </div>
+                  <div className="flex">
+                    <h3 className="mx-auto text-dark text-2xl font-weight-bold">작성자: 호진</h3>
+                    <h3 className="mx-auto text-dark text-2xl font-weight-bold">조회수: 20회</h3>
+                  </div>
+               </div>
+              </a>
 
-              <div className="min-w-max rounded-2xl border py-40 flex-column bg-red-100 ">
-                <h3 className="m-2 text-dark text-2xl font-weight-bold">게시글5</h3>
-              </div>
+              <a href ="/viewPost">
+              <div className="min-w-max rounded-2xl border py-10 flex-column hover:scale-105 transition">
+                <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">프로젝트 제목: 동영상 강의 플랫폼</h3>
+                <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">모집기한: 2023-01-12</h3>
+                <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">진행기간: 3개월</h3>
+                <hr class="h-px mx-4 my-2 first-line:mt-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+                <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold text-center">모집분야</h3>
 
-              <div className="min-w-max rounded-2xl border py-40 flex-column bg-red-100 ">
-                <h3 className="m-2 text-dark text-2xl font-weight-bold">게시글6</h3>
-              </div>
+                <div className="min-w-max mx-2 grid grid-rows-2 grid-cols-3 gap-x-2 gap-y-2">
+                  <div className="flex border rounded-2xl ">
+                    <img className="rounded-2xl w-9 h-10" src={react} alt="" />
+                    <p className="m-auto">React</p>
+                  </div>
+
+                  <div className="flex border rounded-2xl">
+                    <img className="rounded-2xl w-9 h-10" src={springBoot} alt="" />
+                    <p className="m-auto">SpringBoot</p>
+                  </div>
+
+                  <div className="flex border rounded-2xl">
+                    <img className="rounded-2xl w-9 h-10" src={javascript} alt="" />
+                    <p className="m-auto">JavaScript</p>
+                  </div>
+
+                  <div className="flex border rounded-2xl">
+                    <img className="rounded-2xl w-9 h-10" src={python} alt="" />
+                    <p className="m-auto">Python</p>
+                  </div>
+
+                </div>
+                  <hr class="h-px mx-4 my-4 first-line:mt-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+
+                  <div className="flex">
+                    <h3 className="mx-auto text-dark text-2xl font-weight-bold">작성자: 길동이</h3>
+                    <h3 className="mx-auto text-dark text-2xl font-weight-bold">조회수: 20회</h3>
+                  </div>
+               </div>
+              </a>
+
+              <a href ="/viewPost">
+              <div className="min-w-max rounded-2xl border py-10 flex-column hover:scale-105 transition">
+                <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">프로젝트 제목: 설문 시스템 개발</h3>
+                <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">모집기한: 2023-01-15</h3>
+                <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">진행기간: 2개월</h3>
+                <hr class="h-px mx-4 my-2 first-line:mt-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+                <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold text-center">모집분야</h3>
+
+                <div className="min-w-max mx-2 grid grid-rows-2 grid-cols-3 gap-x-2 gap-y-2">
+                  <div className="flex border rounded-2xl">
+                    <img className="rounded-2xl w-9 h-10" src={springBoot} alt="" />
+                    <p className="m-auto">SpringBoot</p>
+                  </div>
+
+                  <div className="flex border rounded-2xl">
+                    <img className="rounded-2xl w-9 h-10" src={spring} alt="" />
+                    <p className="m-auto">Spring</p>
+                  </div>
+
+                </div>
+                  <hr class="h-px mx-4 my-4 first-line:mt-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+
+                  <div className="flex">
+                    <h3 className="mx-auto text-dark text-2xl font-weight-bold">작성자: 아무개</h3>
+                    <h3 className="mx-auto text-dark text-2xl font-weight-bold">조회수: 26회</h3>
+                  </div>
+               </div>
+              </a>
 
             {/* <div className="flex items-center"> */}
               {/* {postList&&<List items={postList} case_={1} type='post' deletePost={deletePost}/>} */}
             {/* </div> */}
+
+
+              <button type="button" className="min-w-max mb-8 rounded-2xl border flex" onClick={() => {navigate('/projectManage');}} >
+                <h3 className="m-auto text-2xl font-weight-bold">프로젝트 관리</h3>
+              </button>
           </div>
       </div>
     )    

@@ -1,4 +1,6 @@
 import MainPage from './components/pages/post/MainPage';
+import ViewPost from './components/pages/post/ViewPost';
+import ProjectManage from './components/pages/post/ProjectManage';
 // import MyPage from './components/pages/mypage/MyPage';
 // import ManageSurvey from './components/pages/management/ManageSurvey';
 // // import ManageSurvey from './components/pages/management/ManageSurveyPage';
@@ -43,6 +45,8 @@ function App() {
                       <Route path="respondentnotopen" element={<RespondentNotOpen />} /> */}
                       <Route path="/" element={<Home />} />
                       <Route path="/mainPage" element={<MainPage />} />
+                      <Route path="/viewPost" element={<ViewPost />} />
+                      <Route path="/projectManage" element={<ProjectManage />} />
                       {/* <Route path="mypage" element={<MyPage />} />
                       <Route path="post/:postId" element={<ViewPostPage />} />
                       <Route path="selectSurvey" element={<SelectSurveyPage />} />
