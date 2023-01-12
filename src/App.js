@@ -7,13 +7,22 @@
 // import SelectSurveyPage from './components/pages/community/SelectSurveyPage';
 // // import StoreSurveyPage from './components/pages/management/StoreSurveyPage';
 import NotFound from './components/common/NotFound';
+import { KakaoLogin } from '../src/components/route/KakaoLogin'
+import { KakaoLogout } from './components/route/KakaoLogout'
+import { userState } from '../src/atom'
 import Home from './components/pages/home/Home';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { RecoilRoot } from "recoil";
+import { MainPage } from '../src/components/route/MainPage'
+import {MyPage} from '../src/components/route/MyPage'
+import {Portfolio} from '../src/components/route/Portfolio'
+import { Provider } from "react-redux";
 // import CreateSurvey, { SurveyShared } from './components/pages/create/CreateSurvey';
 // import TemporarySurvey from './components/pages/management/TemporarySurvey';
 // import ResultSurvey from './components/pages/result/ResultSurvey';
 import React from 'react';
 // import RespondentSurvey, { RespondentClose, RespondentComplete, RespondentNotOpen } from './components/pages/create/RespondentSurvey';
-
+import { styled } from '@mui/material/styles';
 
 
 
@@ -26,22 +35,52 @@ import {
   Routes,
   Route
 } from "react-router-dom";
+import { CreatePost } from './components/route/CreatePost';
+const StyledRoot = styled('div')({
+  display: 'flex',
+  minHeight: '100%',
+  overflow: 'hidden',
+});
+
+const Main = styled('div')(({ theme }) => ({
+  flexGrow: 1,
+  overflowX: 'hidden',
+  minHeight: '100%',
+  // paddingTop: APP_BAR_MOBILE + 5,
+  // paddingBottom: theme.spacing(3),
+  // paddingLeft: theme.spacing(3),
+  // paddingRight: theme.spacing(3),
+  // [theme.breakpoints.up('lg')]: {
+  //   // paddingTop: APP_BAR_DESKTOP + 15,
+  // },
+}));
+
 
 function App() {
+  const users = useRecoilValue(userState);
   return (
      //<Provider store={store}>
      <>
-      <Header />
+      
+      
       <div className='min-h-screen'>
+        <RecoilRoot>
         <BrowserRouter>
-            
+        <Header />
                 <Routes>
                       {/* <Route path="respondent/:surveyId" element={<RespondentSurvey mode={2}/>} />
                       <Route path="respondent/answer/:surveyId/:submitId" element={<RespondentSurvey mode={3}/>} />
                       <Route path="respondentcomplete" element={<RespondentComplete />} />
                       <Route path="respondentclose" element={<RespondentClose />} />
                       <Route path="respondentnotopen" element={<RespondentNotOpen />} /> */}
-                      <Route path="/" element={<Home />} />
+                      <Route path="/" element={<MainPage />} />
+                      <Route path="/main" element={<MainPage />} />
+                      <Route path="/kakaologin" element={<KakaoLogin />} />
+                      <Route path="/kakaologout" element={<KakaoLogout />} />
+                      <Route path="/home" element={<Home />} />
+                      <Route path="/mypage" element={<MyPage />} />
+                      <Route path="/portfolio" element = {<Portfolio/>}/>
+                      <Route path="/createpost" element= {<CreatePost/>}/>
                       {/* <Route path="community" element={<MainPage />} />
                       <Route path="mypage" element={<MyPage />} />
                       <Route path="post/:postId" element={<ViewPostPage />} />
@@ -61,6 +100,7 @@ function App() {
                   </Routes>
             
         </BrowserRouter>
+        </RecoilRoot>
       </div>
       <Footer />
      </>

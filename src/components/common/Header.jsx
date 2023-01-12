@@ -1,7 +1,11 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { Popover, Transition, Dialog } from '@headlessui/react'
+import { KAKAO_AUTH_URL } from '../../OAuth'
+import { useNavigate } from 'react-router-dom';
+import { alpha } from '@mui/material/styles';
+import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton} from '@mui/material';
 import {
-    Bars3Icon,
+    Bars3Icon, 
     BookmarkSquareIcon,
     Cog8ToothIcon,
     CursorArrowRaysIcon,
@@ -9,15 +13,18 @@ import {
     PlayIcon,
     Squares2X2Icon,
 } from '@heroicons/react/24/outline'
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { userState } from '../../atom'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import logo from '../../img/logoComfy4x.jpeg'
+import {BrowserRouter as Router} from 'react-router-dom';
+import {MyPage} from '../route/MyPage'
 // import GoogleLoginB from '../GoogleLoginB'
-import GoogleLogin from 'react-google-login'
-import {gapi} from 'gapi-script'
-import { useSelector,useDispatch } from 'react-redux';
-import { Navigate } from 'react-router-dom'
 
 
+const handleLogin = () => {
+    window.location.href = KAKAO_AUTH_URL;
+};
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
@@ -58,11 +65,11 @@ const resources = [
 
 
 function Header() {
-
+    const users = useRecoilValue(userState);
     let [isOpen, setIsOpen] = useState(false);
     let [isLogin, setIsLogin] = useState([false]);
     const [logoutAlert,setLogoutAlert]=useState([false]);
-
+    let navigate = useNavigate();
 
     useEffect(()=>{
         console.log('header memberId is changed',typeof(localStorage.getItem('memberId')));
@@ -83,13 +90,19 @@ function Header() {
     function openModal() {
         setIsOpen(true)
     }
+
+    const [open, setOpen] = useState(null);
+
+    const handleOpen = (event) => {
+        setOpen(event.currentTarget);
+    };
     
 
     return (
         <Popover className="relative bg-white">
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
-                {logoutAlert&&<div className="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
-                    <p className="font-bold text-center">팀챗을 사용하려면 로그인해주세요!</p>
+                {!users.login&&<div className="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+                    <p className="font-bold text-center">서비스를 이용하려면 로그인해주세요!</p>
                 </div>}
                 <div className="flex items-center justify-between border-b-2 border-gray-100 py-3 md:justify-start md:space-x-10 ">
                     
@@ -112,13 +125,29 @@ function Header() {
                     </div>
 
                     {/* 커뮤니티  */}
-                    <a href="/community" className="text-base font-medium text-gray-500 hover:text-gray-900">
-                        팀 모집
-                    </a>
-
-                    {isLogin &&
-                        <a href="/myPage" className="text-base font-medium text-gray-500 hover:text-gray-900">
+                    {users.login &&
+                        <a href="/팀모집" className="text-base font-medium text-gray-500 hover:text-gray-900">
+                            팀 모집
+                        </a>
+                    }
+                    {users.login &&
+                        <a href="/채팅" className="text-base font-medium text-gray-500 hover:text-gray-900">
+                            채팅
+                        </a>
+                    }
+                    {users.login &&
+                        <a href="/mypage" className="text-base font-medium text-gray-500 hover:text-gray-900">
                             마이 페이지
+                        </a>
+                    }
+                    {users.login &&
+                        <a href="/portfolio" className="text-base font-medium text-gray-500 hover:text-gray-900">
+                           내 포트폴리오
+                        </a>
+                    }
+                    {users.login &&
+                        <a href="/createpost" className="text-base font-medium text-gray-500 hover:text-gray-900">
+                           게시글 등록
                         </a>
                     }
 
@@ -252,24 +281,13 @@ function Header() {
                     
                     </>
                     <>
-                        {isLogin ?
+                    
+                        {users.login ?
                             // 로그인 되어 있을 때
 
                             <div className="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
-
                                 <button
-                                    // type="button"
-                                    // onClick={() => {
-                                    //     logout().then((response)=>{
-                                    //         console.log('[logout] - ',response);
-                                    //         const loc=window.location.pathname;
-                                    //         console.log('location',window.location.pathname);
-                                    //         if(loc!=='/community') window.location.replace('/');
-                                    //         Dispatch(logoutMember());
-
-                                    //     })
-                                    //     setIsLogin(false);
-                                    // }}
+                                    onClick={() => {navigate('/kakaologout')}}
                                     className="rounded-md ml-4 bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
                                 >
                                     로그아웃
@@ -280,7 +298,7 @@ function Header() {
                             <div className="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
                                 <button
                                     // type="button"
-                                    // onClick={openModal}
+                                    onClick={handleLogin}
                                     className="rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
                                 >
                                     로그인
@@ -288,7 +306,29 @@ function Header() {
                             </div>
                         }
                     </>
-
+                    {users.login &&
+                        <IconButton
+                        onClick={() => {navigate('/mypage')}}
+                        sx={{
+                          p: 0,
+                          ...(open && {
+                            '&:before': {
+                              zIndex: 1,
+                              content: "''",
+                              width: '100%',
+                              height: '100%',
+                              borderRadius: '50%',
+                              position: 'absolute',
+                              bgcolor: (theme) => alpha(theme.palette.grey[900], 0.8),
+                            },
+                          }),
+                        }}
+                      >
+                        { (users.login) && <Avatar src={users.profileImg} alt="photoURL" /> }
+                        { (users.login===false) && <Avatar alt="photoURL" /> }
+                
+                      </IconButton>
+                    }
                     {/* 로그인 false 일때 로그인 모달 창 열림 */}
                     <Transition appear show={isOpen} as={Fragment}>
                         <Dialog as="div" className="relative z-10" onClose={closeModal}>

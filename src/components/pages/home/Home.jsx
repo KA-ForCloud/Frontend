@@ -1,7 +1,21 @@
-import React from 'react'
-
+import { KAKAO_AUTH_URL } from '../../../OAuth'
+import { Button, Modal } from 'react-bootstrap';
+import { userState } from '../../../atom';
+import React, { useEffect, useState } from "react";
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 export default function Home() {
+
+  const handleLogin = () => {
+		window.location.href = KAKAO_AUTH_URL;
+	};
+  let navigate = useNavigate();
+  const [nonUser, setNonUser] = useState(false);
+  const users = useRecoilValue(userState);
+  
   return (
+
+    
     <div className="mx-auto max-w-7xl px-4 sm:px-6">
       {/* Illustration behind hero content */}
       <div className="absolute left-1/2 transform -translate-x-1/2 bottom-0 pointer-events-none" aria-hidden="true">
@@ -26,18 +40,15 @@ export default function Home() {
           <h1 className="text-5xl md:text-6xl font-extrabold leading-tighter pr-1tracking-tighter mb-4" data-aos="zoom-y-out"> 편안한 설문조사 서비스 <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400"> COMFY  </span></h1> 
             <div className="max-w-3xl mx-auto">
               <p className="text-xl text-gray-600 mb-8" data-aos="zoom-y-out" data-aos-delay="150"> COMFY에서 설문지를 제작하고 관리하고 다른 사람들에게 공유할 수 있습니다.</p>
-              <div className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center" data-aos="zoom-y-out" data-aos-delay="300">
-                {/* <button>
-                  <a className="rounded-md mr-2 bg-blue-700 bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75" href="#0">Start free trial</a>
-                </button>
-                <button>
-                  <a className="rounded-md bg-blue-700 bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75" href="#0">Learn more</a>
-                </button>                 */}
+             <div className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center" data-aos="zoom-y-out" data-aos-delay="300">
+              
               </div>
             </div>
           </div>
         </div>
+
       </div>
+      
     </div>
   )
 }
