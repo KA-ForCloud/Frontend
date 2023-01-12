@@ -5,17 +5,16 @@ import springBoot from "../../../category_img/springBoot.png";
 function ViewPost(props){
     const navigate = useNavigate();
     const location = useLocation();
+    // const postId=location.state.postId;
+
     const [post,setPost]=useState({});
-    const [bookmark,setBookmark]=useState([]);
-    const [unBookmark,setUnBookmark]=useState([]);
     const [member,setMember]=useState([]); // 회원==true, 비회원==false
     const [myPost,setMyPost]=useState([]); // 자신이 쓴 글==true, 다른 사람이 쓴 글==false
+    //자신이 쓴 글이면 수정하기 버튼 + 신청하기 x
+    //다른 사람이 쓴 글이면 + 신청하기 버튼만 ㅇ
+
     const [noLoop, setNoLoop] = useState(false);
-    // const postId=location.state.postId;
-    const [successCreatingSurvey,setSuccessCreatingSurvey]=useState(false); // 마음에 드는 설문지 내보내기 하면 저장되었다는 alert -> 띄우기==true / 닫기==false
-    var thumbnail;
     // useEffect(()=>{
-    //     setSuccessCreatingSurvey(false);
     //     getPostInfo(postId).then((response)=>{
     //         console.log('view post page response',response);
             
@@ -26,44 +25,22 @@ function ViewPost(props){
     //         else if(response.member_case===false){
     //             setMember(false);
     //         }
-    //         // 즐겨찾기 여부
-    //         if(response.isBookmarked===false){
-    //             setBookmark(true); // 즐겨찾기 하기 버튼
-    //             setUnBookmark(false);
-    //         }
-    //         else if(response.isBookmarked===true){
-    //             setBookmark(false); // 즐겨찾기 취소 버튼
-    //             setUnBookmark(true);
-    //         }
+
     //         // 자신이 쓴 글, 다른 사람이 쓴 글 구분
     //         console.log('localStorage: ',typeof(localStorage.getItem('memberId')));
     //         console.log('response id',response.authorId);
     //         if(response.authorId===Number(localStorage.getItem('memberId'))){
     //             setMyPost(true);
-    //             setBookmark(false);
-    //             setUnBookmark(false);
     //         }
     //         else if(response.authorId!==Number(localStorage.getItem('memberId'))){
     //             setMyPost(false);
     //         }
-
     //         setPost(response);
-            
     //     })
     // },[]);
-    // thumbnail='/images/'+post.thumbnail+'.jpg';
-    // // post.thumbnail=(post.thumbnail).substring(1,(post.thumbnail).length);
-    // console.log('thumbnail: ',post.thumbnail);
+
     return (
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 min-w-min">
-            {/* {successCreatingSurvey&&<div class="text-center pt-4 lg:px-4">
-                        <div class="p-2 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
-                            <span class="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">New</span>
-                            <span class="font-semibold mr-2 text-left flex-auto">해당 설문지가 임시저장되었습니다! 설문 관리 페이지에서 확인해보세요!</span>
-                            <svg class="fill-current opacity-75 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z"/></svg>
-                        </div>
-            </div>} */}                
-            
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 min-w-min">  
             <div className='mx-40 my-7 border-2 border-gray-300 rounded-2xl p-5 flex-column font-bold text-2xl'>
                 <p>프로젝트 제목: 오늘 뭐먹지 개발</p>
                 <div className ="mt-5 grid grid-cols-2">

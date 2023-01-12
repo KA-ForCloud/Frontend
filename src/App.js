@@ -45,7 +45,7 @@ function App() {
                       <Route path="respondentnotopen" element={<RespondentNotOpen />} /> */}
                       <Route path="/" element={<Home />} />
                       <Route path="/mainPage" element={<MainPage />} />
-                      <Route path="/viewPost" element={<ViewPost />} />
+                      <Route path="/viewPost/:postId" element={<ViewPost />} />
                       <Route path="/projectManage" element={<ProjectManage />} />
                       {/* <Route path="mypage" element={<MyPage />} />
                       <Route path="post/:postId" element={<ViewPostPage />} />
