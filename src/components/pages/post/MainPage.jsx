@@ -7,7 +7,6 @@ import axios from 'axios';
 // import {getPosts, getSearchedPosts} from '../../../services/PostService';
 import { useCallback } from "react";
 
-import Category from "./Category";
 import java from "../../../category_img/java.png";
 import javascript from "../../../category_img/javascript.png";
 import python from "../../../category_img/python.jpg";
@@ -72,7 +71,7 @@ function MainPage(props) {
       type: "frontend"
     },
     {
-      name:"Javascript",
+      name:"JavaScript",
       img: javascript,
       type: "frontend"
     },
@@ -160,6 +159,7 @@ function MainPage(props) {
         key={idx}
         className={item.value === category ? "ml-4 focus:text-black underline underline-offset-8 decoration-sky-300 decoration-4" : "ml-4 text-gray-500" }
         onClick={() => {
+          setCheckedItems([]);
           setCatecory(item.value);
         }}>
         {item.name}
@@ -182,21 +182,26 @@ function MainPage(props) {
   };
 
 
-  const checkedItemHandler = (value, isChecked) => {
-    if(isChecked){
-      setCheckedItems([...checkedItems, value])
-    }else if(!isChecked && checkedItems.find(one => one === value)){
-      const items = checkedItems.filter(one => one !== value)
-      setCheckedItems([...items])
+  const checkedItemHandler = (name) => {
+    if(checkedItems.includes(name)) {
+      setCheckedItems(checkedItems.filter((el) => el !== name));
+    }else {
+      setCheckedItems([...checkedItems, name]);
     }
-    console.log(checkedItems);
   }
 
   const makeToolfilter = () =>{
     if(tool.length === 0) return;
     const filter = category === "all" ? [...tool] : tool.filter(value => value.type.includes(category))
     return filter.map((item, idx) => (
-      <Category key = {idx} data = {item} checkedItems = {checkedItems} checkedItemHandler = {checkedItemHandler} /> 
+      <button
+        key = {idx}
+        onClick = {() => checkedItemHandler(item.name)}
+        className = {`${checkedItems.includes(item.name) ? "ring ring-sky-300" : "bg-white"} min-w-max pt-4 pb-4 rounded-2xl border flex hover:scale-105 transition `}
+        >
+          <img className="m-auto w-12 h-12 " src={item.img} alt={item.name} />
+          <span className="m-auto text-2xl font-weight-bold">{item.name}</span>
+      </button>
     ))}
 
   const viewPostList = () => {
@@ -293,10 +298,6 @@ function MainPage(props) {
           <hr class="h-px mt-4 mb-5 bg-gray-200 border-0 dark:bg-gray-700"></hr>
 
           <div className="min-w-max grid grid-cols-3 gap-x-4 gap-y-10 "> {viewPostList()} </div>
-
-          <button type="button" className="min-w-max mb-8 rounded-2xl border flex" onClick={() => {navigate('/projectManage');}} >
-            <h3 className="m-auto text-2xl font-weight-bold">프로젝트 관리</h3>
-          </button>
       </div>
     )    
 }
