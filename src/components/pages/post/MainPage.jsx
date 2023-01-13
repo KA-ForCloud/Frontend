@@ -298,6 +298,10 @@ function MainPage(props) {
           <hr class="h-px mt-4 mb-5 bg-gray-200 border-0 dark:bg-gray-700"></hr>
 
           <div className="min-w-max grid grid-cols-3 gap-x-4 gap-y-10 "> {viewPostList()} </div>
+
+          <button type="button" className="min-w-max mb-8 rounded-2xl border flex" onClick={() => {navigate('/projectManage');}} >
+            <h3 className="m-auto text-2xl font-weight-bold">프로젝트 관리</h3>
+          </button>
       </div>
     )    
 }
