@@ -1,5 +1,15 @@
+
 import NotFound from './components/common/NotFound';
 import Home from './components/pages/home/Home';
+=======
+import MainPage from './components/pages/post/MainPage';
+import ViewPost from './components/pages/post/ViewPost';
+import ProjectManage from './components/pages/post/ProjectManage';
+
+import NotFound from './components/common/NotFound';
+import Home from './components/pages/Home';
+
+
 import React from 'react';
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
@@ -27,10 +37,17 @@ function App() {
                       <Route path="respondentclose" element={<RespondentClose />} />
                       <Route path="respondentnotopen" element={<RespondentNotOpen />} /> */}
                       <Route path="/" element={<Home />} />
+
                       <Route path="chatting" element={<ChattingPage/>}/>
                       <Route path="member/:memberId/rooms/:roomId" element={<ChattingRoom />} />
                       {/* <Route path="community" element={<MainPage />} />
                       <Route path="mypage" element={<MyPage />} />
+
+                      <Route path="/mainPage" element={<MainPage />} />
+                      <Route path="/viewPost/:postId" element={<ViewPost />} />
+                      <Route path="/projectManage" element={<ProjectManage />} />
+                      {/* <Route path="mypage" element={<MyPage />} />
+
                       <Route path="post/:postId" element={<ViewPostPage />} />
                       <Route path="selectSurvey" element={<SelectSurveyPage />} />
                       <Route path="post/createPost/:surveyId" element={<CreatePostPage />} />
