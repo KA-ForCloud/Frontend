@@ -21,9 +21,9 @@ function MainPage(props) {
   const [word,setWord]=useState([]);
   
   const [category, setCatecory] = useState("all");
-  const [postStatus, setPostStatus] = useState("모집중");
+  const [postStatus, setPostStatus] = useState("recruiting");
   const [checkedItems, setCheckedItems] = useState([]);
-
+  
   const categories = [
     {
       name:"전체",
@@ -46,11 +46,11 @@ function MainPage(props) {
   const post_status = [
     {
       name:"모집중",
-      value:"모집중"
+      value:"recruiting"
     },
     {
       name:"모집완료",
-      value:"모집완료"
+      value:"completed"
     }
   ]
 
@@ -104,7 +104,8 @@ function MainPage(props) {
         }
       ],
       writer: "호진",
-      view: "20"
+      view: "20",
+      status: "recruiting"
     },
     {
       id:2,
@@ -122,7 +123,8 @@ function MainPage(props) {
         }
       ],
       writer: "아무개",
-      view: "26"
+      view: "26",
+      status: "recruiting"
     },
     {
       id:3,
@@ -148,7 +150,8 @@ function MainPage(props) {
         },
       ],
       writer: "호진",
-      view: "20"
+      view: "20",
+      status: "completed"
     }
   ]
 
@@ -206,7 +209,9 @@ function MainPage(props) {
 
   const viewPostList = () => {
     if(post.length === 0 ) return;
-    return post.map((item,idx) => (
+    const filter = postStatus === "recruiting" ? post.filter(value => value.status.includes("recruiting"))
+      : post.filter(value => value.status.includes("completed"))
+    return filter.map((item,idx) => (
       <div key ={idx} className="min-w-max rounded-2xl border py-10 flex-column hover:scale-105 transition cursor-pointer"
         onClick = {()=>{navigate(`/viewPost/${item.id}`)}}>
         <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">프로젝트 제목: {item.title}</h3>
@@ -298,6 +303,14 @@ function MainPage(props) {
           <hr class="h-px mt-4 mb-5 bg-gray-200 border-0 dark:bg-gray-700"></hr>
 
           <div className="min-w-max grid grid-cols-3 gap-x-4 gap-y-10 "> {viewPostList()} </div>
+
+          <button type="button" className="min-w-max mb-8 rounded-2xl border flex" onClick={() => {navigate('/projectManage');}} >
+            <h3 className="m-auto text-2xl font-weight-bold">프로젝트 관리</h3>
+          </button>
+
+          <button type="button" className="min-w-max mb-8 rounded-2xl border flex" onClick={() => {navigate('/postManage');}} >
+            <h3 className="m-auto text-2xl font-weight-bold">게시글 관리</h3>
+          </button>
       </div>
     )    
 }
