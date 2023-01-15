@@ -1,28 +1,18 @@
+
+import NotFound from './components/common/NotFound';
+import Home from './components/pages/home/Home';
+=======
 import MainPage from './components/pages/post/MainPage';
 import ViewPost from './components/pages/post/ViewPost';
 import ProjectManage from './components/pages/post/ProjectManage';
 import ViewOngoingProject from './components/pages/post/ViewOngoingProject';
 import PostManage from './components/pages/post/PostManage';
-// import MyPage from './components/pages/mypage/MyPage';
-// import ManageSurvey from './components/pages/management/ManageSurvey';
-// // import ManageSurvey from './components/pages/management/ManageSurveyPage';
-// import ViewPostPage from './components/pages/community/ViewPostPage';
-// import CreatePostPage from './components/pages/community/CreatePostPage';
-// import SelectSurveyPage from './components/pages/community/SelectSurveyPage';
-// // import StoreSurveyPage from './components/pages/management/StoreSurveyPage';
+
 import NotFound from './components/common/NotFound';
 import Home from './components/pages/Home';
-// import CreateSurvey, { SurveyShared } from './components/pages/create/CreateSurvey';
-// import TemporarySurvey from './components/pages/management/TemporarySurvey';
-// import ResultSurvey from './components/pages/result/ResultSurvey';
+
+
 import React from 'react';
-// import RespondentSurvey, { RespondentClose, RespondentComplete, RespondentNotOpen } from './components/pages/create/RespondentSurvey';
-
-
-
-
-
-
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
 import {
@@ -30,6 +20,9 @@ import {
   Routes,
   Route
 } from "react-router-dom";
+import ChattingPage from './components/pages/chatting/ChattingPage';
+import ChattingRoom from './components/pages/chatting/ChattingRoom';
+
 
 function App() {
   return (
@@ -46,12 +39,19 @@ function App() {
                       <Route path="respondentclose" element={<RespondentClose />} />
                       <Route path="respondentnotopen" element={<RespondentNotOpen />} /> */}
                       <Route path="/" element={<Home />} />
+
+                      <Route path="chatting" element={<ChattingPage/>}/>
+                      <Route path="member/:memberId/rooms/:roomId" element={<ChattingRoom />} />
+                      {/* <Route path="community" element={<MainPage />} />
+                      <Route path="mypage" element={<MyPage />} />
+
                       <Route path="/mainPage" element={<MainPage />} />
                       <Route path="/viewPost/:postId" element={<ViewPost />} />
                       <Route path="/projectManage" element={<ProjectManage />} />
                       <Route path="/postManage" element={<PostManage />} />
                       <Route path="/viewOngoingProject/:postId" element={<ViewOngoingProject />} />
                       {/* <Route path="mypage" element={<MyPage />} />
+
                       <Route path="post/:postId" element={<ViewPostPage />} />
                       <Route path="selectSurvey" element={<SelectSurveyPage />} />
                       <Route path="post/createPost/:surveyId" element={<CreatePostPage />} />
