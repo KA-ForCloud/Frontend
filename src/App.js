@@ -1,16 +1,12 @@
 
 import NotFound from './components/common/NotFound';
-import Home from './components/pages/home/Home';
-=======
+import Home from './components/pages/Home';
+
 import MainPage from './components/pages/post/MainPage';
 import ViewPost from './components/pages/post/ViewPost';
 import ProjectManage from './components/pages/post/ProjectManage';
 import ViewOngoingProject from './components/pages/post/ViewOngoingProject';
 import PostManage from './components/pages/post/PostManage';
-
-import NotFound from './components/common/NotFound';
-import Home from './components/pages/Home';
-
 
 import React from 'react';
 import Header from './components/common/Header';
@@ -43,7 +39,7 @@ function App() {
                       <Route path="chatting" element={<ChattingPage/>}/>
                       <Route path="member/:memberId/rooms/:roomId" element={<ChattingRoom />} />
                       {/* <Route path="community" element={<MainPage />} />
-                      <Route path="mypage" element={<MyPage />} />
+                      <Route path="mypage" element={<MyPage />} />*/}
 
                       <Route path="/mainPage" element={<MainPage />} />
                       <Route path="/viewPost/:postId" element={<ViewPost />} />
@@ -51,7 +47,6 @@ function App() {
                       <Route path="/postManage" element={<PostManage />} />
                       <Route path="/viewOngoingProject/:postId" element={<ViewOngoingProject />} />
                       {/* <Route path="mypage" element={<MyPage />} />
-
                       <Route path="post/:postId" element={<ViewPostPage />} />
                       <Route path="selectSurvey" element={<SelectSurveyPage />} />
                       <Route path="post/createPost/:surveyId" element={<CreatePostPage />} />
