@@ -7,6 +7,7 @@ import axios from 'axios';
 // import {getPosts, getSearchedPosts} from '../../../services/PostService';
 import { useCallback } from "react";
 
+import { getPosts, getPostInfo, getTemperatures } from "../../../services/PostService";
 import java from "../../../category_img/java.png";
 import javascript from "../../../category_img/javascript.png";
 import python from "../../../category_img/python.jpg";
@@ -18,7 +19,24 @@ function MainPage(props) {
   // const Dispatch = useDispatch();
   const navigate = useNavigate();
   const [postList, setpostList] = useState([]);
-  const [word,setWord]=useState([]);
+  const [temperatureList, setTemperatureList] = useState([]);
+  useEffect(()=>{
+    getPosts().then((response)=>{
+      console.log('postList response',response);
+      setpostList(response);
+      
+    //   if(localStorage.getItem('memberId')==='0') {
+    //     setNewPostButton(false);
+    //   }
+    //   else setNewPostButton(true);
+    // });
+
+    getTemperatures().then((response) => {
+      console.log('temperatureList response', response);
+      setTemperatureList(response);
+    })
+  }); 
+  },[]);
   
   const [category, setCatecory] = useState("all");
   const [postStatus, setPostStatus] = useState("recruiting");
@@ -155,6 +173,52 @@ function MainPage(props) {
     }
   ]
 
+  const makeTemperatures = () => {
+    if(temperatureList.length ===0) return;
+    return temperatureList.map((item) => (
+        <div className ="flex justify-center">
+          <h3 className="m-2 text-dark text-2xl font-weight-bold">이름: {item.name}</h3>
+          <h3 className="m-2 ml-7 text-dark text-2xl font-weight-bold">온도: {item.temperature}</h3>
+        </div>
+    ))
+  }
+
+  const makeMaxViewPost = () => {
+    if(post.length === 0 ) return;
+    let maxView = post[0].view;
+    for(let i=1; i<post.length; i++){
+      if(maxView<post[i].view){
+        maxView = post[i].view;
+      }
+    }
+    const maxViewPost = post.filter(el => el.view === maxView);
+    return (
+    <div className="min-w-max text-left rounded-2xl border-4 border-white hover:border-black flex-column cursor-pointer "
+        onClick = {()=>{navigate(`/viewPost/${maxViewPost[0].id}`)}}>
+        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">프로젝트 제목: {maxViewPost[0].title}</h3>
+        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">모집기한: {maxViewPost[0].period}</h3>
+        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">진행기간: {maxViewPost[0].duration}개월</h3>
+        <hr class="h-px mx-4 my-2 first-line:mt-4 border-white"></hr>
+
+        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold text-center">모집분야</h3>
+        <div className="min-w-max mx-2 grid grid-rows-2 grid-cols-3 gap-x-2 gap-y-2">
+          {maxViewPost[0].area.map((i, key) => {
+            return (
+              <div key = {key} className= "flex border border-white rounded-2xl">
+                <img className="rounded-2xl w-9 h-10" src={i.img} alt={i.name} />
+                <p className="m-auto">{i.name}</p>
+              </div>
+            );
+          })}
+        </div>
+        <hr class="h-px mx-4 my-4 first-line:mt-4 border-white"></hr>
+        <div className="flex mb-4">
+          <h3 className="mx-auto text-dark text-2xl font-weight-bold">작성자: {maxViewPost[0].writer}</h3>
+          <h3 className="mx-auto text-dark text-2xl font-weight-bold">조회수: {maxViewPost[0].view}회</h3>
+        </div>
+      </div>
+    )}
+
   const makeCategories = () => {
     if (categories.length === 0) return;
     return categories.map((item, idx) => (
@@ -274,16 +338,20 @@ function MainPage(props) {
     return (
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="min-w-max my-7 grid grid-cols-3 gap-4 text-center">
-            <div className="min-w-max rounded-2xl border py-20 flex-column bg-sky-100" >
-              <h3 className="m-2 text-dark text-2xl font-weight-bold">최다 조회수 팀 모집 게시글</h3>
+            <div className="min-w-max rounded-2xl flex-column bg-sky-100" >
+              <h3 className="m-2 text-dark text-3xl font-weight-bold">최다 조회수 모집 게시글</h3>
+              {makeMaxViewPost()}
             </div>
 
-            <div className="min-w-max rounded-2xl border py-20 flex-column bg-red-100">
-              <h3 className="m-2 text-dark text-2xl font-weight-bold">여기도 하나 더 추가해야 이쁠듯</h3>
+            <div className="min-w-max rounded-2xl border flex-column bg-red-100">
+              <h3 className="m-2 text-dark text-3xl font-weight-bold">asdb</h3>
             </div>
 
-            <div className="min-w-max rounded-2xl border py-20 flex-column bg-purple-100 ">
-              <h3 className="m-2 text-dark text-2xl font-weight-bold">마음의 온도 랭킹 게시판</h3>
+            <div className="min-w-max rounded-2xl border flex-column bg-purple-100 ">
+            <h3 className="m-2 text-dark text-3xl font-weight-bold">마음의 온도 랭킹 게시판</h3>
+              <div className="mt-12">
+                {makeTemperatures()}
+              </div>
             </div>
           </div>
 
