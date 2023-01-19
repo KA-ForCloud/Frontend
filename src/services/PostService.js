@@ -21,3 +21,25 @@ export async function getApplicant(postId){
     const response = await axios.get(`${BACKEND_API_BASE_URL}/applicant/${postId}`)
     return response.data.result;
 }
+
+export async function createApplicant(postId,request){
+    const response = await axios.post(`${BACKEND_API_BASE_URL}/registerApplicant`, {
+        postId: postId,
+        memberId: localStorage.getItem('memberId'),
+        request: request
+    })
+    return response.data.code;
+}
+
+export async function createParticipant(postId,name){
+    const response = await axios.post(`${BACKEND_API_BASE_URL}/registerParticipant`, {
+        postId: postId,
+        name: name
+    })
+    return response.data.code;
+}
+
+export async function deleteApplicant(postId,name){
+    const response = await axios.post(`${BACKEND_API_BASE_URL}/applicant/${postId}/${name}`)
+    return response.data.code;
+}

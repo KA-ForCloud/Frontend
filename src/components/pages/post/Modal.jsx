@@ -1,9 +1,38 @@
 import React from 'react'
+import { createApplicant, createParticipant, deleteApplicant } from '../../../services/PostService';
 
 function Modal(props) {
-    const {open, close, header, category} = props;
-    const applicantRegister = () => {
-        console.log(category.toLowerCase())
+    const {open, close, header, postId, category} = props;
+    const Register = () => {
+        if(header ==="모집분야"){
+            createApplicant(postId, category.toLowerCase()).then((response) => {
+                if(response === 1000){
+                    console.log('신청하기 성공')
+                    close();
+                }
+            })
+        }else if(header === "승인하기"){
+            createParticipant(postId, category).then((response) => {
+                if(response === 1000){
+                    console.log('승인하기 성공')
+                    deleteApplicant(postId, category).then((response) => {
+                        if(response === 1000){
+                            console.log('신청자 리스트 삭제 성공')
+                            close();
+                        }
+                    })
+                    //참여자 현황 업데이트
+                }
+            })
+
+        }else if(header === "거절하기"){
+            deleteApplicant(postId, category).then((response) => {
+                if(response === 1000){
+                    console.log('신청자 리스트 삭제 성공')
+                    close();
+                }
+            })
+        }
     }
   return (
     <div className = {open ? 'flex justify-center animate-modalBgShow fixed inset-0 z-99 bg-gray-800 bg-opacity-60': 'hidden fixed inset-0 z-99 bg-gray-600'}>
@@ -17,12 +46,12 @@ function Modal(props) {
                 </div>
                 <div className ="p-4 border-y border-y-fuchsia-300">{props.children}</div>
                 <div className ="p-3 text-right">
-                    <button className='p-2 bg-sky-100 border rounded-md text-sm' onClick={() => {close(); applicantRegister();}}>
+                    <button className='p-2 bg-sky-100 border rounded-md text-sm' onClick={() => {Register();}}>
                         예
                     </button>
-                    <button className='ml-4 p-2 bg-sky-100 border rounded-md text-sm' onClick={close}>
+                    {/* <button className='ml-4 p-2 bg-sky-100 border rounded-md text-sm' onClick={close}>
                         아니오
-                    </button>
+                    </button> */}
                 </div>
             </div>
         ) : null}
