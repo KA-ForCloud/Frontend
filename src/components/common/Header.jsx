@@ -17,7 +17,6 @@ import {gapi} from 'gapi-script'
 import { useSelector,useDispatch } from 'react-redux';
 import { Navigate } from 'react-router-dom'
 
-
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
@@ -66,6 +65,7 @@ function Header() {
 
     
     useEffect(()=>{
+        console.log('header memberId is changed',typeof(localStorage.getItem('memberId')));
         if(!localStorage.getItem('memberId')) {
             setIsLogin(false);
             setLogoutAlert(true);
@@ -96,7 +96,7 @@ function Header() {
                     <div className="flex justify-start lg:w-0 lg:flex-1">
                         {/* 로고 */}
                         <a href="/">
-                            <span className="sr-only">Your Company</span>
+                            <span className="sr-only">logo</span>
                             <img
                                 className="h-25 w-25 sm:h-20"
                                 src={logo}
@@ -104,16 +104,16 @@ function Header() {
                             />
                         </a>
                     </div>
-                    <div className="-my-2 -mr-2 md:hidden">
+                    {/* <div className="-my-2 -mr-2 md:hidden">
                         <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                             <span className="sr-only">Open menu</span>
                             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
                         </Popover.Button>
-                    </div>
+                    </div> */}
 
-                    {/* 커뮤니티  */}
-                    <a href="/community" className="text-base font-medium text-gray-500 hover:text-gray-900">
-                        팀 모집
+                    {/* 팀 모집 게시글  */}
+                    <a href="/mainPage" className="text-base font-medium text-gray-500 hover:text-gray-900">
+                        팀 찾기
                     </a>
 
                     
