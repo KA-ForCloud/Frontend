@@ -1,13 +1,10 @@
 
 import NotFound from './components/common/NotFound';
-import Home from './components/pages/home/Home';
-=======
+import Home from './components/pages/Home';
 import MainPage from './components/pages/post/MainPage';
 import ViewPost from './components/pages/post/ViewPost';
 import ProjectManage from './components/pages/post/ProjectManage';
 
-import NotFound from './components/common/NotFound';
-import Home from './components/pages/Home';
 
 
 import React from 'react';
@@ -63,7 +60,7 @@ function App() {
                       <Route path="surveyshared" element={<SurveyShared />} />
                       <Route path="/resultSurvey/:surveyId" element={<ResultSurvey />}/>
                       <Route path="/manage/survey/:surveyId" element={<RespondentSurvey mode={0}/>} /> */}
->>>>>>> da766e228beb43cd2463a5f14fa191c82f2de42b
+
                       {/* 상단에 위치하는 라우트들의 규칙을 모두 확인, 일치하는 라우트가 없는경우 처리 */}
                       <Route path="*" element={<NotFound />}></Route>
                   </Routes>
