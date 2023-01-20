@@ -64,8 +64,8 @@ function Header() {
     const [logoutAlert,setLogoutAlert]=useState([false]);
 
 
+    
     useEffect(()=>{
-        console.log('header memberId is changed',typeof(localStorage.getItem('memberId')));
         if(!localStorage.getItem('memberId')) {
             setIsLogin(false);
             setLogoutAlert(true);
@@ -116,12 +116,7 @@ function Header() {
                         팀 모집
                     </a>
 
-                    {isLogin &&
-                        <a href="/myPage" className="text-base font-medium text-gray-500 hover:text-gray-900">
-                            마이 페이지
-                        </a>
-                    }
-
+                    
                     {isLogin&&<Popover.Group as="nav" className="hidden space-x-10 md:flex">
                         {/* 설문제작 */}
                         <Popover className="relative">

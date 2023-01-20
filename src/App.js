@@ -27,22 +27,8 @@ function App() {
                       <Route path="respondentclose" element={<RespondentClose />} />
                       <Route path="respondentnotopen" element={<RespondentNotOpen />} /> */}
                       <Route path="/" element={<Home />} />
-                      <Route path="chatting" element={<ChattingPage/>}/>
-                      <Route path="member/:memberId/rooms/:roomId" element={<ChattingRoom />} />
-                      {/* <Route path="community" element={<MainPage />} />
-                      <Route path="mypage" element={<MyPage />} />
-                      <Route path="post/:postId" element={<ViewPostPage />} />
-                      <Route path="selectSurvey" element={<SelectSurveyPage />} />
-                      <Route path="post/createPost/:surveyId" element={<CreatePostPage />} />
-                      <Route path="manage" element={<ManageSurvey />} />
-                      <Route path="temporary" element={<TemporarySurvey />}/>
-                      <Route path="survey" element={<CreateSurvey />} />
-                      <Route path="survey/:surveyId" element={<CreateSurvey load={"yes"}/>} />
-                      <Route path="survey" element={<CreateSurvey />} />
-                      <Route path="comfysurvey" element={<CreateSurveyTemplates />} />
-                      <Route path="surveyshared" element={<SurveyShared />} />
-                      <Route path="/resultSurvey/:surveyId" element={<ResultSurvey />}/>
-                      <Route path="/manage/survey/:surveyId" element={<RespondentSurvey mode={0}/>} /> */}
+                      <Route path="rooms/*" element={<ChattingPage/>}/>
+                     
                       {/* 상단에 위치하는 라우트들의 규칙을 모두 확인, 일치하는 라우트가 없는경우 처리 */}
                       <Route path="*" element={<NotFound />}></Route>
                   </Routes>
