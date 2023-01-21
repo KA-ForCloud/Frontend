@@ -41,7 +41,6 @@ function MainPage(props) {
   const [category, setCatecory] = useState("all");
   const [postStatus, setPostStatus] = useState("recruiting");
   const [checkedItems, setCheckedItems] = useState([]);
-
   const categories = [
     {
       name: "전체",
@@ -265,8 +264,8 @@ function MainPage(props) {
     return filter.map((item, idx) => (
       <button
         key={idx}
-        onClick={() => checkedItemHandler(item.name)}
-        className={`${checkedItems.includes(item.name) ? "ring ring-sky-300" : "bg-white"} min-w-max pt-4 pb-4 rounded-2xl border flex hover:scale-105 transition `}
+        onClick={() => checkedItemHandler(item.name.toLowerCase())}
+        className={`${checkedItems.includes(item.name.toLowerCase()) ? "ring ring-sky-300" : "bg-white"} min-w-max pt-4 pb-4 rounded-2xl border flex hover:scale-105 transition `}
       >
         <img className="m-auto w-12 h-12 " src={item.img} alt={item.name} />
         <span className="m-auto text-2xl font-weight-bold">{item.name}</span>
@@ -275,7 +274,7 @@ function MainPage(props) {
   }
 
   const viewPostList = () => {
-    if (post.length === 0) return;
+    if (postList.length === 0) return;
     const area = postList.map(data => {
       if (!data.area) {
         return {
@@ -289,13 +288,15 @@ function MainPage(props) {
     const modifiedPostList = area.map(data => {
       delete data.post_category.id;
       const abc = [];
-      for (const [key] of Object.entries(data.post_category).filter(([, count]) => count > 0)) {
+      for (const [key, value] of Object.entries(data.post_category).filter(([, count]) => count > 0)) {
         const aaa = {
           img: `${key}`,
-          name: `${key}`
+          name: `${key}`,
+          value: `${value}`
         };
         abc.push(aaa);
       }
+
       delete data.post_category;
       return {
         ...data,
@@ -304,7 +305,21 @@ function MainPage(props) {
     })
     const filter = postStatus === "recruiting" ? modifiedPostList.filter(value => value.postType.includes("recruiting"))
       : modifiedPostList.filter(value => value.postType.includes("completed"))
-    return filter.map((item, idx) => (
+    
+    const fff = [];
+    for(let i=0; i<filter.length; i++){
+      const p = filter[i]
+      for(let k=0; k<p.area.length; k++){
+        for(let t=0; t<checkedItems.length; t++){
+          if(p.area[k].name === checkedItems[t] && !fff.includes(p)){
+            fff.push(p)
+          }
+        }
+      }
+    }
+    const filteredPost = checkedItems.length === 0 ? filter : fff
+
+    return filteredPost.map((item, idx) => (
       <div key={idx} className="min-w-max rounded-2xl border py-10 flex-column hover:scale-105 transition cursor-pointer"
         onClick={() => { navigate(`/viewPost/${item.id}`, {state: item}) }}>
         <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">프로젝트 제목: {item.title}</h3>
@@ -338,6 +353,10 @@ function MainPage(props) {
       </div>
     ))
   }
+
+  useEffect(() => {
+
+  },[]);
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6">
