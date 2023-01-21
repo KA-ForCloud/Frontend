@@ -21,7 +21,25 @@ module.exports = {
   },
 
   theme: {
-    extend: {},
+    extend: {
+      zIndex: {
+        '99' : "99",
+      },
+      keyframes: {
+        modalBgShow: {
+          from: {opacity: "0"},
+          to: {opacity: "1"}
+        },
+        modalShow: {
+          from: {opacity: "0", marginTop: "-50px"},
+          to: {opacity: "1", marginTop: "0"}
+        },
+      },
+      animation: {
+        modalBgShow: "modalBgShow 0.3s ease-in-out",
+        modalShow:"modalShow 0.3s ease-in-out"
+      }
+    },
   },
   corePlugins: {
     aspectRatio: false,
