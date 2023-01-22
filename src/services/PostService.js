@@ -7,8 +7,21 @@ export async function getPosts(){
     return response.data.result;
 }
 
-export async function getPostInfo(postId){
-    const response=await axios.get(`${BACKEND_API_BASE_URL}/post/${postId}`)
+export async function getMyPost(){
+    const memberId = localStorage.getItem('memberId');
+    const response=await axios.get(`${BACKEND_API_BASE_URL}/post/${memberId}`)
+    return response.data.result;
+}
+
+export async function getProject(){
+    const memberId = localStorage.getItem('memberId');
+    const response=await axios.get(`${BACKEND_API_BASE_URL}/project/${memberId}`)
+    return response.data.result;
+}
+
+export async function getRequestedPost(){
+    const memberId = localStorage.getItem('memberId');
+    const response=await axios.get(`${BACKEND_API_BASE_URL}/requestedPost/${memberId}`)
     return response.data.result;
 }
 
@@ -59,4 +72,16 @@ export async function updatePostView(postId){
     const response = await axios.patch(`${BACKEND_API_BASE_URL}/post/${postId}`)
     return response.data.result;
 }
+
+export async function updateCurrentCategory(postId, name){
+    const response = await axios.patch(`${BACKEND_API_BASE_URL}/postCategory/${postId}/${name}`)
+    return response.data.code;
+}
+
+export async function updatePostStatus(postId){
+    const response = await axios.patch(`${BACKEND_API_BASE_URL}/postStatus/${postId}`)
+    return response.data.result;
+}
+
+
 

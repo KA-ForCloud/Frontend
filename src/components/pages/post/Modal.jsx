@@ -1,34 +1,36 @@
 import React from 'react'
-import { createApplicant, createParticipant, deleteApplicant } from '../../../services/PostService';
+import { useNavigate } from "react-router-dom";
+import { createApplicant, createParticipant, deleteApplicant, updateCurrentCategory } from '../../../services/PostService';
 
 function Modal(props) {
+    const navigate = useNavigate();
     const {open, close, header, postId, category} = props;
     const Register = () => {
         if(header ==="모집분야"){
             createApplicant(postId, category.toLowerCase()).then((response) => {
                 if(response === 1000){
-                    console.log('신청하기 성공')
                     close();
+                    navigate('/mainPage');
                 }
             })
         }else if(header === "승인하기"){
             createParticipant(postId, category).then((response) => {
                 if(response === 1000){
                     console.log('승인하기 성공')
-                    deleteApplicant(postId, category).then((response) => {
+                    updateCurrentCategory(postId, category).then((response) => {
                         if(response === 1000){
-                            console.log('신청자 리스트 삭제 성공')
-                            close();
+                            deleteApplicant(postId, category).then((res) => {
+                                if(res === 1000) {
+                                    close();
+                                }
+                            })
                         }
                     })
-                    //참여자 현황 업데이트
                 }
             })
-
         }else if(header === "거절하기"){
             deleteApplicant(postId, category).then((response) => {
                 if(response === 1000){
-                    console.log('신청자 리스트 삭제 성공')
                     close();
                 }
             })
