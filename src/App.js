@@ -5,7 +5,7 @@ import Home from './components/pages/Home';
 import MainPage from './components/pages/post/MainPage';
 import ViewPost from './components/pages/post/ViewPost';
 import ProjectManage from './components/pages/post/ProjectManage';
-import ViewOngoingProject from './components/pages/post/ViewOngoingProject';
+import ViewProject from './components/pages/post/ViewProject';
 import PostManage from './components/pages/post/PostManage';
 
 import React from 'react';
@@ -36,7 +36,7 @@ function App() {
                       <Route path="/viewPost/:postId" element={<ViewPost />} />
                       <Route path="/projectManage" element={<ProjectManage />} />
                       <Route path="/postManage" element={<PostManage />} />
-                      <Route path="/viewOngoingProject/:postId" element={<ViewOngoingProject />} />
+                      <Route path="/viewProject/:postId" element={<ViewProject />} />
                       <Route path="*" element={<NotFound />}></Route>
                   </Routes>
             

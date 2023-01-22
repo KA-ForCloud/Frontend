@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { getApplicant, deleteMyPost, updatePostView } from "../../../services/PostService";
+import { getApplicant, deleteMyPost, updatePostView, updatePostStatus } from "../../../services/PostService";
 import Modal from "./Modal";
 function ViewPost() {
     const navigate = useNavigate();
@@ -59,11 +59,11 @@ function ViewPost() {
             setMyPost(true);
             getApplicant(postId).then((response) => {
                 setApplicant(response);
-                console.log(applicant)
             })
         } else {
             setMyPost(false);
         }
+        console.log(state)
     }, []);
 
     return (
@@ -71,8 +71,14 @@ function ViewPost() {
             <div className='mx-40 my-7 border-4 border-sky-200 rounded-2xl p-5 flex-column font-bold text-2xl'>
                 <div className ="flex">
                     <p>프로젝트 제목: {state.title}</p>
+                    {state.postType === "recruiting" && myPost && <button className = "ml-auto text-sky-500" onClick={() => {
+                        updatePostStatus(postId).then(()=>{
+                            console.log("모집완료")
+                            navigate('/mainPage');
+                        })
+                    }}>완료하기</button>}
                     
-                    {myPost && <button className = "ml-auto text-violet-500 " onClick={() => {
+                    {state.postType === "recruiting" && myPost && <button className = "ml-5 text-violet-500 " onClick={() => {
                         //글 쓰는 페이지로 이동하면서 현재 postId의 값을 다 가지고 와야함.
                         // deleteMyPost(state.postId).then(()=>{
                         //     navigate('/mainPage');
@@ -80,7 +86,7 @@ function ViewPost() {
                     }}>수정하기</button>
                     }
 
-                    {myPost && <button className = "ml-5 text-sky-500" onClick={() => {
+                    {myPost && <button className = {state.postType === "recruiting" ? "ml-5 text-red-500" : "ml-auto text-red-500"} onClick={() => {
                         deleteMyPost(postId).then(()=>{
                             console.log("삭제완료")
                             navigate('/mainPage');
@@ -109,8 +115,8 @@ function ViewPost() {
                                     <img className="mr-1 rounded-2xl w-10 h-11" src={k.img} alt={k.name} />
                                     <p className="m-auto">{k.name}</p>
                                 </div>
-                                <p className="my-auto ml-auto"> 0 / {k.value} 명</p>
-                                {!myPost && <button
+                                <p className="my-auto ml-auto"> {k.current} / {k.value} 명</p>
+                                {state.postType === "recruiting" && !myPost && <button
                                     key={key}
                                     onClick={openModal}
                                     value={k.name}
@@ -133,7 +139,7 @@ function ViewPost() {
                 </div>
             </div>
 
-            {myPost && <div className='mx-40 mt-7 mb-4 border-4 border-sky-200 rounded-2xl p-5 flex-column font-bold text-2xl max-h-96'>
+            {state.postType === "recruiting" && myPost && <div className='mx-40 mt-7 mb-4 border-4 border-sky-200 rounded-2xl p-5 flex-column font-bold text-2xl max-h-96'>
                 <p>신청자 리스트</p>
                 <hr className="h-px my-4 border-2 border-indigo-100 "></hr>
                 <div className="flex-column max-h-72 overflow-y-auto scrollbar-hide">
@@ -144,7 +150,6 @@ function ViewPost() {
                                 <p className="ml-4">신청: {item.requested}</p>
                                 <div className ="ml-auto">
                                     <button
-                                        key={1}
                                         onClick = {approveModal}
                                         value={item.name}
                                         className="ml-4 border rounded-md w-24 bg-sky-100 outline-none hover:bg-sky-200">승인</button>
@@ -158,7 +163,6 @@ function ViewPost() {
                                         className="ml-4 border rounded-md w-24 bg-sky-100 outline-none hover:bg-sky-200">포트폴리오</button>
                                         
                                     <button
-                                        key={3}
                                         onClick = {rejectModal}
                                         value={item.name}
                                         className="ml-4 border rounded-md w-24 bg-sky-100 outline-none hover:bg-sky-200">거절</button>

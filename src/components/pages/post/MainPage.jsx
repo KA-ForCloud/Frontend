@@ -284,25 +284,27 @@ function MainPage(props) {
         }
       }
     })
-
     const modifiedPostList = area.map(data => {
-      delete data.post_category.id;
+      delete data.post_category[0].id;
       const abc = [];
-      for (const [key, value] of Object.entries(data.post_category).filter(([, count]) => count > 0)) {
-        const aaa = {
-          img: `${key}`,
-          name: `${key}`,
-          value: `${value}`
-        };
-        abc.push(aaa);
+      for (const [key, value] of Object.entries(data.post_category[0]).filter(([, count]) => count > 0)) {
+        for(const [k, v] of Object.entries(data.post_category[1]).filter(([k, ]) => k === key)){
+          const aaa = {
+            img: `${k}`,
+            name: `${k}`,
+            value: `${value}`,
+            current: `${v}`
+          };
+          abc.push(aaa);
+        }
       }
-
       delete data.post_category;
       return {
         ...data,
         area: data.area.concat(abc)
       };
     })
+    console.log(modifiedPostList)
     const filter = postStatus === "recruiting" ? modifiedPostList.filter(value => value.postType.includes("recruiting"))
       : modifiedPostList.filter(value => value.postType.includes("completed"))
     
@@ -353,10 +355,6 @@ function MainPage(props) {
       </div>
     ))
   }
-
-  useEffect(() => {
-
-  },[]);
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6">

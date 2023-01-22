@@ -1,204 +1,133 @@
 import React from 'react'
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import java from "../../../category_img/java.png";
 import javascript from "../../../category_img/javascript.png";
 import python from "../../../category_img/python.jpg";
 import react from "../../../category_img/react.png";
 import spring from "../../../category_img/spring.png";
-import springBoot from "../../../category_img/springBoot.png";
-
+import springboot from "../../../category_img/springBoot.png";
+import { getProject } from '../../../services/PostService';
 function ProjectManage() {
     const navigate = useNavigate();
-    const post = [
-        {
-          id:1, //post id를 이용하여 신청한 게시물 확인?? -> 신청자 테이블에 자기 이름이 있는지 확인해서 비교??
-          title: "오늘 뭐먹지",
-          period: "2023-01-12",
-          duration: "3",
-          area:[
-            {
-              img: react,
-              name: "React"
-            },
-            {
-              img: springBoot,
-              name: "SpringBoot"
-            }
-          ],
-          writer: "호진", //writer로 내가 작성한 게시물 확인
-          view: "20",
-          status: "recruiting"// 모집중 or 참여중(모집완료) or 완료된 상태 확인
-        },
-        {
-          id:2,
-          title: "설문 시스템 개발",
-          period: "2023-01-14",
-          duration: "2",
-          area: [
-            {
-              img: spring,
-              name: "Spring"
-            },
-            {
-              img: springBoot,
-              name: "SpringBoot"
-            }
-          ],
-          writer: "아무개",
-          view: "26",
-          status: "recruiting"
-        },
-        {
-          id:3,
-          title: "동영상 강의 플랫폼",
-          period: "2023-01-13",
-          duration: "3",
-          area: [
-            {
-              img: react,
-              name: "React"
-            },
-            {
-              img: springBoot,
-              name: "SpringBoot"
-            },
-            {
-              img: javascript,
-              name: "JavaScript"
-            },
-            {
-              img: python,
-              name: "Python"
-            },
-          ],
-          writer: "호진",
-          view: "20",
-          status: "ongoing"
-        },
-        {
-            id:4,
-            title: "동영상 강의 플랫폼",
-            period: "2023-01-13",
-            duration: "3",
-            area: [
-              {
-                img: react,
-                name: "React"
-              },
-              {
-                img: springBoot,
-                name: "SpringBoot"
-              },
-              {
-                img: javascript,
-                name: "JavaScript"
-              },
-              {
-                img: python,
-                name: "Python"
-              },
-            ],
-            writer: "호진",
-            view: "20",
-            status: "ongoing"
-          },
-          {
-            id:5,
-            title: "동영상 강의 플랫폼",
-            period: "2023-01-13",
-            duration: "3",
-            area: [
-              {
-                img: react,
-                name: "React"
-              },
-              {
-                img: springBoot,
-                name: "SpringBoot"
-              },
-              {
-                img: javascript,
-                name: "JavaScript"
-              },
-              {
-                img: python,
-                name: "Python"
-              },
-            ],
-            writer: "호진",
-            view: "20",
-            status: "completed"
-          },
-      ]
+    const tool = [
+      {
+        name: "Java",
+        img: java,
+        type: "backend"
+      },
+      {
+        name: "Python",
+        img: python,
+        type: "backend"
+      },
+      {
+        name: "React",
+        img: react,
+        type: "frontend"
+      },
+      {
+        name: "JavaScript",
+        img: javascript,
+        type: "frontend"
+      },
+      {
+        name: "Spring",
+        img: spring,
+        type: "backend"
+      },
+      {
+        name: "SpringBoot",
+        img: springboot,
+        type: "backend"
+      }
+    ];
 
-      const myOngoingProjectList = () => {
-        if(post.length === 0 ) return;
-        const ongoingList = post.filter(el => el.status.includes("ongoing"))
-        return ongoingList.map((item,idx) => (
+    const [myProjectList, setMyProjectList] = useState([]);
+    useEffect(()=> {
+       getProject().then((response) => {
+        setMyProjectList(response);
+       })
+    }, [])
+
+      const ProjectList = (num) => {
+        if(myProjectList.length === 0) return;
+        const postList = num === 1 ? myProjectList.filter(el => el.projectType.includes("onGoing")) : 
+        myProjectList.filter(el => el.projectType.includes("completed"));
+
+        const area = postList.map(data => {
+          if (!data.postResponse.area) {
+            return {
+              ...data.postResponse, area: [
+    
+              ]
+            }
+          }
+        })
+        console.log(area)
+    
+        const modifiedPost = area.map(data => {
+          delete data.post_category.id;
+          const abc = [];
+          for (const [key, value] of Object.entries(data.post_category).filter(([, count]) => count > 0)) {
+            const aaa = {
+              img: `${key}`,
+              name: `${key}`,
+              value: `${value}`
+            };
+            abc.push(aaa);
+          }
+    
+          delete data.post_category;
+          return {
+            ...data,
+            area: data.area.concat(abc)
+          };
+        })
+
+        return modifiedPost.map((item,idx) => (
           <div key ={idx} className="min-w-max rounded-2xl mx-2 border flex-column hover:bg-sky-50 transition cursor-pointer"
-            onClick = {()=>{navigate(`/viewOngoingProject/${item.id}`)}}>
+            onClick = {()=>{navigate(`/viewProject/${item.id}`, {state: item})}}>
             <h3 className="mx-5 my-2 text-dark font-weight-bold">프로젝트 제목: {item.title}</h3>
             <h3 className="mx-5 my-2 text-dark font-weight-bold">모집기한: {item.period}</h3>
             <h3 className="mx-5 my-2 text-dark font-weight-bold">진행기간: {item.duration}개월</h3>
-            <hr class="h-px mx-4 my-2 first-line:mt-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+            <hr className="h-px mx-4 my-2 first-line:mt-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
             <h3 className="mx-5 my-2 text-dark font-weight-bold text-center">모집분야</h3>
             <div className="mx-6 grid grid-rows-2 grid-cols-2 gap-x-2 gap-y-2">
-              {item.area.map((i, key) => {
-                return (
-                  <div key = {key} className= "flex border rounded-2xl">
-                    <img className="rounded-2xl w-7 h-8" src={i.img} alt={i.name} />
-                    <h3 className="m-auto">{i.name}</h3>
-                  </div>
-                );
-              })}
+            {item.area.map((k, key) => {
+            for(let i=0; i<tool.length; i++){
+              if(tool[i].name.toLowerCase() === k.img.toLowerCase()){
+                k.img = tool[i].img;
+                k.name = tool[i].name;
+                break;
+              }
+            }
+            return (
+              <div key={key} className="flex border rounded-2xl">
+                <img className="rounded-2xl w-9 h-10" src={k.img} alt={k.name} />
+                <p className="m-auto">{k.name}</p>
+              </div>
+            );
+          })}
             </div>
-            <hr class="h-px mx-4 my-2 first-line:mt-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+            <hr className="h-px mx-4 my-2 first-line:mt-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
             <div className="flex my-2">
-              <h3 className="mx-auto text-dark font-weight-bold">작성자: {item.writer}</h3>
+              <h3 className="mx-auto text-dark font-weight-bold">작성자: {item.name}</h3>
               <h3 className="mx-auto text-dark font-weight-bold">조회수: {item.view}회</h3>
             </div>
           </div>
         ))
       }
 
-      const myCompletedProjectList = () => {
-        if(post.length === 0 ) return;
-        const completedList = post.filter(el => el.status.includes("completed"))
-        return completedList.map((item,idx) => (
-          <div key ={idx} className="min-w-max rounded-2xl mx-2 border flex-column hover:bg-sky-50 transition cursor-pointer"
-            onClick = {()=>{navigate(`/viewOngoingProject/${item.id}`)}}>
-            <h3 className="mx-5 my-2 text-dark font-weight-bold">프로젝트 제목: {item.title}</h3>
-            <h3 className="mx-5 my-2 text-dark font-weight-bold">모집기한: {item.period}</h3>
-            <h3 className="mx-5 my-2 text-dark font-weight-bold">진행기간: {item.duration}개월</h3>
-            <hr class="h-px mx-4 my-2 first-line:mt-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
-            <h3 className="mx-5 my-2 text-dark font-weight-bold text-center">모집분야</h3>
-            <div className="mx-6 grid grid-rows-2 grid-cols-2 gap-x-2 gap-y-2">
-              {item.area.map((i, key) => {
-                return (
-                  <div key = {key} className= "flex border rounded-2xl">
-                    <img className="rounded-2xl w-7 h-8" src={i.img} alt={i.name} />
-                    <h3 className="m-auto">{i.name}</h3>
-                  </div>
-                );
-              })}
-            </div>
-            <hr class="h-px mx-4 my-2 first-line:mt-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
-            <div className="flex my-2">
-              <h3 className="mx-auto text-dark font-weight-bold">작성자: {item.writer}</h3>
-              <h3 className="mx-auto text-dark font-weight-bold">조회수: {item.view}회</h3>
-            </div>
-          </div>
-        ))
-      }
 
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6 my-7 border-4 border-sky-200 rounded-2xl">
-        <p class="text-2xl font-bold text-gray-900 m-4">참여중인 프로젝트</p>
-        <div className="grid grid-cols-4 overflow-auto"> {myOngoingProjectList()} </div>
-        <hr class="h-px my-4 border-2 border-indigo-100"></hr>
+        <p className="text-2xl font-bold text-gray-900 m-4">참여중인 프로젝트</p>
+        <div className="grid grid-cols-4 overflow-auto"> {ProjectList(1)} </div>
+        <hr className="h-px my-4 border-2 border-indigo-100"></hr>
 
-        <p class="text-2xl font-bold text-gray-900 m-4">완료된 프로젝트</p>
-        <div className="mb-4 grid grid-cols-4 overflow-auto"> {myCompletedProjectList()} </div>
+        <p className="text-2xl font-bold text-gray-900 m-4">완료된 프로젝트</p>
+        <div className="mb-4 grid grid-cols-4 overflow-auto"> {ProjectList(2)} </div>
     </div>
   )
 }
