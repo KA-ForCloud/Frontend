@@ -52,6 +52,7 @@ function KakaoLogin() {
             });
 
     };
+    
 
     const getUserInfo = () => {
         // console.log('get 시작', UserInfo);
@@ -83,7 +84,8 @@ function KakaoLogin() {
                     }
     
                     userHandler(
-                        {
+                        {   
+                            
                             token: '',
                             kakaoToken: ACCESS_TOKEN,
                             kakaoRefreshToken: REFRESH_TOKEN,
@@ -94,6 +96,9 @@ function KakaoLogin() {
                             age: age,
                             gender: data.kakao_account.gender,
                             isFirst: users.isFirst,
+                            school: "",
+                            tech: "",
+                            refresh: true,
                             push: false,
                             login: true,
                         }
@@ -101,21 +106,26 @@ function KakaoLogin() {
                     
 
                     console.log('ACCESS_TOKEN',ACCESS_TOKEN);
-                    axios.post(`http://localhost:8082/user/test/${ACCESS_TOKEN}`)
+                    axios.post(`http://localhost:8082/user/register/${ACCESS_TOKEN}`)
                         .then((response) => {
-                            console.log('response.data.token', "-", response.data.token, "-");
+                            console.log('response.data.token', "-", response.data.user_id, "-");
                             userHandler(
-                                {
+                                {   
                                     token: response.data.token,
                                     kakaoToken: ACCESS_TOKEN,
                                     kakaoRefreshToken: REFRESH_TOKEN,
-                                    id: response.data.id,
+                                    id: response.data.user_id,
                                     name: data.kakao_account.profile.nickname,
                                     profileImg: data.kakao_account.profile.profile_image_url,
                                     email: data.kakao_account.email,
                                     age: age,
                                     gender: data.kakao_account.gender,
                                     isFirst: users.isFirst,
+                                    school: response.data.school,
+                                    tech: response.data.tech,
+                                    portname: response.data.port,
+                                    portsave: response.data.portsave_name,
+                                    refresh: true,
                                     push: false,
                                     login: true,
                                 }
@@ -136,7 +146,7 @@ function KakaoLogin() {
                 navigate('/');
             });
     };
-
+    
     useEffect(() => {
         handleShow();
         setTimeout(function () {

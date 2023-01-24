@@ -3,7 +3,7 @@ import { Container, Stack, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // hooks
 import React, { useCallback,useEffect, useState } from "react";
-import { useNavigate, Navigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import useResponsive from '../../hooks/useResponsive';
 import Carousel from 'react-bootstrap/Carousel'
 // components
@@ -21,8 +21,7 @@ import {FormControlLabel,Checkbox} from '@material-ui/core';
 import Sidebar  from './Sidebar';
 import { Outlet } from "react-router-dom";
 import axios from 'axios';
-import { MdNavigateNext, MdSystemSecurityUpdate } from 'react-icons/md';
-import SelectInput from '@mui/material/Select/SelectInput';
+import { MdSystemSecurityUpdate } from 'react-icons/md';
 const StyledRoot = styled('div')(({ theme }) => ({
     [theme.breakpoints.up('md')]: {
         display: 'flex',
@@ -80,9 +79,9 @@ const StyledContent = styled('div')(({ theme }) => ({
 //     }
 // `;
 // ----------------------------------------------------------------------
-function Portfolio() {
+function Portfolioview() {
 
-    
+
     const [, updateState] = useState();
 	let [school, setSchool] = useState(null);
     let [tech, setTech] = useState(null);
@@ -99,14 +98,13 @@ function Portfolio() {
     userCategoryDto.python = 0;
     userCategoryDto.react = 0;
     userCategoryDto.user_id = null;
-
+    
+    
+    
     const forceUpdate = useCallback(() => updateState({}, []));
     const userHandler = useSetRecoilState(userState);
     let navigate = useNavigate();
 
-
-    
-    
     const mdUp = useResponsive('up', 'md');
     let history = useNavigate(); 
     const [imgBase64, setImgBase64] = useState([]); // 파일 base64
@@ -115,10 +113,7 @@ function Portfolio() {
     const [comment,setComment] = useState();
     var images = []
     var filename = "";
-
-    var filecheck = false;
-
-
+    
     
     const data = [
         {id: 0, title: 'Spring'},
@@ -159,169 +154,42 @@ function Portfolio() {
     const [file, setFile] = useState(null);
 
 
+    const userChange = (users) => {
+        window.location.reload();
+      };
 
     const handleChange = (file) => {
       setFile(file);
       filename = file.name;
-      filecheck = true;
       console.log(filename);
       console.log(file);
     };
 
-  
+    let refresh_check = false;
     useEffect(() => {
+        
+        console.log(users.tech);
+        
+        forceUpdate();
         if (!users.login) {
             window.location.href = KAKAO_AUTH_URL;
         }
 
     }, [])
 
-    const sleep = (ms) => {
-        return new Promise((resolve) => setTimeout(resolve, ms))
-      }
-    function handlePostCreateButton() {
 
-            if (school == null){
-                school = users.school
-            }
-            if (tech == null){
-                tech = users.tech
-            }
-            if (file != null){
-                filename = file.name;
-                filename = encodeURI(encodeURIComponent(filename));
-                filename = decodeURI(filename);
-            }
-            
-            const formData = new FormData();
-            formData.append('multipartFile',file);
-            console.log("formData",formData);
-            
-            
-            
-            if(filecheck){
-
-
-            axios.post(`http://localhost:8082/user/upload/${users.id}`,formData)
-			.then((response) => {
-                console.log('response.data.token', "-", response, "-");
-                console.log(filename);
-                userHandler(
-                    {   
-                        kakaoToken: response.data.user_token,
-                        kakaoRefreshToken: users.REFRESH_TOKEN,
-                        id: response.data.user_id,
-                        name: response.data.user_name,
-                        profileImg: response.data.user_image,
-                        email: response.data.user_email,
-                        age: response.data.user_age,
-                        gender: response.data.user_gender,
-                        isFirst: users.isFirst,
-                        school: response.data.school,
-                        tech: response.data.tech,
-                        portname: response.data.port,
-                        portsave: response.data.portsave_name,
-                        refresh: true,
-                        push: false,
-                        login: true,
-                    }
-                )
-                console.log(users.portsave)
-            })
-            .catch((error) => {
-                console.log(error);
-                console.log('실패');
-                return "error";
-            })
-        }
-        else{
-            filename = users.portname;
-            filename = encodeURI(encodeURIComponent(filename));
-            filename = decodeURI(filename);
-            
-        }
-        
-            userCategoryDto.user_id = users.id;
-            checkItems.map(function (a){
-                console.log(a);
-                if(a == 0){
-                    userCategoryDto.spring = 1;
-                }
-                else if(a == 1){
-                    userCategoryDto.springboot = 1;
-                }
-                else if(a == 2){
-                    userCategoryDto.python = 1;
-                }
-                else if(a == 3){
-                    userCategoryDto.react = 1;
-                }
-                else if(a == 4){
-                    userCategoryDto.javascript = 1;
-                }
-                else if(a == 5){
-                    userCategoryDto.java = 1;
-                }
-            })
-            userDto.school = school;
-            userDto.userCategoryDto = userCategoryDto;
-            userDto.tech = ""
-
-            const userJson = JSON.stringify(userDto);
-
-            
-            console.log("userCategoryDto",userJson);
-			axios.post(`http://localhost:8082/user/port/save/${users.id}?portname=${filename}`,userDto)
-			.then((response) => {
-                console.log('response.data.token', "-", response, "-");
-                console.log(filename);
-                userHandler(
-                    {   
-                        kakaoToken: response.data.user_token,
-                        kakaoRefreshToken: users.REFRESH_TOKEN,
-                        id: response.data.user_id,
-                        name: response.data.user_name,
-                        profileImg: response.data.user_image,
-                        email: response.data.user_email,
-                        age: response.data.user_age,
-                        gender: response.data.user_gender,
-                        isFirst: users.isFirst,
-                        school: response.data.school,
-                        tech: response.data.tech,
-                        portname: response.data.port,
-                        portsave: response.data.portsave_name,
-                        refresh: false,
-                        push: false,
-                        login: true,
-                    }
-                )
-                console.log(users.portsave)
-            })
-            .catch((error) => {
-                console.log(error);
-                console.log('실패');
-                return "error";
-            })
-            .finally(() => {
-                navigate('/portfolioview');
-            });
-            setTimeout(3000);
-
-            console.log("user1",users.tech);
-			forceUpdate();
-		
-	}
+    
     const onClick = (event) => {
 		const id = event.target.id;
 		switch(id){
             case 'download':
-                navigate('/portfolio');
+                navigate('/portfolioview');
                 console.log(users.portsave);    
-                if ( window.location == 'http://localhost:3000/portfolio' ) {
+                if ( window.location == 'http://localhost:3000/portfolioview' ) {
                      window.location.href='http://localhost:8082/user/attached/'+users.portsave;
                 }
                 
-                navigate('/portfolio');
+                navigate('/portfolioview');
 
 
                 forceUpdate();
@@ -329,7 +197,6 @@ function Portfolio() {
         }
     
     }
-  
     // function getUserInfo(){
 
     //     axios.get('https://localhost:8080/user/get', headers)
@@ -350,7 +217,6 @@ function Portfolio() {
     // }, []);
 
     return (
-        
         <>
 
             <StyledRoot>
@@ -385,23 +251,23 @@ function Portfolio() {
                             안녕하세요. <strong>{users.name}</strong>님
                         </Typography>
                         <Typography variant="h6" gutterBottom>
-                            포트폴리오 작성란 🤗
+                            포트폴리오🤗
                         </Typography>
 
                         <hr style={{ marginBottom: 50 }}></hr>
 
-                        <Stack spacing={3} marginBottom = {5}>
+                        <Stack spacing={3}>
                             <TextField label="이메일" defaultValue={users.email} inputProps={{ }} />
                             <TextField label="성별" defaultValue={users.gender} inputProps={{ }} />
                             <TextField label="연령대" defaultValue={users.age} inputProps={{ }} />
                             <TextField label="학교" defaultValue={users.school} inputProps={{ }} onChange={(e) => {
 											setSchool(e.target.value);
-										}}>{users.school} </TextField> 
-                            <TextField label="기술 스택" defaultValue={users.tech} inputProps={{ }} style={{marginBottm:50}} onChange={(e) => {
+										}}> </TextField> 
+                            <TextField label="기술 스택" defaultValue={users.tech} inputProps={{ }} style={{marginBottm:20}} onChange={(e) => {
 											setTech(e.target.value);
-										}}>{users.tech}</TextField>
+										}}></TextField>
                         </Stack>
-                        <table border={10} width = "90%" marginTop="502x" >
+                        {/* <table border={10} width = "90%" marginTop="502x" >
                             <thead style={{ marginTop: 50 }}>
                                 <tr>
                                 
@@ -431,37 +297,32 @@ function Portfolio() {
                                 </tr>
                                 ))}
                             </tbody>
-                        </table>
+                        </table> */}
                         {/* <Stack direction="row" alignItems="center" sx={{ my: 2 }}>
                             <Typography variant="h6">알림 수신</Typography>
                             <Checkbox name="push" />
                         </Stack> */}
                     <Typography variant="h6" gutterBottom style={{ marginTop: 50}}>
-                            포트폴리오 파일 첨부
+                            포트폴리오 파일
                         </Typography>
                     {users.portname != "" &&<Button id="download" onClick= {onClick} variant="h9" style={{ marginTop: 10}}>
                         {users.portname}
                     </Button>}
 
                     <a thhref="|/attached/${filename}|" thtext="dddd"/>
-                    {users.portname == ""&&<Typography variant="h9" style={{ marginTop: 10}}>
+                    {users.portname == ""&&<Typography variant="h9" style={{ marginTop: 50}}>
                         {filename}
                     
                     </Typography>}
                     
-                    <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
+                    {/* <FileUploader handleChange={handleChange} name="file" types={fileTypes} /> */}
                     </StyledContent>
-                    
-									<Button variant="secondary" className="center"
-										style={{ marginTop: '10px' }
-                                    
-                                    }
+                    <Button variant="secondary" className="center"
+										style={{ marginTop: '10px' }}
 										onClick={() => {
-											handlePostCreateButton();
-                                            console.log(users.tech);
-                                            
-                                            console.log("user",users.tech);
-										}}>수정완료</Button>
+											navigate('/portfolio');
+										}}>수정하기</Button>
+									
 					
                 </Container>
             </StyledRoot>
@@ -474,5 +335,5 @@ function Portfolio() {
     );
 }
 
-export { Portfolio };
+export { Portfolioview };
 

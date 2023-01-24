@@ -15,6 +15,18 @@ const sidebarNavItems = [
         to: '/portfolio',
         section: '포트폴리오'
     },
+    {
+        display: '프로젝트 관리',
+        icon: <i className='bx bx-user'></i>,
+        to: '/mypage',
+        section: '프로젝트 관리'
+    },
+    {
+        display: '게시글 관리',
+        icon: <i className='bx bx-user'></i>,
+        to: '/portfolio',
+        section: '게시글 관리'
+    },
 ]
 
 const Sidebar = () => {

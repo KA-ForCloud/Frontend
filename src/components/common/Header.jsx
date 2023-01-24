@@ -141,7 +141,7 @@ function Header() {
                         </a>
                     }
                     {users.login &&
-                        <a href="/portfolio" className="text-base font-medium text-gray-500 hover:text-gray-900">
+                        <a href="/portfolioview" className="text-base font-medium text-gray-500 hover:text-gray-900">
                            내 포트폴리오
                         </a>
                     }

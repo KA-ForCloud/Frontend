@@ -16,6 +16,7 @@ import { RecoilRoot } from "recoil";
 import { MainPage } from '../src/components/route/MainPage'
 import {MyPage} from '../src/components/route/MyPage'
 import {Portfolio} from '../src/components/route/Portfolio'
+import { Portfolioview } from './components/route/Portfolioview';
 import { Provider } from "react-redux";
 // import CreateSurvey, { SurveyShared } from './components/pages/create/CreateSurvey';
 // import TemporarySurvey from './components/pages/management/TemporarySurvey';
@@ -81,6 +82,8 @@ function App() {
                       <Route path="/mypage" element={<MyPage />} />
                       <Route path="/portfolio" element = {<Portfolio/>}/>
                       <Route path="/createpost" element= {<CreatePost/>}/>
+                      <Route path="/portfolioview" element = {<Portfolioview/>}/>
+                      <Route path="/user/attached" />
                       {/* <Route path="community" element={<MainPage />} />
                       <Route path="mypage" element={<MyPage />} />
                       <Route path="post/:postId" element={<ViewPostPage />} />

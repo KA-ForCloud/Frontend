@@ -3,14 +3,16 @@ import { Button, Card, Col, Form, InputGroup, Modal, Nav, Row } from 'react-boot
 // import { Helmet } from 'react-helmet';
 import { MdDelete } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState} from 'recoil';
 import styled, { css } from 'styled-components';
+import axios from 'axios';
+import {useImperativeHandle } from "react";
+
 import { KAKAO_AUTH_URL } from '../../OAuth';
 import { DateRangeSelector } from '../route/DateRangeSelector';
 import { userState } from '../../atom';
 // import { DropdownCmpt } from '../components/DropdownCmpt.js';
 // import { Preview } from '../components/Survey/Preview.js';
-import Cart from './Cart'
 // @css
 import './CreatePost.css';
 import { TextField } from '@mui/material';
@@ -27,7 +29,6 @@ import { TextField } from '@mui/material';
 //       paddingRight: theme.spacing(6),
 //    },
 // }));
-
 
 const Main = styled.div`
   paddingLeft: 10px;
@@ -74,32 +75,7 @@ const Text = styled.div`
       color: #ced4da;
     `}
 `;
-const DUMMY_ITEM_LIST = [
-	{
-	  id: 1,
-	  name: '영귤섬 아이스티',
-	  packingState: '포장불가',
-	  price: 13000,
-	  amount: 1,
-	  isChecked: true,
-	},
-	{
-	  id: 2,
-	  name: '러블리 티 박스',
-	  packingState: '포장가능',
-	  price: 20000,
-	  amount: 1,
-	  isChecked: true,
-	},
-	{
-	  id: 3,
-	  name: '그린티 랑드샤 세트',
-	  packingState: '포장불가',
-	  price: 36000,
-	  amount: 1,
-	  isChecked: true,
-	},
-  ];
+
 //   const onChangeProps = (id, key, value) => {
 //     setItemList(prevState => {
 //       return prevState.map(obj => {
@@ -113,23 +89,7 @@ const DUMMY_ITEM_LIST = [
 //   };
 
 function CreatePost() {
-	let reducer1State = [{id: 1, name: "상품",price:1200, qty:0 }];
 
-	const reducer1 = (state = reducer1State, action) => {
-	if (action.type === 'plusQTY') {
-		let _state = [...state];
-		console.log(_state[action.data]);
-		console.log(action.data);
-		_state[action.data].qty++;
-		return _state;
-	} else if (action.type === 'minusQTY') {
-		let _state = [...state];
-		_state[action.data].qty--;
-		return _state;
-	} else {
-		return state;
-	}
-	}
 	const childRef = useRef();
 	const [, updateState] = useState();
 	const forceUpdate = useCallback(() => updateState({}, []));
@@ -146,10 +106,10 @@ function CreatePost() {
 	let count = window.localStorage.getItem("count");
 
 	//post에 사용
-	let [surveyTitle, setSurveyTitle] = useState(null);
-	let [surveyDescription, setSurveyDescription] = useState(null);
-	let [surveyId, setSurveyId] = useState(0);
-	let surveyState = useRef(-1);
+	let [postName, setpostName] = useState(null);
+	let [postContents, setpostContents] = useState(null);
+	let [postId, setPostId] = useState(0);
+	let postState = useRef(-1);
 	window.localStorage.setItem("count", 1);
 
 	//저장시 모달 보여주기에서 사용
@@ -159,23 +119,21 @@ function CreatePost() {
 	let navigate = useNavigate();
 
 	// handleSurveySaveButton, handleSurveyCreateButton에서 사용 즉, PostSurvey, UpdateSurvey API에서 사용함
-	let surveyJson = new Object();
-	let surveyDto = new Object();
+	let postJson = new Object();
+	let postDto = new Object();
+	let postCatDto = new Object();
 
 	// surveyDto
-	surveyDto.survey_state = null;
-	surveyDto.end_time = '12:12:12 12:12:00';
-	surveyDto.end_time = '12:12:12 12:12:00';
-	surveyDto.category = null;
-	surveyDto.description = null;
-	surveyDto.survey_title = null;
+	postDto.status = null;
+	postDto.end_time = '12:12:12 12:12:00';
+	postDto.end_time = '12:12:12 12:12:00';
+	postDto.post_name = null;
+	postDto.contents = null;
+	postDto.views= 0;
 
 	// surveyDto.survey_id = null;
 	// surveyDto.survey_url = null;
 
-	let questionDtos = new Array();
-	let choiceDtos = new Array();
-	let choiceDtos2 = new Array();
 
 	// const link = useRecoilValue(linkState);
 	const [link, setLink] = useState("");
@@ -264,13 +222,69 @@ function CreatePost() {
 	const [startTime, setStartTime] = useState(timeString);
 	const [endDate, setEndDate] = useState(nextDateString);
 	const [endTime, setEndTime] = useState(timeString);
-
-	const [RecommendCategory, setRecommendCategory] = useState('');
-	const [RecommendMent, setRecommendMent] = useState('');
-	const [isRecommended, setIsRecommended] = useState(false);
-	const [cate, setCate] = useState("");
-
 	
+	const [springbootCount, setspringbootCount] = useState(0);
+	const [pythonCount, setpythonCount] = useState(0);
+	const [springCount, setspringCount] = useState(0);
+	const [reactCount, setreactCount] = useState(0);
+	const [javaCount, setjavaCount] = useState(0);
+	const [javascriptCount, setjavascriptCount] = useState(0);
+	// const [javascriptCount, setjavascriptCount] = useState(0);
+	// const [javascriptCount, setjavascriptCount] = useState(0);
+	
+	const onClick = (event) => {
+		const id = event.target.id;
+		switch(id){
+			case 'springPlus':
+				setspringCount(springCount+1)
+				break
+			case 'pythonPlus':
+				setpythonCount(pythonCount+1)
+				break
+			case 'springMinus':
+				setspringCount(springCount-1)
+				break
+			case 'pythonMinus':
+				setpythonCount(pythonCount-1)
+				break
+			case 'springbootPlus':
+				setspringbootCount(springbootCount+1)
+				break
+			case 'reactPlus':
+				setreactCount(reactCount+1)
+				break
+			case 'springbootMinus':
+				setspringbootCount(springbootCount-1)
+				break
+			case 'reactMinus':
+				setreactCount(reactCount-1)
+				break
+			case 'javaPlus':
+				setjavaCount(javaCount+1)
+				break
+			case 'javascriptPlus':
+				setjavascriptCount(javascriptCount+1)
+				break
+			case 'javaMinus':
+				setjavaCount(javaCount-1)
+				break
+			case 'javascriptMinus':
+				setjavascriptCount(javascriptCount-1)
+				break
+			// case 'javaPlus':
+			// 	setjavaCount(javaCount+1)
+			// 	break
+			// case 'javascriptPlus':
+			// 	setjavascriptCount(javascriptCount+1)
+			// 	break
+			// case 'javaMinus':
+			// 	setjavaCount(javaCount-1)
+			// 	break
+			// case 'javascriptMinus':
+			// 	setjavascriptCount(javascriptCount-1)
+			// 	break
+		}
+	}
 	const [inputs, setInputs] = useState({
         userId: "",
         password: "",
@@ -310,50 +324,165 @@ function CreatePost() {
 		// setShow(true);
 		setViewSwitch('공유');
 	}
-
+	
 
 	// 설문 제작 완료 버튼을 누를때 (공유탭))
-	function handleSurveyCreateButton() {
+	function handlePostCreateButton() {
 
-		surveyDto.survey_state = null;
-		surveyDto.start_time = null;
-		surveyDto.end_time = null;
-		surveyDto.description = surveyDescription;
-		surveyDto.survey_title = surveyTitle;
+		postDto.status = null;
+		postDto.end_time = '12:12:12 12:12:00';
+		postDto.end_time = '12:12:12 12:12:00';
+		postDto.post_name = null;
+		postDto.contents = null;
+		postDto.views= 0;
 
 		start_time_temp = startDate + ' ' + startTime + ':00'
 		end_time_temp = endDate + ' ' + endTime + ':00';
 
-		surveyDto.start_time = start_time_temp;
-		console.log('프로젝트 시작시간', surveyDto.start_time);
-		surveyDto.end_time = end_time_temp;
-		console.log()
+		postDto.start_time = start_time_temp;
+		console.log('postdto의 시작시간', postDto.start_time);
+		postDto.end_time = end_time_temp;
+		
 		// 아래의 세가지 변수는 설문 state 판별을 위한 조건문에 사용
 		// 0: 진행중 1: 배포전 2: 종료
 		let start_time = new Date(start_time_temp);
 		let end_time = new Date(end_time_temp);
 		let current_time = new Date(current_time_temp);
-
+		
 		// console.log('현재', surveyState.current);
+
+		if (start_time > end_time) {
+			alert("설문 종료 시간은 설문 시작 시간 이전일 수 없습니다.");
+		} else {
+			if (start_time <= current_time && current_time <= end_time) {
+				postState.current = 0;
+
+			} else if (start_time > current_time) {
+				// 배포 전
+				postState.current = 1;
+			} else if (end_time < current_time) {
+				// 종료된 설문
+				postState.current = 2;
+			} else {
+			}
+		}
+
+		postDto.status = postState.current;
+
+		console.log('설문 저장 시작', postDto.status);
+
+
+		if (postState.current != -1) {
+
+			
+
+				// //객관식이면 객관식 질문 문항들을 함께 전송해야함
+				// //객관식이면 객관식 질문 문항들을 함께 전송해야함
+				
+
+			// questionHandler(copy);
+			postDto.post_name = postName;
+			postDto.contents = postContents;
+
+			postCatDto.spring = springCount;
+			postCatDto.java = javaCount;
+			postCatDto.springboot = springbootCount;
+			postCatDto.javascript = javascriptCount;
+			postCatDto.python = pythonCount;
+			postCatDto.react = reactCount;
+			postCatDto.post_id = null;
+
+			postDto.spring = springCount;
+			postDto.java = javaCount;
+			postDto.springboot = springbootCount;
+			postDto.javascript = javascriptCount;
+			postDto.python = pythonCount;
+			postDto.react = reactCount;
+			postDto.postCategoryDto = postCatDto;
+
+			console.log(users);
+			console.log("postDto",postDto)
+			axios.post(`http://localhost:8082/post/save/${users.id}`, postDto)
+			.then((response) => {
+				console.log(response);
+			})
+			.catch((error) => {
+				console.log(error);
+			})
+
+			console.log(postDto)
+
+			forceUpdate();
+		
+		}
 	}
+
+	//자압구니
+	
+
 
 	return (
 		<>
-			<Nav justify variant="tabs" defaultActiveKey="create" onSelect={(e) => setViewSwitch(e)}>	
-				<Nav.Item className="center">
-					<Nav.Link eventKey="share">프로젝트 기간 설정</Nav.Link>
-				</Nav.Item>
-			</Nav>
-			<Cart></Cart>
-
+					
 					<>
-						<div className="config-area" style={{ width: "100%", minHeight:'120vh', backgroundColor: "#F8F8FD", display: "flex", justifyContent: "center" }}>
+						<div className="config-area" style={{ width: "100%", minHeight:'170vh', backgroundColor: "#F8F8FD", display: "flex", justifyContent: "center" }}>
 
 							<div style={{ margin: "auto", marginTop: "20px", marginBottom: "10px" }}>
-								<h6 style={{ fontWeight: "bold" }}>프로젝트 명</h6>
-								<TextField label="프로젝트 명" style= {{width: "100%", margintTop: "50px"}}defaultValue={""} inputProps={{ }} />
+								<h6 style={{ fontWeight: "bold" ,marginBottom: "20px" }}>프로젝트 명</h6>
+								<Form.Control className="contents-area" size="lg" as="textarea" placeholder="프로젝트 명을 입력해주세요"
+									cols= "120"
+									onChange={(e) => {
+										setpostName(e.target.value);
+									}}>{postName}</Form.Control>
 
-					
+								<h6 style={{ fontWeight: "bold" ,marginTop: "20px", marginBottom: "20px"}}>프로젝트 인원 지정</h6>
+								<div>
+								<table border={10} width = "90%" marginTop="20px" >
+									<thead>
+										<th>분야</th>
+										<th>인원 수</th>
+										<th colSpan={1}></th>
+									</thead>
+									<tbody>
+										<tr>
+											<td >React</td>
+											<td>{reactCount}</td>
+											<td><button id = 'reactPlus' onClick= {onClick}>+</button></td>
+											<td><button id = 'reactMinus' onClick= {onClick}>-</button></td>
+										</tr>
+										<tr>
+											<td>Java</td>
+											<td>{javaCount}</td>
+											<td><button id = 'javaPlus' onClick= {onClick}>+</button></td>
+											<td><button id = 'javaMinus' onClick= {onClick}>-</button></td>
+										</tr>
+										<tr>
+											<td>Javascript</td>
+											<td>{javascriptCount}</td>
+											<td><button id = 'javascriptPlus' onClick= {onClick}>+</button></td>
+											<td><button id = 'javascriptMinus' onClick= {onClick}>-</button></td>
+										</tr>
+										<tr>
+											<td>Spring</td>
+											<td>{springCount}</td>
+											<td><button id = 'springPlus' onClick= {onClick}>+</button></td>
+											<td><button id = 'springMinus' onClick= {onClick}>-</button></td>
+										</tr>
+										<tr>
+											<td>Springboot</td>
+											<td>{springbootCount}</td>
+											<td><button id = 'springbootPlus' onClick= {onClick}>+</button></td>
+											<td><button id = 'springbootMinus' onClick= {onClick}>-</button></td>
+										</tr>
+										<tr>
+											<td>Python</td>
+											<td>{pythonCount}</td>
+											<td><button id = 'pythonPlus' onClick= {onClick}>+</button></td>
+											<td><button id = 'pythonMinus' onClick= {onClick}>-</button></td>
+										</tr>
+									</tbody>
+								</table>
+								</div>
 								<h6 style={{ fontWeight: "bold", marginTop: "50px" }}>프로젝트 기간 설정</h6>
 								<h6 style={{ fontWeight: "bold" , marginTop: "10px"}}>날짜를 드래그하거나 클릭하세요! 😉</h6>
 								<div className="text-center p-4" >
@@ -366,14 +495,13 @@ function CreatePost() {
 									</div> */}
 								<h6 style={{ fontWeight: "bold" , marginTop: "10px"}}>프로젝트 소개! 😉</h6>
 									<Form.Group>
-	                            <Form.Control
-                                as="textarea"
-                                rows="5"
-								cols="120"
-                                name="content"
-                                value={inputs.content}
-                                onChange={handleChange}
-                            />
+								<Form.Control className="contents-area" size="lg" as="textarea" placeholder="프로젝트 소개를 입력해주세요"
+									rows = "5"
+									cols= "120"
+									onChange={(e) => {
+										setpostContents(e.target.value);
+									}}>{postContents}</Form.Control>
+	                            
                             <div className="auth__contentCount">
                                 <span>{`${inputs.content.length} / 300`}</span>
                             </div>
@@ -382,7 +510,7 @@ function CreatePost() {
 									<Button variant="secondary" className="center"
 										style={{ marginTop: '10px' }}
 										onClick={() => {
-											handleSurveyCreateButton()
+											handlePostCreateButton()
 										}}>게시글 게시</Button></div>
 								</div>
 								
@@ -396,10 +524,9 @@ function CreatePost() {
 
 						
 					</>
-			
-			{/* <PostSurvey ref={childRef} setLink={setLink} surveyJson={surveyJson} /> */}
 		</>
-	)
+
+	);
 }
 
 export { CreatePost };
