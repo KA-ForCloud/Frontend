@@ -12,7 +12,7 @@ export default function ChattingRoom(props) {
     const dispatch=useDispatch();
     const socket=useSelector(state=>state.socket.socket);
     let subscriptions=useSelector(state=>state.socket.subscriptions);
-    const {memberId}=props; // TODO: memberId,nickname props로 안넘길거 지금은 걍 테스트
+    const {memberId,room}=props; // TODO: memberId,nickname props로 안넘길거 지금은 걍 테스트
     // console.log('ChattingRoom: roomId - ',roomId);
     // const client=useRef({});
     const [msg,setMsg]=useState("");
@@ -20,7 +20,8 @@ export default function ChattingRoom(props) {
     const [newChat,setNewChat]=useState(null); // 새로 도착한 채팅
     const [chatList, setChatList] = useState([]); // 화면에 표시될 채팅 기록
     const [checkChatList,setCheckChatList]=useState(false);
-   
+    const [firstMsg,setFirstMsg]=useState();
+
     const handleOnChange = (e) => {
         setMsg(e.target.value);
     };
@@ -40,15 +41,12 @@ export default function ChattingRoom(props) {
         
         let now = year + month + day + hour + min + sec;
         const info=memberId.split(" ");
-        console.log("memberId: ",info[0]);
-        console.log("nickname: ",info[1]);
-        publish(roomId,msg,info[0],info[1],now);
+        
+        publish(roomId,msg,info[0],info[1],now); // TODO 수정해야해애애애애ㅐㅇ애
         setMsg("");
     };
   
     useEffect(() => {
-        console.log("ChattingRoom");
-    
         // 채팅 내역 불러오기
         getChattings(roomId).then((response)=>{
             if(response.data.code!==1000) console.log("SERVER ERROR");
@@ -58,17 +56,18 @@ export default function ChattingRoom(props) {
                 else{
                     setChatList(data);
                     setCheckChatList(true);
-                    console.log('chatList',chatList.length);
+                    setFirstMsg(data[0]);
+                    
                 }
             }
         })
         const dest="/sub/chat/"+roomId;
-        console.log("subscriptions: ",subscriptions);
+        
         subscriptions.map((sub)=>{
-            console.log("try to unsubscribe",sub);
+           
             if(sub.des===dest){
                 socket.unsubscribe(sub.id);
-                console.log("unsubscribed - roomId",roomId);
+                
             } 
         })
         subscriptions=subscriptions.filter(
@@ -78,9 +77,8 @@ export default function ChattingRoom(props) {
         
         const res=socket.subscribe('/sub/chat/' + roomId, ({body}) => {
             
-            console.log('subscribe - received message',body.msg);
             const received=JSON.parse(body);
-            console.log("received parsing:",received.msg);
+
             const data={
                 nickName:received.nickName,
                 memberId:received.memberId,
@@ -100,18 +98,18 @@ export default function ChattingRoom(props) {
     }, [roomId]);
 
     useEffect(() => {
-        console.log("new chat",newChat);
+        
         
         setChatList(chatList=>[...chatList,newChat]);
         
-        console.log('set new Chat: ',chatList);
+       
     }, [newChat]);
 
    
 
     return (
-        <div className="md:w-full overflow-y-scroll max-w-7xl rounded-lg bg-blue-200 mt-6 flex-col pb-0">
-            {checkChatList&&<MessageList items={chatList}/>}
+        <div className="md:w-full max-w-full rounded-lg bg-blue-200 mt-6 pb-0">
+            {checkChatList&&<MessageList items={chatList} firstMsg={firstMsg} memberId={memberId}/>}
             <div className="md:w-full">
                 <input type="text" id="default-input" value={msg} onChange={handleOnChange}
                     onKeyDown={(e)=>{

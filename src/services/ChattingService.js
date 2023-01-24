@@ -3,8 +3,7 @@ import SockJS from 'sockjs-client';
 // import Stomp from '@stomp/stompjs';
 
 
-export const stomp = require('stompjs');
-export let client;
+
 // 채팅방 리스트 조회
 export async function getRooms(memberId){
     // var memberId=localStorage.getItem('memberId');
@@ -13,11 +12,43 @@ export async function getRooms(memberId){
     console.log('getRooms response: ',response);
     return response;
 }
+// 채팅 내역 가져오기
 export async function getChattings(roomId){
     const response=await axios.get(`/chat/${roomId}`);
     console.log("[getChattings] ",response);
     return response;
 }
+
+// 채팅방 나가기
+export async function exitRoom(roomId,memberId){
+    const response=await axios.delete(`/api/member/${memberId}/rooms/${roomId}/participant`);
+    console.log("[exitRoom]",response);
+    return response;
+}
+
+// 채팅방 삭제
+export async function deleteRoom(roomId,memberId){
+    console.log("try to delete room");
+    const response=await axios.delete(`/api/member/${memberId}/rooms/${roomId}`);
+    console.log("[deleteRoom]",response);
+    return response;
+}
+
+// ChattingListItem에 넣기 위한 데이터 가져오기 - 채팅 이력에 의한 채팅 개수, 마지막 채팅
+export async function getChattingListItemInfo(roomId){
+    const response=await axios.get(`/chat/chatting/${roomId}`);
+    // const lastReadNum=await axios.get(`/api/member/${memberId}/`)
+    return response;
+}
+
+// 제일 최근 읽은 채팅 메세지 idx 갱신
+export async function updateLastRead(memberId,roomId,chattingIdx){
+    const response=await axios.patch(`/api/member/${memberId}/rooms/${roomId}/${chattingIdx}`);
+    console.log("-------resposne",response);
+    return response;
+}
+export const stomp = require('stompjs');
+export let client;
 // 채팅방 참여 - receive message
 export function subscribe(socket,roomId){
     var response;
@@ -60,11 +91,19 @@ export function enter(roomId,msg,sender){
     // ]);
     });
 };
-// client 반환
-export function getClient(){
-    
-    return client;
+
+export function callback(message){
+    const received=JSON.parse(message.body);
+    const data={
+        nickName:received.nickName,
+        memberId:received.memberId,
+        roomId:received.roomId,
+        msg:received.msg,
+        timestamp:received.timestamp
+    }
+    return data;
 }
+
 // 소켓 연결
 export function connect(){ // 연결할 때
     let socket=new SockJS('http://localhost:8081/stomp/chat');

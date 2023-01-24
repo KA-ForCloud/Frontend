@@ -4,7 +4,8 @@ import Home from './components/pages/Home';
 import MainPage from './components/pages/post/MainPage';
 import ViewPost from './components/pages/post/ViewPost';
 import ProjectManage from './components/pages/post/ProjectManage';
-
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { RecoilRoot } from "recoil";
 
 
 import React from 'react';
@@ -28,40 +29,23 @@ function App() {
         <BrowserRouter>
             
                 <Routes>
-                      {/* <Route path="respondent/:surveyId" element={<RespondentSurvey mode={2}/>} />
-                      <Route path="respondent/answer/:surveyId/:submitId" element={<RespondentSurvey mode={3}/>} />
-                      <Route path="respondentcomplete" element={<RespondentComplete />} />
-                      <Route path="respondentclose" element={<RespondentClose />} />
-                      <Route path="respondentnotopen" element={<RespondentNotOpen />} /> */}
-                      <Route path="/" element={<Home />} />
+                     
+                      {/* <Route path="/" element={<RoutePage />} /> */}
 
                       <Route path="rooms/*" element={<ChattingPage/>}/>
-                     
-
-                      <Route path="chatting" element={<ChattingPage/>}/>
                       <Route path="member/:memberId/rooms/:roomId" element={<ChattingRoom />} />
-                      {/* <Route path="community" element={<MainPage />} />
-                      <Route path="mypage" element={<MyPage />} />
-
-                      <Route path="/mainPage" element={<MainPage />} />
-                      <Route path="/viewPost/:postId" element={<ViewPost />} />
-                      <Route path="/projectManage" element={<ProjectManage />} />
-                      {/* <Route path="mypage" element={<MyPage />} />
-
-                      <Route path="post/:postId" element={<ViewPostPage />} />
-                      <Route path="selectSurvey" element={<SelectSurveyPage />} />
-                      <Route path="post/createPost/:surveyId" element={<CreatePostPage />} />
-                      <Route path="manage" element={<ManageSurvey />} />
-                      <Route path="temporary" element={<TemporarySurvey />}/>
-                      <Route path="survey" element={<CreateSurvey />} />
-                      <Route path="survey/:surveyId" element={<CreateSurvey load={"yes"}/>} />
-                      <Route path="survey" element={<CreateSurvey />} />
-                      <Route path="comfysurvey" element={<CreateSurveyTemplates />} />
-                      <Route path="surveyshared" element={<SurveyShared />} />
-                      <Route path="/resultSurvey/:surveyId" element={<ResultSurvey />}/>
-                      <Route path="/manage/survey/:surveyId" element={<RespondentSurvey mode={0}/>} /> */}
+                      <Route path="/" element={<MainPage />} />
+                      {/* <Route path="/main" element={<MainPage />} />
+                      <Route path="/kakaologin" element={<KakaoLogin />} />
+                      <Route path="/kakaologout" element={<KakaoLogout />} />
+                      <Route path="/home" element={<Home />} />
+                      <Route path="/mypage" element={<MyPage />} />
+                      <Route path="/portfolio" element = {<Portfolio/>}/>
+                      <Route path="/createpost" element= {<CreatePost/>}/> */}
 
                       {/* 상단에 위치하는 라우트들의 규칙을 모두 확인, 일치하는 라우트가 없는경우 처리 */}
+                      
+            
                       <Route path="*" element={<NotFound />}></Route>
                   </Routes>
             

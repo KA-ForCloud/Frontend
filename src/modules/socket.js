@@ -1,5 +1,7 @@
 const CONNECT_SOCKET='socket/CONNECT_SOCKET';
 const SAVE_SUBSCRIPTION="socket/SAVE_SUBSCRIPTION";
+const SAVE_BEFOREMSG="socket/SAVE_BEFOREMSG";
+
 // 액션 생성 함수
 
 // 소켓 저장
@@ -23,26 +25,43 @@ export function saveSubscription(subscription){
         }
     }
 }
+
+// 날짜가 변하는 순간 날짜를 보여주기 위한 beforeMsg 저장
+export function saveBeforeMsg(msg){
+    console.log("[creating saveBeforeMsg action]");
+    return{
+        type:SAVE_BEFOREMSG,
+        payload:{
+            beforeMsg:msg
+        }
+    }
+}
 // 모듈 초기 상태
 const initialState = {
     socket: null,
-    subscriptions:[]
+    subscriptions:[],
+    beforeMsg:null
 }
 
 // 리듀서
 export default function socket(state=initialState,action){
     switch(action.type){
         case CONNECT_SOCKET:
-            console.log("action.payload: ",action.payload.socket);
+
             return{
                 ...state,
                 socket: action.payload.socket
             }
         case SAVE_SUBSCRIPTION:
-            console.log("action.payload: ",action.payload.subscriptions);
             return{
                 ...state,
                 subscriptions: action.payload.subscriptions
+            }
+        case SAVE_BEFOREMSG:
+            console.log("action.payload",action.payload.beforeMsg);
+            return{
+                ...state,
+                beforeMsg: action.payload.beforeMsg
             }
         default:
             return state;
