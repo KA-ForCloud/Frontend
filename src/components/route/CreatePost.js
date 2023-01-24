@@ -77,6 +77,7 @@ const Text = styled.div`
 `;
 
 
+
 function CreatePost() {
 
 	const childRef = useRef();
@@ -218,6 +219,8 @@ function CreatePost() {
 	const [reactCount, setreactCount] = useState(0);
 	const [javaCount, setjavaCount] = useState(0);
 	const [javascriptCount, setjavascriptCount] = useState(0);
+
+	const [projectLengthCount, setprojectLengthCount] = useState(0);
 	// const [javascriptCount, setjavascriptCount] = useState(0);
 	// const [javascriptCount, setjavascriptCount] = useState(0);
 	
@@ -260,6 +263,13 @@ function CreatePost() {
 			case 'javascriptMinus':
 				setjavascriptCount(javascriptCount-1)
 				break
+			case 'projectMemPlus':
+				setprojectLengthCount(projectLengthCount+1)
+				break
+			case 'projectMemMinus':
+				setprojectLengthCount(projectLengthCount-1)
+				break
+				
 			// case 'javaPlus':
 			// 	setjavaCount(javaCount+1)
 			// 	break
@@ -324,7 +334,7 @@ function CreatePost() {
 		postDto.post_name = null;
 		postDto.contents = null;
 		postDto.views= 0;
-
+		postDto.duration = projectLengthCount;
 		start_time_temp = startDate + ' ' + startTime + ':00'
 		end_time_temp = endDate + ' ' + endTime + ':00';
 
@@ -423,7 +433,13 @@ function CreatePost() {
 									onChange={(e) => {
 										setpostName(e.target.value);
 									}}>{postName}</Form.Control>
-
+								<h6 style={{ fontWeight: "bold" ,marginTop: "20px", marginBottom: "20px"}}>프로젝트 기간 설정</h6>
+								<table border={10} width = "90%" marginTop="20px" >
+									<td>프로젝트 기간 설정</td>
+									<td>{projectLengthCount}</td>
+									<td><button id = 'projectMemPlus' onClick= {onClick}>+</button></td>
+									<td><button id = 'projectMemMinus' onClick= {onClick}>-</button></td>
+									</table>
 								<h6 style={{ fontWeight: "bold" ,marginTop: "20px", marginBottom: "20px"}}>프로젝트 인원 지정</h6>
 								<div>
 								<table border={10} width = "90%" marginTop="20px" >
