@@ -76,17 +76,6 @@ const Text = styled.div`
     `}
 `;
 
-//   const onChangeProps = (id, key, value) => {
-//     setItemList(prevState => {
-//       return prevState.map(obj => {
-//         if (obj.id === id) {
-//           return { ...obj, [key]: value };
-//         } else {
-//           return { ...obj };
-//         }
-//       });
-//     });
-//   };
 
 function CreatePost() {
 

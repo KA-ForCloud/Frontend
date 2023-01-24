@@ -6,10 +6,10 @@ import { KAKAO_AUTH_URL } from '../../OAuth';
 import { GetTokenInfo } from "../../API/GetTokenInfo";
 import { userState } from '../../atom';
 import { AboutProduct } from '../route/AboutProduct';
-import "./MainPage.css";
+import "./LandingPage.css";
 import { Snackbar, Alert } from '@mui/material';
 import {Sidebar} from './Sidebar';
-function MainPage() {
+function LandingPage() {
 	
 	let navigate = useNavigate();
 	// const UserInfo = useContext(UserInfoContextStore);
@@ -201,5 +201,5 @@ function MainPage() {
 	)
 }
 
-export { MainPage };
+export { LandingPage };
 

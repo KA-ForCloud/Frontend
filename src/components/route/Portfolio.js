@@ -54,32 +54,6 @@ const StyledContent = styled('div')(({ theme }) => ({
 }));
 
 
-// const StyledTable = styled.table`
-//     text-align: center;
-//     border-collapse: collapse;
-//     thead{
-//         tr{
-//         th{
-//             padding: 10px 15px;
-//             background-color: #888;
-//             color: #fff;
-//             font-weight: 700;
-//         }
-//         }
-//     }
-//     tbody{
-//         tr{
-//         td{
-//             padding: 7px 15px;
-//             border-bottom: 1px solid #eee;
-//         }
-//         }
-//     }
-//     .second-row{
-//         width: 150px;
-//     }
-// `;
-// ----------------------------------------------------------------------
 function Portfolio() {
 
     
