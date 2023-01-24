@@ -61,20 +61,22 @@ function Header() {
     let [isOpen, setIsOpen] = useState(false);
     let [isLogin, setIsLogin] = useState([false]);
     const [logoutAlert,setLogoutAlert]=useState([false]);
+    localStorage.setItem("memberId", 1);
+    localStorage.setItem("name", "aaa");
 
 
-    
-    useEffect(()=>{
-        console.log('header memberId is changed',typeof(localStorage.getItem('memberId')));
-        if(!localStorage.getItem('memberId')) {
-            setIsLogin(false);
-            setLogoutAlert(true);
-        }
-        else {
-            setIsLogin(true);
-            setLogoutAlert(false);
-        }
-    },[localStorage.getItem('memberId')]);
+    // useEffect(()=>{
+    //     console.log('header memberId is changed', typeof(localStorage.getItem('memberId')));
+    //     if(!localStorage.getItem('memberId')) {
+    //         setIsLogin(false);
+    //         setLogoutAlert(true);
+    //     }
+    //     else {
+    //         setIsLogin(true);
+    //         setLogoutAlert(false);
+    //     }
+    // },[localStorage.getItem('memberId')]);
+
 
     function closeModal() {
         setIsOpen(false)
