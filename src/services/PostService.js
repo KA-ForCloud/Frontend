@@ -8,20 +8,20 @@ export async function getPosts(){
 }
 
 export async function getMyPost(){
-    const memberId = localStorage.getItem('memberId');
-    const response=await axios.get(`${BACKEND_API_BASE_URL}/post/${memberId}`)
+    const userId = localStorage.getItem('memberId');
+    const response=await axios.get(`${BACKEND_API_BASE_URL}/post/${userId}`)
     return response.data.result;
 }
 
 export async function getProject(){
-    const memberId = localStorage.getItem('memberId');
-    const response=await axios.get(`${BACKEND_API_BASE_URL}/project/${memberId}`)
+    const userId = localStorage.getItem('memberId');
+    const response=await axios.get(`${BACKEND_API_BASE_URL}/project/${userId}`)
     return response.data.result;
 }
 
 export async function getRequestedPost(){
-    const memberId = localStorage.getItem('memberId');
-    const response=await axios.get(`${BACKEND_API_BASE_URL}/requestedPost/${memberId}`)
+    const userId = localStorage.getItem('memberId');
+    const response=await axios.get(`${BACKEND_API_BASE_URL}/requestedPost/${userId}`)
     return response.data.result;
 }
 
@@ -38,7 +38,7 @@ export async function getApplicant(postId){
 export async function createApplicant(postId,request){
     const response = await axios.post(`${BACKEND_API_BASE_URL}/registerApplicant`, {
         postId: postId,
-        memberId: localStorage.getItem('memberId'),
+        userId: localStorage.getItem('memberId'),
         request: request
     })
     return response.data.code;
@@ -63,8 +63,8 @@ export async function getParticipant(postId,category){
 }
 
 export async function deleteMyPost(postId){
-    const memberId = localStorage.getItem("memberId")
-    const response = await axios.delete(`${BACKEND_API_BASE_URL}/post/${postId}/${memberId}`)
+    const userId = localStorage.getItem("memberId")
+    const response = await axios.delete(`${BACKEND_API_BASE_URL}/post/${postId}/${userId}`)
     return response.data.code;
 }
 

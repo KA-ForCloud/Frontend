@@ -358,15 +358,15 @@ function MainPage(props) {
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6">
-      <div className="min-w-max my-7 grid grid-cols-3 gap-4 text-center">
+      <div className="min-w-max my-7 grid grid-cols-2 gap-4 text-center">
         <div className="min-w-max rounded-2xl flex-column bg-sky-100" >
           <h3 className="m-2 text-dark text-3xl font-weight-bold">최다 조회수 모집 게시글</h3>
           {makeMaxViewPost()}
         </div>
-
+{/* 
         <div className="min-w-max rounded-2xl border flex-column bg-red-100">
           <h3 className="m-2 text-dark text-3xl font-weight-bold">asdb</h3>
-        </div>
+        </div> */}
 
         <div className="min-w-max rounded-2xl border flex-column bg-purple-100 ">
           <h3 className="m-2 text-dark text-3xl font-weight-bold">마음의 온도 랭킹 게시판</h3>

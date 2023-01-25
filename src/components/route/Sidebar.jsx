@@ -7,26 +7,26 @@ const sidebarNavItems = [
         display: '마이페이지',
         icon: <i className='bx bx-user'></i>,
         to: '/mypage',
-        section: '마이페이지'
+        section: 'mypage'
     },
     {
         display: '포트폴리오',
         icon: <i className='bx bx-user'></i>,
         to: '/portfolio',
-        section: '포트폴리오'
+        section: 'portfolio'
     },
     {
         display: '게시글 관리',
         icon: <i className='bx bx-user'></i>,
         to: '/postManage',
-        section: '게시글 관리'
+        section: 'postManage'
         
     },
     {
         display: '프로젝트 관리',
         icon: <i className='bx bx-user'></i>,
         to: '/projectManage',
-        section: '프로젝트 관리'
+        section: 'projectManage'
     },
 ]
 
@@ -59,7 +59,7 @@ const Sidebar = () => {
                 ref={indicatorRef}
                 className="sidebar__menu__indicator"
                 style={{
-                    transform: `translateX(-50%) translateY(${activeIndex * stepHeight}px)`
+                    transform: `translateX(-50%) translateY(${(activeIndex-1) * stepHeight}px)`
                 }}
             ></div>
             {

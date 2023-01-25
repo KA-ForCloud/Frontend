@@ -16,7 +16,7 @@ import {
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userState } from '../../atom'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import logo from '../../img/logoComfy4x.jpeg'
+import logo from '../../img/forCloud_logo.png'
 import {BrowserRouter as Router} from 'react-router-dom';
 import {MyPage} from '../route/MyPage'
 // import GoogleLoginB from '../GoogleLoginB'
@@ -110,7 +110,7 @@ function Header() {
                         <a href="/">
                             <span className="sr-only">Your Company</span>
                             <img
-                                className="h-25 w-25 sm:h-20"
+                                className="py-2 max-h-32 w-36"
                                 src={logo}
                                 alt=""
                             />
@@ -155,9 +155,9 @@ function Header() {
                                 <button
                                     // type="button"
                                     onClick={handleLogin}
-                                    className="border rounded-md border-sky-200 hover:bg-blue-100 px-4 py-2 text-2xl font-bold text-black"
+                                    className="hover:text-gray-500 px-4 py-2 text-2xl font-bold text-black"
                                 >
-                                    로그인
+                                    로그아웃
                                 </button>
                             </div>
                         }
