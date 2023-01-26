@@ -85,8 +85,8 @@ const DateRangeSelector = (props, { ranges, onChange, onSubmit, ...rest }) => {
             </div>
 
             {show && (
-                <div className="h-100 mt-3 alert alert-transparent" direction={orientation}>
-                    <h6><strong>⏰ 를 눌러서 시간을 조정할 수 있어요!</strong></h6>
+                <div className=" h-100 mt-3 alert alert-transparent" direction={orientation}>
+                    <h6 className ="font-bold mb-5 text-2xl"><strong>⏰ 를 눌러서 시간을 조정할 수 있어요!</strong></h6>
 
                     <Card className='basicCard' key={"key"} style={{ display: "inline-block", margin: "2%", marginBottom: "3%", padding: "4%", border: "none", borderRadius: "20px", boxShadow: "1px 1px 4px 0px gray" }}>
                         <h5>

@@ -67,7 +67,7 @@ function ViewPost() {
     }, []);
 
     return (
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 min-w-min">
+        <div className="mx-auto max-w-7xl px-4 mb-4 sm:px-6 min-w-min">
             <div className='mx-40 my-7 border-4 border-sky-200 rounded-2xl p-5 flex-column font-bold text-2xl'>
                 <div className ="flex">
                     <p>프로젝트 제목: {state.post_name}</p>
@@ -159,6 +159,7 @@ function ViewPost() {
                                     </Modal>}
 
                                     <button
+                                        onClick ={()=>navigate("/portfolioview")}
                                         value={item.name}
                                         className="ml-4 border rounded-md w-24 bg-sky-100 outline-none hover:bg-sky-200">포트폴리오</button>
                                         

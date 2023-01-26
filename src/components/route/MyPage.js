@@ -26,12 +26,8 @@ const StyledRoot = styled('div')(({ theme }) => ({
 
 const StyledSection = styled('div')(({ theme }) => ({
     width: '100%',
-    maxWidth: 480,
-    marginLeft: 'auto',
+    marginRight: 30,
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    textAlign: 'center',
     boxShadow: theme.customShadows,
     backgroundColor: theme.palette.background.default,
 }));
@@ -39,7 +35,6 @@ const StyledSection = styled('div')(({ theme }) => ({
 const StyledContent = styled('div')(({ theme }) => ({
     maxWidth: 480,
     margin: 'auto',
-    // minHeight: '85vh',
     display: 'flex',
     justifyContent: 'center',
     textAlign: 'center',
@@ -67,7 +62,7 @@ function MyPage() {
     return (
         <>
 
-            <StyledRoot>
+            <div className='flex mx-auto max-w-5xl mr-72'>
                 {/* <img src={logo}
                     sx={{
                         position: 'fixed',
@@ -75,25 +70,23 @@ function MyPage() {
                         left: { xs: 16, sm: 24, md: 40 },
                     }}
                 /> */}
-                <div style={{
-        padding: '50px 0px 0px 370px'
-    }}>
-        <Sidebar />
-        <Outlet />
-    </div>
+
+        
+                <Sidebar />
+                <Outlet />
                 {mdUp && (
                     <StyledSection>
                         {/* <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
                             {users.name}님
                         </Typography> */}
-                        <div className="box" style={{ background: "#BDBDBD" }}>
+                        <div className="box" style={{ background: "#BDBDBD", marginTop: 50}}>
                             {/* <img className="profile" src='https://d2u3dcdbebyaiu.cloudfront.net/uploads/atch_img/944/eabb97e854d5e5927a69d311701cc211_res.jpeg' /> */}
                             <img className="profile" src={users.profileImg} />
                         </div>
                     </StyledSection>
                 )}
 
-                <Container maxWidth="sm">
+                <Container>
                     <StyledContent>
                         <Typography variant="h4" gutterBottom style={{ marginTop: 30 }}>
                             안녕하세요. <strong>{users.name}</strong>님
@@ -115,12 +108,12 @@ function MyPage() {
                             <Checkbox name="push" />
                         </Stack> */}
 
-                        <Button variant='secondary' className="logoutBtn" onClick={() => { setShow(true); navigate('/kakaologout')}}>
+                        <button className="mx-auto mt-10 border-2 rounded-md p-1 border-sky-200 my-4 text-2xl font-bold hover:bg-sky-200" onClick={() => { setShow(true); navigate('/kakaologout')}}>
                             로그아웃
-                        </Button>
+                        </button>
                     </StyledContent>
                 </Container>
-            </StyledRoot>
+            </div>
 
             {/* <Modal show={show} onHide={() => { setShow(false) }}  >
                 <Modal.Header closeButton>

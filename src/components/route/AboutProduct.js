@@ -14,7 +14,7 @@ import { userState } from '../../atom';
 
 
 const IntroBlock = styled.div`
-  margin: 0px 0px 300px 0px;
+  margin: 0px 0px 100px 0px;
   text-align : center;  
   
   h1 {
@@ -46,12 +46,9 @@ const IntroBlock = styled.div`
 
   img {
 	// display: block;
-	margin-left: 10%;
-	margin-right: 10%;
-	// margin-bottom: 80px;
-	height: 80%;
-	width: 80%;
-
+	margin-left:auto;
+	margin-right:auto;
+	padding: 5px;
   }
 
   @media (max-width: 768px) {
@@ -106,12 +103,7 @@ const IntroBlock = styled.div`
 	}
 
 
-	img {
-	  height: 90%;
-	  width: 90%;
-	  margin-left: 5%;
-	  margin-right: 5%;
-	}
+
 
   }
 `
@@ -128,28 +120,27 @@ function AboutProduct() {
 	};
 
 	return (
-		<div className="body" style={{ marginTop: '30px' }}>
-			<div>
+		<div className="mx-auto max-w-7xl px-4 sm:px-6">
 				<Fade big>
 					<IntroBlock>
 					{/* <h2>사용자에게 편의를 주는 솔루션을</h2>
 						<h6><strong>헤이폼</strong>이 제안합니다 😎</h6>
 						<br/> */}
-						<img src={main} style={{width:'85%'}} />
+						<img src={main} style={{ width:'90%'}} />
 
 						<br/>
 						<div style={{ textAlign: 'center' }}>
-							<btn><Button variant='secondary' style={{marginTop:"30px"}}
+							<btn><button className ="text-3xl hover:scale-110"
 								size="lg" onClick={users.login ? () => navigate("/create") : handleLogin}>
-								로그인 / 시작하기
-							</Button></btn>
+								👉 시작하기
+							</button></btn>
 						</div>
 						
 					</IntroBlock>
 
 				</Fade>
 
-				<Fade bottom cascade>
+				{/* <Fade bottom cascade>
 					<IntroBlock>
 						<h1>
 							설문을 <strong>제작하고 <br />
@@ -193,7 +184,7 @@ function AboutProduct() {
 						</h3>
 						<br/>
 						<img src={preview} style={{width:'60%'}} />
-					</IntroBlock>
+					</IntroBlock> */}
 
 
 					{/* <IntroBlock>
@@ -212,7 +203,7 @@ function AboutProduct() {
  */}
 
 
-					<IntroBlock>
+					{/* <IntroBlock>
 						<h1>
 							<strong>다양한 기기 지원</strong>
 						</h1>
@@ -264,7 +255,7 @@ function AboutProduct() {
 							설문 제작 시 발생하는 고민을 줄여주고, <br />
 							설문지를 한 눈에 파악할 수 있도록 도와줍니다. <br />
 						</h3>
-						<br />
+						<br /> */}
 						{/* <br />
 					<Fade left>
 						<img src="promotion1.png" align="left" />
@@ -274,9 +265,8 @@ function AboutProduct() {
 					<Fade right>
 						<img src="promotion2.png" align="right" />
 					</Fade> */}
-					</Fade>
-				</IntroBlock>
-			</div >
+					{/* </Fade>
+				</IntroBlock> */}
 		</div >
 	)
 }

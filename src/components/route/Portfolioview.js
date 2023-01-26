@@ -168,12 +168,12 @@ function Portfolioview() {
     let refresh_check = false;
     useEffect(() => {
         
-        console.log(users.tech);
+        // console.log(users.tech);
         
-        forceUpdate();
-        if (!users.login) {
-            window.location.href = KAKAO_AUTH_URL;
-        }
+        // forceUpdate();
+        // if (!users.login) {
+        //     window.location.href = KAKAO_AUTH_URL;
+        // }
 
     }, [])
 
@@ -219,7 +219,7 @@ function Portfolioview() {
     return (
         <>
 
-            <StyledRoot>
+            <div className="my-5 flex mx-auto max-w-7xl sm:px-6">
                 {/* <img src={logo}
                     sx={{
                         position: 'fixed',
@@ -227,12 +227,7 @@ function Portfolioview() {
                         left: { xs: 16, sm: 24, md: 40 },
                     }}
                 /> */}
-              <div style={{
-        padding: '50px 0px 0px 370px'
-    }}>
-        <Sidebar />
-        <Outlet />
-    </div>
+
                 {mdUp && (
                     <StyledSection>
                         {/* <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
@@ -317,15 +312,9 @@ function Portfolioview() {
                     
                     {/* <FileUploader handleChange={handleChange} name="file" types={fileTypes} /> */}
                     </StyledContent>
-                    <Button variant="secondary" className="center"
-										style={{ marginTop: '10px' }}
-										onClick={() => {
-											navigate('/portfolio');
-										}}>수정하기</Button>
-									
 					
                 </Container>
-            </StyledRoot>
+            </div>
             
          
         

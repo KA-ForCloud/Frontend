@@ -33,11 +33,10 @@ const fileTypes = ["PDF", "PPTX"];
 const StyledSection = styled('div')(({ theme }) => ({
     width: '100%',
     maxWidth: 480,
-    marginLeft: 'auto',
+    marginRight:'20px',
     display: 'flex',
+    marginTop:'20px',
     flexDirection: 'column',
-    justifyContent: 'center',
-    textAlign: 'center',
     boxShadow: theme.customShadows,
     backgroundColor: theme.palette.background.default,
 }));
@@ -326,8 +325,8 @@ function Portfolio() {
     return (
         
         <>
-
-            <StyledRoot>
+        
+            <div className="my-5 flex mx-auto max-w-4xl sm:px-6 mr-72">
                 {/* <img src={logo}
                     sx={{
                         position: 'fixed',
@@ -335,23 +334,8 @@ function Portfolio() {
                         left: { xs: 16, sm: 24, md: 40 },
                     }}
                 /> */}
-              <div style={{
-        padding: '50px 0px 0px 370px'
-    }}>
-        <Sidebar />
-        <Outlet />
-    </div>
-                {mdUp && (
-                    <StyledSection>
-                        {/* <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-                            {users.name}님
-                        </Typography> */}
-                        <div className="box" style={{ background: "#BDBDBD" }}>
-                            {/* <img className="profile" src='https://d2u3dcdbebyaiu.cloudfront.net/uploads/atch_img/944/eabb97e854d5e5927a69d311701cc211_res.jpeg' /> */}
-                            <img className="profile" src={users.profileImg} />
-                        </div>
-                    </StyledSection>
-                )}
+                <Sidebar />
+                <Outlet />
 
                 <Container maxWidth="sm">
                     <StyledContent>
@@ -375,7 +359,7 @@ function Portfolio() {
 											setTech(e.target.value);
 										}}>{users.tech}</TextField>
                         </Stack>
-                        <table border={10} width = "90%" marginTop="502x" >
+                        <table border={10} className="mx-auto text-xl" >
                             <thead style={{ marginTop: 50 }}>
                                 <tr>
                                 
@@ -413,32 +397,32 @@ function Portfolio() {
                     <Typography variant="h6" gutterBottom style={{ marginTop: 50}}>
                             포트폴리오 파일 첨부
                         </Typography>
-                    {users.portname != "" &&<Button id="download" onClick= {onClick} variant="h9" style={{ marginTop: 10}}>
+                    {users.portname !== "" &&<Button id="download" onClick= {onClick} variant="h9" style={{ marginTop: 10}}>
                         {users.portname}
                     </Button>}
 
                     <a thhref="|/attached/${filename}|" thtext="dddd"/>
-                    {users.portname == ""&&<Typography variant="h9" style={{ marginTop: 10}}>
+                    {users.portname === ""&&<Typography variant="h9" style={{ marginTop: 10}}>
                         {filename}
                     
                     </Typography>}
                     
                     <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
+                
                     </StyledContent>
-                    
-									<Button variant="secondary" className="center"
-										style={{ marginTop: '10px' }
+                    <div className="text-center">
+									<button className="ml-auto border-2 rounded-md p-1 border-sky-200 my-4 text-2xl font-bold hover:bg-sky-200"
                                     
-                                    }
 										onClick={() => {
 											handlePostCreateButton();
                                             console.log(users.tech);
                                             
                                             console.log("user",users.tech);
-										}}>수정완료</Button>
+										}}>수정완료</button>
+                                        </div>
 					
                 </Container>
-            </StyledRoot>
+            </div>
             
          
         

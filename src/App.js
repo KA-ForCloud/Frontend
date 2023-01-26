@@ -2,7 +2,6 @@ import NotFound from './components/common/NotFound';
 import { KakaoLogin } from '../src/components/route/KakaoLogin'
 import { KakaoLogout } from './components/route/KakaoLogout'
 import { userState } from '../src/atom'
-import Home from './components/pages/home/Home';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { RecoilRoot } from "recoil";
 import { LandingPage } from '../src/components/route/LandingPage'
@@ -58,7 +57,6 @@ function App() {
                       <Route path="/main" element={<LandingPage />} />
                       <Route path="/kakaologin" element={<KakaoLogin />} />
                       <Route path="/kakaologout" element={<KakaoLogout />} />
-                      <Route path="/home" element={<Home />} />
                       <Route path="/mypage" element={<MyPage />} />
                       <Route path="/portfolio" element = {<Portfolio/>}/>
                       <Route path="/createpost" element= {<CreatePost/>}/>

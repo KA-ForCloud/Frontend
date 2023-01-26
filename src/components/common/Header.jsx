@@ -71,7 +71,7 @@ function Header() {
     const [logoutAlert,setLogoutAlert]=useState([false]);
     let navigate = useNavigate();
     localStorage.setItem("memberId", 1);
-    localStorage.setItem("name", "aaa")
+    localStorage.setItem("name", "정호진")
 
     useEffect(()=>{
         console.log('header memberId is changed',typeof(localStorage.getItem('memberId')));
@@ -101,8 +101,7 @@ function Header() {
     
 
     return (
-        <Popover className="relative bg-white">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6">
+            <div className="mx-auto max-w-screen-2xl px-4 ">
                 <div className="flex items-center justify-between border-b-4 border-sky-200 py-3 md:justify-start md:space-x-10 ">
                     
                     <div className="flex justify-start lg:w-0 lg:flex-1">
@@ -110,7 +109,7 @@ function Header() {
                         <a href="/">
                             <span className="sr-only">Your Company</span>
                             <img
-                                className="py-2 max-h-32 w-36"
+                                className="py-2 max-h-24 w-28"
                                 src={logo}
                                 alt=""
                             />
@@ -144,7 +143,7 @@ function Header() {
                             <div className="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
                                 <button
                                     onClick={() => {navigate('/kakaologout')}}
-                                    className="rounded-md ml-4 bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                                    className="hover:text-gray-500 px-4 py-2 text-2xl font-bold text-black"
                                 >
                                     로그아웃
                                 </button>
@@ -157,7 +156,7 @@ function Header() {
                                     onClick={handleLogin}
                                     className="hover:text-gray-500 px-4 py-2 text-2xl font-bold text-black"
                                 >
-                                    로그아웃
+                                    로그인
                                 </button>
                             </div>
                         }
@@ -271,7 +270,6 @@ function Header() {
             </div>
 
 
-        </Popover>
     )
 }
 

@@ -424,25 +424,24 @@ function CreatePost() {
 		<>
 					
 					<>
-						<div className="config-area" style={{ width: "100%", minHeight:'170vh', backgroundColor: "#F8F8FD", display: "flex", justifyContent: "center" }}>
-
-							<div style={{ margin: "auto", marginTop: "20px", marginBottom: "10px" }}>
-								<h6 style={{ fontWeight: "bold" ,marginBottom: "20px" }}>프로젝트 명</h6>
-								<Form.Control className="contents-area" size="lg" as="textarea" placeholder="프로젝트 명을 입력해주세요"
+						<div className="mx-auto max-w-7xl px-4 sm:px-6">
+							<div className="mx-8 my-5">
+								<h6 className ="font-bold my-2 text-2xl">프로젝트 명</h6>
+								<Form.Control className="w-full border contents-area my-2" size="lg" as="textarea" placeholder="프로젝트 명을 입력해주세요"
 									cols= "120"
 									onChange={(e) => {
 										setpostName(e.target.value);
 									}}>{postName}</Form.Control>
-								<h6 style={{ fontWeight: "bold" ,marginTop: "20px", marginBottom: "20px"}}>프로젝트 기간 설정</h6>
-								<table border={10} width = "90%" marginTop="20px" >
+								<h6 className ="font-bold my-2 text-2xl">프로젝트 기간 설정</h6>
+								<table className="w-full my-5 text-base border">
 									<td>프로젝트 기간 설정</td>
-									<td>{projectLengthCount}</td>
+									<td>{projectLengthCount} 개월</td>
 									<td><button id = 'projectMemPlus' onClick= {onClick}>+</button></td>
 									<td><button id = 'projectMemMinus' onClick= {onClick}>-</button></td>
-									</table>
-								<h6 style={{ fontWeight: "bold" ,marginTop: "20px", marginBottom: "20px"}}>프로젝트 인원 지정</h6>
+								</table>
+								<h6 className ="font-bold my-2 text-2xl">프로젝트 인원 지정</h6>
 								<div>
-								<table border={10} width = "90%" marginTop="20px" >
+								<table className="w-full my-5 text-base text-left border rounded-sm">
 									<thead>
 										<th>분야</th>
 										<th>인원 수</th>
@@ -451,45 +450,45 @@ function CreatePost() {
 									<tbody>
 										<tr>
 											<td >React</td>
-											<td>{reactCount}</td>
+											<td>{reactCount} 명</td>
 											<td><button id = 'reactPlus' onClick= {onClick}>+</button></td>
 											<td><button id = 'reactMinus' onClick= {onClick}>-</button></td>
 										</tr>
 										<tr>
 											<td>Java</td>
-											<td>{javaCount}</td>
+											<td>{javaCount} 명</td>
 											<td><button id = 'javaPlus' onClick= {onClick}>+</button></td>
 											<td><button id = 'javaMinus' onClick= {onClick}>-</button></td>
 										</tr>
 										<tr>
 											<td>Javascript</td>
-											<td>{javascriptCount}</td>
+											<td>{javascriptCount} 명</td>
 											<td><button id = 'javascriptPlus' onClick= {onClick}>+</button></td>
 											<td><button id = 'javascriptMinus' onClick= {onClick}>-</button></td>
 										</tr>
 										<tr>
 											<td>Spring</td>
-											<td>{springCount}</td>
+											<td>{springCount} 명</td>
 											<td><button id = 'springPlus' onClick= {onClick}>+</button></td>
 											<td><button id = 'springMinus' onClick= {onClick}>-</button></td>
 										</tr>
 										<tr>
 											<td>Springboot</td>
-											<td>{springbootCount}</td>
+											<td>{springbootCount} 명</td>
 											<td><button id = 'springbootPlus' onClick= {onClick}>+</button></td>
 											<td><button id = 'springbootMinus' onClick= {onClick}>-</button></td>
 										</tr>
 										<tr>
 											<td>Python</td>
-											<td>{pythonCount}</td>
+											<td>{pythonCount} 명</td>
 											<td><button id = 'pythonPlus' onClick= {onClick}>+</button></td>
 											<td><button id = 'pythonMinus' onClick= {onClick}>-</button></td>
 										</tr>
 									</tbody>
 								</table>
 								</div>
-								<h6 style={{ fontWeight: "bold", marginTop: "50px" }}>프로젝트 기간 설정</h6>
-								<h6 style={{ fontWeight: "bold" , marginTop: "10px"}}>날짜를 드래그하거나 클릭하세요! 😉</h6>
+								<h6 className ="font-bold mb-5 text-2xl">프로젝트 기간 설정</h6>
+								<h6 className ="font-bold mb-5 text-xl text-center">날짜를 드래그하거나 클릭하세요! 😉</h6>
 								<div className="text-center p-4" >
 									<DateRangeSelector startDateHandler={setStartDate} endDateHandler={setEndDate} startTimeHandler={setStartTime} endTimeHandler={setEndTime}/>
 									{/* <div style={{ marginTop: '10px' }}>
@@ -498,9 +497,9 @@ function CreatePost() {
 											is_checked()
 										}} /> QR코드 생성하기
 									</div> */}
-								<h6 style={{ fontWeight: "bold" , marginTop: "10px"}}>프로젝트 소개! 😉</h6>
+								<h6 className ="font-bold mb-5 text-2xl text-left">프로젝트 소개! 😉</h6>
 									<Form.Group>
-								<Form.Control className="contents-area" size="lg" as="textarea" placeholder="프로젝트 소개를 입력해주세요"
+								<Form.Control className="border contents-area w-full" size="lg" as="textarea" placeholder="프로젝트 소개를 입력해주세요"
 									rows = "5"
 									cols= "120"
 									onChange={(e) => {
@@ -511,12 +510,16 @@ function CreatePost() {
                                 <span>{`${inputs.content.length} / 300`}</span>
                             </div>
                         </Form.Group>
-									<div>
-									<Button variant="secondary" className="center"
-										style={{ marginTop: '10px' }}
+								<div className='text-right'>
+									<button className="font-bold my-5 text-2xl border-2 border-sky-200 hover:bg-sky-100 rounded-md p-1"
 										onClick={() => {
 											handlePostCreateButton()
-										}}>게시글 게시</Button></div>
+										}}>게시글 게시</button>
+
+										<button className="ml-2 font-bold my-5 text-2xl border-2 border-red-200 hover:bg-red-100 rounded-md p-1"
+										onClick={() => {
+											navigate('/mainPage')
+										}}>작성 취소</button>
 								</div>
 								
 
@@ -525,7 +528,7 @@ function CreatePost() {
 
 						</div>
 
-					
+						</div>
 
 						
 					</>

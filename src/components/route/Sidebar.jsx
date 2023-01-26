@@ -69,7 +69,7 @@ const Sidebar = () => {
                             <div className="sidebar__menu__item__icon">
                                 {item.icon}
                             </div>
-                            <div className="sidebar__menu__item__text">
+                            <div className="sidebar__menu__item__text text-center ml-6">
                                 {item.display}
                             </div>
                         </div>

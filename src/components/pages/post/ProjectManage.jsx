@@ -127,7 +127,7 @@ function ProjectManage() {
   return (
     <>
       <Sidebar />
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 my-7 border-4 border-sky-200 rounded-2xl">
+      <div className="mx-auto mr-72 max-w-5xl px-4 sm:px-6 my-10 border-4 border-sky-200 rounded-2xl">
           <p className="text-2xl font-bold text-gray-900 m-4">참여중인 프로젝트</p>
           <div className="grid grid-cols-4 overflow-auto"> {ProjectList(1)} </div>
           <hr className="h-px my-4 border-2 border-indigo-100"></hr>
