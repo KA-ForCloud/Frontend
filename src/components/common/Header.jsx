@@ -25,44 +25,6 @@ import {MyPage} from '../route/MyPage'
 const handleLogin = () => {
     window.location.href = KAKAO_AUTH_URL;
 };
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-}
-
-const solutions = [
-    {
-        name: '기본 설문지 제작',
-        description: '기본 템플릿으로 설문을 제작합니다.',
-        href: '/survey',
-        icon: CursorArrowRaysIcon,
-    },
-    {
-        name: 'Comfy 설문지 제작',
-        description: "Commfy 템플릿으로 설문을 제작합니다.",
-        href: '/comfysurvey',
-        icon: Squares2X2Icon,
-    }
-]
-const callsToAction = [
-    { name: 'Watch Demo', href: '#', icon: PlayIcon },
-    { name: 'Contact Sales', href: '#', icon: PhoneIcon },
-]
-const resources = [
-   
-    {
-        name: '설문지 보관함',
-        description: '임시저장된 설문지를 제작합니다.',
-        href: '/temporary',
-        icon: BookmarkSquareIcon,
-    },
-    {
-        name: '설문지 관리',
-        description: '설문 진행 중이거나 설문 완료된 설문지를 관리합니다.',
-        href: '/manage',
-        icon: Cog8ToothIcon,
-    }
-]
-
 
 function Header() {
     const users = useRecoilValue(userState);
@@ -71,10 +33,9 @@ function Header() {
     const [logoutAlert,setLogoutAlert]=useState([false]);
     let navigate = useNavigate();
     localStorage.setItem("memberId", 1);
-    localStorage.setItem("name", "정호진")
+    localStorage.setItem("name", "aaa")
 
     useEffect(()=>{
-        console.log('header memberId is changed',typeof(localStorage.getItem('memberId')));
         if(!localStorage.getItem('memberId')) {
             setIsLogin(false);
             setLogoutAlert(true);
@@ -94,11 +55,6 @@ function Header() {
     }
 
     const [open, setOpen] = useState(null);
-
-    const handleOpen = (event) => {
-        setOpen(event.currentTarget);
-    };
-    
 
     return (
             <div className="mx-auto max-w-screen-2xl px-4 ">
@@ -184,88 +140,6 @@ function Header() {
                 
                       </IconButton>
                     }
-                    {/* 로그인 false 일때 로그인 모달 창 열림 */}
-                    <Transition appear show={isOpen} as={Fragment}>
-                        <Dialog as="div" className="relative z-10" onClose={closeModal}>
-                            <Transition.Child
-                                as={Fragment}
-                                enter="ease-out duration-300"
-                                enterFrom="opacity-0"
-                                enterTo="opacity-100"
-                                leave="ease-in duration-200"
-                                leaveFrom="opacity-100"
-                                leaveTo="opacity-0"
-                            >
-                                <div className="fixed inset-0 bg-black bg-opacity-25" />
-                            </Transition.Child>
-
-                            <div className="fixed inset-0 overflow-y-auto">
-                                <div className="flex min-h-full items-center justify-center p-4 text-center">
-                                    <Transition.Child
-                                        as={Fragment}
-                                        enter="ease-out duration-300"
-                                        enterFrom="opacity-0 scale-95"
-                                        enterTo="opacity-100 scale-100"
-                                        leave="ease-in duration-200"
-                                        leaveFrom="opacity-100 scale-100"
-                                        leaveTo="opacity-0 scale-95"
-                                    >
-
-                                        <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                                            <Dialog.Title
-                                                as="h3"
-                                                className="text-lg font-medium leading-6 text-gray-900"
-                                            >
-                                                구글 로그인
-                                            </Dialog.Title>
-                                            <div className="mt-2">
-                                                <p className="text-sm text-gray-500">
-                                                    Comfy에서 로그인하면 편안한 설문관리 서비스를 경험할 수 있어요.
-                                                </p>
-                                            </div>
-
-                                            {/* <div className="mt-4">
-                                                <GoogleLogin
-                                                    // clientId={clientId}
-                                                    render={renderProps => (
-                                                        <button onClick={renderProps.onClick} disabled={renderProps.disabled}
-                                                        type="button"
-                                                        className="mr-4 inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
-                                                            로그인 할래요.</button>
-                                                      )}
-                                                    // onSuccess={onSuccess}
-                                                    // onFailure={onFailure}
-                        
-                                                />
-                                                <button
-                                                    type="button"
-                                                    className="mr-4 inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                                    // 여기서 온클릭으로 구글로그인 화면 나오게 가능한가요?
-                                                    onClick={() => {
-                
-                                                        closeModal();
-                                                        // setIsLogin(true);
-                                                    }
-                                                    }
-                                                >
-                                                    로그인 할래요.
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                                    onClick={closeModal}
-                                                >
-                                                    로그인 안할래요.
-                                                </button>
-                                            </div> */}
-                                        </Dialog.Panel>
-
-
-                                    </Transition.Child>
-                                </div>
-                            </div>
-                        </Dialog>
-                    </Transition>
                 </div>
             </div>
 

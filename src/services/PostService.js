@@ -35,6 +35,11 @@ export async function getApplicant(postId){
     return response.data.result;
 }
 
+export async function getCurrentPostCategory(postId){
+    const response = await axios.get(`${BACKEND_API_BASE_URL}/currentParticipant/${postId}`)
+    return response.data.result;
+}
+
 export async function createApplicant(postId,request){
     const response = await axios.post(`${BACKEND_API_BASE_URL}/registerApplicant`, {
         postId: postId,

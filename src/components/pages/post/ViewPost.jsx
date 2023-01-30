@@ -1,14 +1,15 @@
 import React, { useState, useEffect} from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { getApplicant, deleteMyPost, updatePostView, updatePostStatus } from "../../../services/PostService";
+import { getApplicant, deleteMyPost, updatePostView, updatePostStatus, getCurrentPostCategory } from "../../../services/PostService";
 import Modal from "./Modal";
 function ViewPost() {
     const navigate = useNavigate();
     const { state } = useLocation();
     const { postId } = useParams();
-    const [member, setMember] = useState([]); // 회원==true, 비회원==false
+
     const [myPost, setMyPost] = useState([]); // 자신이 쓴 글==true, 다른 사람이 쓴 글==false
     const [applicant, setApplicant] = useState([]);
+    const [currentCategory, setCurrentCategory] = useState({});
     const [clickedCategory, setClickedCategory] = useState([]);
     //지금은 각각 모달 state를 만들었지만 전역 모달로 바꿔서 해도 될듯
     const [registerModalOpen, setRegisterModalOpen] = useState(false);
@@ -38,6 +39,14 @@ function ViewPost() {
         setRejectModalOpen(false);
     };
 
+    const updateApplicant = (applicantList) => {
+        setApplicant(applicantList);
+    }
+
+    const getCurrentCategory = (current) => {
+        setCurrentCategory(current);
+    }
+
     // 조회수 증가
     useEffect(() => {
         updatePostView(postId);
@@ -46,13 +55,6 @@ function ViewPost() {
     //자신이 쓴 글이면 수정하기 버튼 + 신청하기 x
     //다른 사람이 쓴 글이면 + 신청하기 버튼만 ㅇ
     useEffect(() => {
-        // // 회원, 비회원 구분
-        // if(response.member_case===true){
-        //     setMember(true);
-        // }
-        // else if(response.member_case===false){
-        //     setMember(false);
-        // }
 
         // 자신이 쓴 글, 다른 사람이 쓴 글 구분
         if (state.name === localStorage.getItem('name')) {
@@ -63,8 +65,21 @@ function ViewPost() {
         } else {
             setMyPost(false);
         }
-        console.log(state)
+
+        getCurrentPostCategory(postId).then((response) => {
+            setCurrentCategory({
+                react: response.react,
+                java: response.java,
+                javascript: response.javascript,
+                spring: response.spring,
+                springboot: response.springboot,
+                python: response.python
+            });
+        })
+
     }, []);
+
+
 
     return (
         <div className="mx-auto max-w-7xl px-4 mb-4 sm:px-6 min-w-min">
@@ -109,13 +124,19 @@ function ViewPost() {
                 <hr className="h-px mt-4 border-2 border-indigo-100"></hr>
                 <div className='mt-4 flex-column'>
                     {state.area.map((k, key) => {
+                        let cate = 0;
+                        Object.keys(currentCategory).map(item => {
+                            if(item === k.name.toLowerCase()){
+                                cate = currentCategory[item];
+                            }});
                         return (
                             <div key={key} className="flex mb-1">
                                 <div className="flex">
                                     <img className="mr-1 rounded-2xl w-10 h-11" src={k.img} alt={k.name} />
                                     <p className="m-auto">{k.name}</p>
                                 </div>
-                                <p className="my-auto ml-auto"> {k.current} / {k.value} 명</p>
+
+                                <p className="my-auto ml-auto"> {cate} / {k.value} 명</p>
                                 {state.postType === "recruiting" && !myPost && <button
                                     key={key}
                                     onClick={openModal}
@@ -154,7 +175,7 @@ function ViewPost() {
                                         value={item.name}
                                         className="ml-4 border rounded-md w-24 bg-sky-100 outline-none hover:bg-sky-200">승인</button>
                                        
-                                    {approveModalOpen && <Modal open={approveModalOpen} close={closeModal2} header="승인하기" postId ={postId} category={clickedCategory}>
+                                    {approveModalOpen && <Modal open={approveModalOpen} close={closeModal2} header="승인하기" postId ={postId} category={clickedCategory} updateApplicant={updateApplicant} getCurrentCategory ={getCurrentCategory}>
                                         해당 인원을 승인시키겠습니까?
                                     </Modal>}
 
@@ -168,7 +189,7 @@ function ViewPost() {
                                         value={item.name}
                                         className="ml-4 border rounded-md w-24 bg-sky-100 outline-none hover:bg-sky-200">거절</button>
                                         
-                                    {rejectModalOpen&&<Modal open={rejectModalOpen} close={closeModal3} header="거절하기" postId ={postId} category={clickedCategory}>
+                                    {rejectModalOpen&&<Modal open={rejectModalOpen} close={closeModal3} header="거절하기" postId ={postId} category={clickedCategory} updateApplicant={updateApplicant}>
                                         해당 신청을 거절하시겠습니까?
                                     </Modal>}
                                 </div>

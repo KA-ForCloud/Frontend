@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-// import List from '../../list/List';
-import axios from 'axios';
-// import {getPosts, getSearchedPosts} from '../../../services/PostService';
-import { useCallback } from "react";
-
 import { getPosts, getTemperatures } from "../../../services/PostService";
 import java from "../../../category_img/java.png";
 import javascript from "../../../category_img/javascript.png";
@@ -16,23 +9,14 @@ import spring from "../../../category_img/spring.png";
 import springboot from "../../../category_img/springBoot.png";
 
 function MainPage(props) {
-  // const Dispatch = useDispatch();
   const navigate = useNavigate();
   const [postList, setpostList] = useState([]);
   const [temperatureList, setTemperatureList] = useState([]);
   useEffect(() => {
     getPosts().then((response) => {
-      console.log('postList response', response);
       setpostList(response);
 
-      //   if(localStorage.getItem('memberId')==='0') {
-      //     setNewPostButton(false);
-      //   }
-      //   else setNewPostButton(true);
-      // });
-
       getTemperatures().then((response) => {
-        console.log('temperatureList response', response);
         setTemperatureList(response);
       })
     });
@@ -104,74 +88,6 @@ function MainPage(props) {
     }
   ];
 
-  const post = [
-    {
-      id: 1,
-      post_name: "오늘 뭐먹지",
-      end_time: "2023-01-12",
-      duration: "3",
-      area: [
-        {
-          img: react,
-          name: "React"
-        },
-        {
-          img: springboot,
-          name: "SpringBoot"
-        }
-      ],
-      name: "호진",
-      views: "20",
-      postType: "recruiting"
-    },
-    {
-      id: 2,
-      post_name: "오늘 뭐먹지",
-      end_time: "2023-01-14",
-      duration: "2",
-      area: [
-        {
-          img: spring,
-          name: "Spring"
-        },
-        {
-          img: springboot,
-          name: "SpringBoot"
-        }
-      ],
-      name: "정호진",
-      views: "26",
-      postType: "recruiting"
-    },
-    {
-      id: 3,
-      post_name: "동영상 강의 플랫폼",
-      end_time: "2023-01-13",
-      duration: "3",
-      area: [
-        {
-          img: react,
-          name: "React"
-        },
-        {
-          img: springboot,
-          name: "SpringBoot"
-        },
-        {
-          img: javascript,
-          name: "JavaScript"
-        },
-        {
-          img: python,
-          name: "Python"
-        },
-      ],
-      name: "호진",
-      views: "20",
-      postType: "completed"
-    }
-  ]
-
   const makeTemperatures = () => {
     if (temperatureList.length === 0) return;
     return temperatureList.map((item, idx) => (
@@ -183,38 +99,80 @@ function MainPage(props) {
   }
 
   const makeMaxViewPost = () => {
-    if (post.length === 0) return;
-    let maxView = post[0].views;
-    for (let i = 1; i < post.length; i++) {
-      if (maxView < post[i].views) {
-        maxView = post[i].views;
+    if (postList.length === 0) return;
+    const area = postList.map(data => {
+      if (!data.area) {
+        return {
+          ...data, area: [
+
+          ]
+        }
       }
-    }
-    const maxViewPost = post.filter(el => el.views === maxView);
+    })
+    const modifiedPostList = area.map((data) => {
+      let tempCate;
+      for(let i=0; i<2; i++){
+        if(data.post_category[i].type.includes("recruits")){
+            tempCate = data.post_category[i];
+            break;
+        }
+      }
+        delete tempCate.id;
+        const abc = [];
+        for (const [key, value] of Object.entries(tempCate).filter(([, count]) => count > 0)) {
+            const area_detail = {
+              img: `${key}`,
+              name: `${key}`,
+              value: `${value}`,
+            };
+            abc.push(area_detail);
+        }
+        delete data.post_category;
+        return {
+          ...data,
+          area: data.area.concat(abc)
+        };
+    })
+    
+    let maxView = modifiedPostList[0].views;
+    let maxViewPost;
+    modifiedPostList.map(item => {
+      if(item.views > maxView){
+        maxView = item.views;
+        maxViewPost = item;
+      }
+    })
 
     return (
       <div className="min-w-max text-left rounded-2xl border-4 border-white hover:border-black flex-column cursor-pointer "
-        onClick={() => { navigate(`/viewPost/${maxViewPost[0].id}`, {state: maxViewPost[0]}) }}>
-        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">프로젝트 제목: {maxViewPost[0].post_name}</h3>
-        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">모집기한: {maxViewPost[0].end_time}</h3>
-        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">진행기간: {maxViewPost[0].duration}개월</h3>
+        onClick={() => { navigate(`/viewPost/${maxViewPost.id}`, {state: maxViewPost}) }}>
+        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">프로젝트 제목: {maxViewPost.post_name}</h3>
+        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">모집기한: {maxViewPost.end_time}</h3>
+        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">진행기간: {maxViewPost.duration}개월</h3>
         <hr className="h-px mx-4 my-2 first-line:mt-4 border-white"></hr>
 
         <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold text-center">모집분야</h3>
         <div className="min-w-max mx-2 grid grid-rows-2 grid-cols-3 gap-x-2 gap-y-2">
-          {maxViewPost[0].area.map((i, key) => {
+        {maxViewPost.area.map((k, key) => {
+            for(let i=0; i<tool.length; i++){
+              if(tool[i].name.toLowerCase() === k.img.toLowerCase()){
+                k.img = tool[i].img;
+                k.name = tool[i].name;
+                break;
+              }
+            }
             return (
-              <div key={key} className="flex border border-white rounded-2xl">
-                <img className="rounded-2xl w-9 h-10" src={i.img} alt={i.name} />
-                <p className="m-auto">{i.name}</p>
+              <div key={key} className="flex border rounded-2xl">
+                <img className="rounded-2xl w-9 h-10" src={k.img} alt={k.name} />
+                <p className="m-auto">{k.name}</p>
               </div>
             );
           })}
         </div>
         <hr className="h-px mx-4 my-4 first-line:mt-4 border-white"></hr>
         <div className="flex mb-4">
-          <h3 className="mx-auto text-dark text-2xl font-weight-bold">작성자: {maxViewPost[0].name}</h3>
-          <h3 className="mx-auto text-dark text-2xl font-weight-bold">조회수: {maxViewPost[0].views}회</h3>
+          <h3 className="mx-auto text-dark text-2xl font-weight-bold">작성자: {maxViewPost.name}</h3>
+          <h3 className="mx-auto text-dark text-2xl font-weight-bold">조회수: {maxViewPost.views}회</h3>
         </div>
       </div>
     )
@@ -284,27 +242,31 @@ function MainPage(props) {
         }
       }
     })
-    const modifiedPostList = area.map(data => {
-      delete data.post_category[0].id;
-      const abc = [];
-      for (const [key, value] of Object.entries(data.post_category[0]).filter(([, count]) => count > 0)) {
-        for(const [k, v] of Object.entries(data.post_category[1]).filter(([k, ]) => k === key)){
-          const aaa = {
-            img: `${k}`,
-            name: `${k}`,
-            value: `${value}`,
-            current: `${v}`
-          };
-          abc.push(aaa);
+    const modifiedPostList = area.map((data) => {
+      let tempCate;
+      for(let i=0; i<2; i++){
+        if(data.post_category[i].type.includes("recruits")){
+            tempCate = data.post_category[i];
+            break;
         }
       }
-      delete data.post_category;
-      return {
-        ...data,
-        area: data.area.concat(abc)
-      };
+        delete tempCate.id;
+        const abc = [];
+        for (const [key, value] of Object.entries(tempCate).filter(([, count]) => count > 0)) {
+            const area_detail = {
+              img: `${key}`,
+              name: `${key}`,
+              value: `${value}`,
+            };
+            abc.push(area_detail);
+        }
+        delete data.post_category;
+        return {
+          ...data,
+          area: data.area.concat(abc)
+        };
     })
-    console.log(modifiedPostList)
+    
     const filter = postStatus === "recruiting" ? modifiedPostList.filter(value => value.postType.includes("recruiting"))
       : modifiedPostList.filter(value => value.postType.includes("completed"))
     
@@ -363,10 +325,6 @@ function MainPage(props) {
           <h3 className="m-2 text-dark text-3xl font-bold">😍 최다 조회수 모집 게시글 😍</h3>
           {makeMaxViewPost()}
         </div>
-{/* 
-        <div className="min-w-max rounded-2xl border flex-column bg-red-100">
-          <h3 className="m-2 text-dark text-3xl font-weight-bold">asdb</h3>
-        </div> */}
 
         <div className="min-w-max rounded-2xl border flex-column bg-purple-100 ">
           <h3 className="m-2 text-dark text-3xl font-bold">😍 마음의 온도 랭킹 게시판 😍</h3>

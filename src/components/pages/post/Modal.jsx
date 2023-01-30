@@ -1,10 +1,11 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom";
-import { createApplicant, createParticipant, deleteApplicant, updateCurrentCategory } from '../../../services/PostService';
+import { createApplicant, createParticipant, deleteApplicant, getApplicant, getCurrentPostCategory, updateCurrentCategory } from '../../../services/PostService';
 
 function Modal(props) {
     const navigate = useNavigate();
-    const {open, close, header, postId, category} = props;
+    const {open, close, header, postId, category, updateApplicant, getCurrentCategory} = props;
+
     const Register = () => {
         if(header ==="모집분야"){
             createApplicant(postId, category.toLowerCase()).then((response) => {
@@ -21,6 +22,16 @@ function Modal(props) {
                         if(response === 1000){
                             deleteApplicant(postId, category).then((res) => {
                                 if(res === 1000) {
+                                    // 승인하면 변경된 신청자 리스트 다시 GET
+                                    getApplicant(postId).then((response) => {
+                                        updateApplicant(response);
+                                    })
+
+                                    //모집 현황 다시 GET
+                                    getCurrentPostCategory(postId).then((response) => {
+                                        getCurrentCategory(response);
+                                    })
+
                                     close();
                                 }
                             })
@@ -31,6 +42,10 @@ function Modal(props) {
         }else if(header === "거절하기"){
             deleteApplicant(postId, category).then((response) => {
                 if(response === 1000){
+                    //거절한 후 신청자 리스트 GET
+                    getApplicant(postId).then(response => {
+                        updateApplicant(response);
+                    })
                     close();
                 }
             })
@@ -51,9 +66,6 @@ function Modal(props) {
                     <button className='p-2 bg-sky-100 border rounded-md text-sm' onClick={() => {Register();}}>
                         예
                     </button>
-                    {/* <button className='ml-4 p-2 bg-sky-100 border rounded-md text-sm' onClick={close}>
-                        아니오
-                    </button> */}
                 </div>
             </div>
         ) : null}
