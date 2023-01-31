@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { getPosts, getTemperatures } from "../../../services/PostService";
 import java from "../../../category_img/java.png";
@@ -7,10 +8,14 @@ import python from "../../../category_img/python.jpg";
 import react from "../../../category_img/react.png";
 import spring from "../../../category_img/spring.png";
 import springboot from "../../../category_img/springBoot.png";
+import { postState, categoryState, postStatusState, checkedItemsState } from "../../../atom";
+import { useCallback } from "react";
+import PostList from "./PostList";
 
 function MainPage(props) {
   const navigate = useNavigate();
-  const [postList, setpostList] = useState([]);
+  const [postList, setpostList] = useRecoilState(postState);
+
   const [temperatureList, setTemperatureList] = useState([]);
   useEffect(() => {
     getPosts().then((response) => {
@@ -22,9 +27,10 @@ function MainPage(props) {
     });
   }, []);
 
-  const [category, setCatecory] = useState("all");
-  const [postStatus, setPostStatus] = useState("recruiting");
-  const [checkedItems, setCheckedItems] = useState([]);
+  const [category, setCatecory] = useRecoilState(categoryState);
+  const [postStatus, setPostStatus] = useRecoilState(postStatusState);
+  const [checkedItems, setCheckedItems] = useRecoilState(checkedItemsState);
+
   const categories = [
     {
       name: "전체",
@@ -98,7 +104,7 @@ function MainPage(props) {
     ))
   }
 
-  const makeMaxViewPost = () => {
+  const makeMaxViewPost = useCallback(() => {
     if (postList.length === 0) return;
     const area = postList.map(data => {
       if (!data.area) {
@@ -109,6 +115,7 @@ function MainPage(props) {
         }
       }
     })
+
     const modifiedPostList = area.map((data) => {
       let tempCate;
       for(let i=0; i<2; i++){
@@ -117,15 +124,16 @@ function MainPage(props) {
             break;
         }
       }
-        delete tempCate.id;
         const abc = [];
         for (const [key, value] of Object.entries(tempCate).filter(([, count]) => count > 0)) {
+          if(key !== 'id'){
             const area_detail = {
               img: `${key}`,
               name: `${key}`,
               value: `${value}`,
             };
             abc.push(area_detail);
+          }
         }
         delete data.post_category;
         return {
@@ -133,7 +141,7 @@ function MainPage(props) {
           area: data.area.concat(abc)
         };
     })
-    
+
     let maxView = modifiedPostList[0].views;
     let maxViewPost;
     modifiedPostList.map(item => {
@@ -141,7 +149,7 @@ function MainPage(props) {
         maxView = item.views;
         maxViewPost = item;
       }
-    })
+    },[postList])
 
     return (
       <div className="min-w-max text-left rounded-2xl border-4 border-white hover:border-black flex-column cursor-pointer "
@@ -176,7 +184,7 @@ function MainPage(props) {
         </div>
       </div>
     )
-  }
+  })
 
   const makeCategories = () => {
     if (categories.length === 0) return;
@@ -231,93 +239,6 @@ function MainPage(props) {
     ))
   }
 
-  const viewPostList = () => {
-    if (postList.length === 0) return;
-    const area = postList.map(data => {
-      if (!data.area) {
-        return {
-          ...data, area: [
-
-          ]
-        }
-      }
-    })
-    const modifiedPostList = area.map((data) => {
-      let tempCate;
-      for(let i=0; i<2; i++){
-        if(data.post_category[i].type.includes("recruits")){
-            tempCate = data.post_category[i];
-            break;
-        }
-      }
-        delete tempCate.id;
-        const abc = [];
-        for (const [key, value] of Object.entries(tempCate).filter(([, count]) => count > 0)) {
-            const area_detail = {
-              img: `${key}`,
-              name: `${key}`,
-              value: `${value}`,
-            };
-            abc.push(area_detail);
-        }
-        delete data.post_category;
-        return {
-          ...data,
-          area: data.area.concat(abc)
-        };
-    })
-    
-    const filter = postStatus === "recruiting" ? modifiedPostList.filter(value => value.postType.includes("recruiting"))
-      : modifiedPostList.filter(value => value.postType.includes("completed"))
-    
-    const fff = [];
-    for(let i=0; i<filter.length; i++){
-      const p = filter[i]
-      for(let k=0; k<p.area.length; k++){
-        for(let t=0; t<checkedItems.length; t++){
-          if(p.area[k].name === checkedItems[t] && !fff.includes(p)){
-            fff.push(p)
-          }
-        }
-      }
-    }
-    const filteredPost = checkedItems.length === 0 ? filter : fff
-
-    return filteredPost.map((item, idx) => (
-      <div key={idx} className="min-w-max rounded-2xl border py-10 flex-column hover:scale-105 transition cursor-pointer"
-        onClick={() => { navigate(`/viewPost/${item.id}`, {state: item}) }}>
-        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">프로젝트 제목: {item.post_name}</h3>
-        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">모집기한: {item.end_time}</h3>
-        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">진행기간: {item.duration}개월</h3>
-        <hr className="h-px mx-4 my-2 first-line:mt-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
-
-        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold text-center">모집분야</h3>
-        <div className="min-w-max mx-2 grid grid-rows-2 grid-cols-3 gap-x-2 gap-y-2">
-          {item.area.map((k, key) => {
-            for(let i=0; i<tool.length; i++){
-              if(tool[i].name.toLowerCase() === k.img.toLowerCase()){
-                k.img = tool[i].img;
-                k.name = tool[i].name;
-                break;
-              }
-            }
-            return (
-              <div key={key} className="flex border rounded-2xl">
-                <img className="rounded-2xl w-9 h-10" src={k.img} alt={k.name} />
-                <p className="m-auto">{k.name}</p>
-              </div>
-            );
-          })}
-        </div>
-        <hr className="h-px mx-4 my-4 first-line:mt-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
-        <div className="flex">
-          <h3 className="mx-auto text-dark text-2xl font-weight-bold">작성자: {item.name}</h3>
-          <h3 className="mx-auto text-dark text-2xl font-weight-bold">조회수: {item.views}회</h3>
-        </div>
-      </div>
-    ))
-  }
-
   return (
     <div className="mx-auto max-w-7xl my-4 px-4 sm:px-6">
       <div className="min-w-max my-7 grid grid-cols-2 gap-4 text-center">
@@ -346,12 +267,14 @@ function MainPage(props) {
       <div className="flex min-w-max mt-40 mb-5">
         <div className="flex text-4xl font-bold">{makePostStatus()}</div>
         <button 
-        onClick = {() => {navigate('/createpost')}}
-        className="ml-auto mr-4 text-4xl font-bold tracking-tight">새 글 쓰기</button>
+          onClick = {() => {navigate('/createpost')}}
+          className="ml-auto mr-4 text-4xl font-bold tracking-tight">새 글 쓰기</button>
       </div>
       <hr className="h-px mt-4 mb-5 bg-gray-200 border-0 dark:bg-gray-700"></hr>
 
-      <div className="min-w-max grid grid-cols-3 gap-x-4 gap-y-10 "> {viewPostList()} </div>
+      <div className="min-w-max grid grid-cols-3 gap-x-4 gap-y-10 "> 
+          {postList && <PostList postList = {postList} type ={"main"}/>} 
+      </div>
     </div>
   )
 }
