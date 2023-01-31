@@ -3,6 +3,25 @@ import { recoilPersist } from 'recoil-persist'
 
 const { persistAtom } = recoilPersist()
 
+export const postState = atom({
+    key: 'post',
+    default: [],
+})
+export const categoryState = atom({
+    key: 'category',
+    default: "all"
+})
+
+export const postStatusState = atom({
+    key: 'postStatus',
+    default: "recruiting"
+})
+
+export const checkedItemsState = atom({
+    key: 'checkedItem',
+    default: [],
+})
+
 export const emailState = atom({
     key: 'emails',
     default: [],
