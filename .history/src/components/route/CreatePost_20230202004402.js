@@ -401,7 +401,7 @@ function CreatePost() {
 
 			console.log(users);
 			console.log("postDto",postDto)
-			axios.post(`/api/post/save/${users.id}`, postDto)
+			axios.post(`http://localhost:8080/api/post/save/${users.id}`, postDto)
 			.then((response) => {
 				console.log(response);
 			})

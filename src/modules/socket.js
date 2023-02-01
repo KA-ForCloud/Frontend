@@ -1,10 +1,12 @@
 const CONNECT_SOCKET='socket/CONNECT_SOCKET';
 const SAVE_SUBSCRIPTION="socket/SAVE_SUBSCRIPTION";
 const SAVE_BEFOREMSG="socket/SAVE_BEFOREMSG";
+const SAVE_ROOMID="socket/SAVE_ROOMID";
+
 
 // 액션 생성 함수
 
-// 소켓 저장
+// 소켓 저장 - socket==client
 export function connectSocket(socket){
     console.log("[creating connectSocket action]");
     return{
@@ -36,18 +38,26 @@ export function saveBeforeMsg(msg){
         }
     }
 }
+export function saveRoomId(roomId){
+    return{
+        type:SAVE_ROOMID,
+        payload:{
+            roomId:roomId
+        }
+    }
+}
 // 모듈 초기 상태
 const initialState = {
     socket: null,
     subscriptions:[],
-    beforeMsg:null
+    beforeMsg:null,
+    roomId:null
 }
 
 // 리듀서
 export default function socket(state=initialState,action){
     switch(action.type){
         case CONNECT_SOCKET:
-
             return{
                 ...state,
                 socket: action.payload.socket
@@ -58,10 +68,14 @@ export default function socket(state=initialState,action){
                 subscriptions: action.payload.subscriptions
             }
         case SAVE_BEFOREMSG:
-            console.log("action.payload",action.payload.beforeMsg);
             return{
                 ...state,
                 beforeMsg: action.payload.beforeMsg
+            }
+        case SAVE_ROOMID:
+            return{
+                ...state,
+                roomId:action.payload.roomId
             }
         default:
             return state;

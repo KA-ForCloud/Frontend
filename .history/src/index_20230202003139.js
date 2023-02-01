@@ -8,7 +8,6 @@ import { RecoilRoot } from "recoil";
 import {Provider} from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 import promiseMiddleware from 'redux-promise';
-import rootReducer from './modules';
 
 
 const store=createStore(rootReducer);

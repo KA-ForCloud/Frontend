@@ -1,18 +1,20 @@
 import React, { useState,useEffect } from "react";
-import {connect, getRooms, subscribe,getClient,deleteRoom,exitRoom} from '../../../services/ChattingService';
+import {connect, getRooms, subscribe,getClient,deleteRoom,exitRoom, publish} from '../../../services/ChattingService';
 import ChattingRoom from "./ChattingRoom";
 import ChattingList from "./list/ChattingList";
 import { useRef } from "react";
 import { useDispatch,useSelector } from 'react-redux';
 import { connectSocket, saveSubscription } from "../../../modules/socket";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import {BrowserRouter, Link, Route, Routes,Router} from "react-router-dom";
+import { getDate } from "./Date";
 
 export default function ChattingPage() {
     const dispatch=useDispatch();
     const navigate=useNavigate();
     let socket=useSelector(state=>state.socket.socket);
     let subscriptions=useSelector(state=>state.socket.subscriptions);
+    const location=useLocation().pathname;
 
     const [roomList, setRoomList] = useState([]);
     const [room,setRoom]=useState(0);
@@ -22,6 +24,9 @@ export default function ChattingPage() {
     const [boss,setBoss]=useState(0);
     const [btn,setBtn]=useState(false);
     const [text,setText]=useState("");
+    const [roomId,setRoomId]=useState();
+    const [msg,setMsg]=useState();
+    const [msgType,setMsgType]=useState();
     let bi=0;
 
     ///////////////////////////////////// 테스트용 코드
@@ -31,9 +36,11 @@ export default function ChattingPage() {
     };
     const handleSubmit = async (e) => {
         const input=e.target.value;
+        // console.log("input",input);
         const infos=input.split(" ");
         setMemberId(infos[0]);
         setNickname(infos[1]);
+        // setNickname(infos[1]);
         // setMemberId(e.target.value);
         // e.preventDefault();
         // handleSubmit(msg);
@@ -53,28 +60,37 @@ export default function ChattingPage() {
     };
     //////////////////////////////////////////////////////////////////
 
-
+    // 채팅방 삭제, 나가기에 대한 메세지 발행
+    const removeAndExit= (roomId,msg) => {
+        publish(roomId,msg,memberId,nickname,getDate());
+    }
+    
     // 채팅방 선택 시 우측 화면 상단에 채팅방 제목을 보여줌
     const selectRoom=(item,itemTitle)=>{
-        console.log('chatting page - selected room id',item);
-        console.log('chatting page - selected room title',itemTitle);
+        // console.log('chatting page - selected room id',item);
+        // console.log('chatting page - selected room title',itemTitle);
         setRoom(item);
         setRoomTitle(itemTitle);
+        setRoomId(item.chattingId);
+        // setSelectedRoomNum(item.chattingId);
         item.participantList.map((p)=>{
-            console.log("p",p.type);
+            // console.log("p",p.type);
             if(p.type==="팀장") {
-                console.log("memberIIIIDDDD",p.memberId);
+                // console.log("memberIIIIDDDD",p.memberId);
                 bi=p.memberId;
-                console.log("boss Id",bi);
+                // console.log("boss Id",bi);
             }
         });
         setBtn(true);
-        console.log("bossId",typeof(bi));
-        console.log("memberId",typeof(memberId));
+        // console.log("bossId",typeof(bi));
+        // console.log("memberId",typeof(memberId));
         if(bi===Number(memberId)) setText("삭제");
         else setText("나가기");
     }
-
+    const newMsg=(msg,msgType)=>{
+        setMsg(msg);
+        setMsgType(msgType);
+    }
     useEffect(()=>{
     //    connect();
         const client=connect();
@@ -87,7 +103,7 @@ export default function ChattingPage() {
                 if(data.length===0) console.log("no rooms");
                 else{
                     setRoomList(data);
-                    console.log("chatting page",roomList);
+                    // console.log("chatting page",roomList);
 
                 }
             }
@@ -95,8 +111,26 @@ export default function ChattingPage() {
     },[memberId]); // TODO: memberId 지워야행
 
     useEffect(()=>{
+        console.log("new Msg",msg);
+        if(msg!==undefined&&msg!=='undefined'&&msg.msg==='remove'){
+            let newRoomList=roomList.filter(
+                roomItem=>roomItem.chattingId!=msg.roomId
+            )
+            setRoomList(newRoomList);
+            console.log('roomList',roomList);
+          navigate("/rooms");
+        }
+    },[msg]);
 
-    },[roomList]);
+    // useEffect(()=>{
+    //     if(msgType!==undefined&&msgType!=='undefined'&&msgType===2){
+    //         let newRoomList=roomList.filter(
+    //             roomItem=>roomItem.chattingId!=msg.roomId
+    //         )
+    //         setRoomList(newRoomList);
+    //       navigate("/rooms");
+    //     }
+    //   },[msgType])
     
     return (
         <div className="mx-auto max-w-7xl px-4 sm:px-6 h-full">
@@ -104,7 +138,7 @@ export default function ChattingPage() {
             <input type="text" id="memberId" value={memberId}
                         onKeyDown={(e)=>{
                             if(e.key==="Enter") {
-                                console.log("ENTER");
+                                // console.log("ENTER");
                                 handleSubmit(e);
                             }
                         }}
@@ -112,7 +146,7 @@ export default function ChattingPage() {
             <div className="flex flex-row pt-5 md:h-full">
                 <div className='md:h-full md:w-1/3'>
                     <p className="text-2xl font-bold text-gray-900">채팅방 리스트</p>
-                    {roomList&&<ChattingList items={roomList} selectRoom={selectRoom} memberId={memberId}/>}
+                    {roomList&&<ChattingList items={roomList} selectRoom={selectRoom} memberId={memberId} newMsg={newMsg}/>}
                 </div>
 
                 <div className='md:h-fit pl-10 md:w-full'>
@@ -127,19 +161,26 @@ export default function ChattingPage() {
                                     {btn?
                                          <button className="ml-auto" onClick={()=>{
                                             if(text==="나가기"){
+                                                const existMsg="exit";
+                                                removeAndExit(roomId,existMsg);
                                                 exitRoom(room.chattingId,memberId).then((response)=>{
                                                     let newRoomList=roomList.filter(
                                                         roomItem=>roomItem.chattingId!=room.chattingId
                                                     )
                                                     setRoomList(newRoomList);
                                                 });
+                                                navigate('/rooms');
                                             }
                                             else if(text==="삭제"){
                                                 deleteRoom(room.chattingId,memberId).then((response)=>{
                                                     const des="/sub/chat/"+room.chattingId;
+                                                    // publish(room.chattingId,msg,memberId,nickname,getDate());
+                                                    const removeMsg="remove";
+                                                    removeAndExit(roomId,removeMsg);
                                                     subscriptions.map((sub)=>{
                                                         if(sub.des===des) socket.unsubscribe(sub.id);
                                                     })
+
                                                     subscriptions=subscriptions.filter(
                                                         subsrciption=>subsrciption.des!=des
                                                     )
@@ -157,7 +198,7 @@ export default function ChattingPage() {
                             </div> 
                             
                             <Routes>
-                                <Route path="/:roomId" element={<ChattingRoom room={room} memberId={memberId}/>}/>
+                                <Route path="/:roomId" element={<ChattingRoom room={room} memberId={memberId} nickname={nickname} message={msg} msgType={msgType}/>}/>
                             </Routes>
                         </div>
                     }
