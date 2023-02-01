@@ -1,12 +1,14 @@
 import React, { useState, useEffect} from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { getApplicant, deleteMyPost, updatePostView, updatePostStatus, getCurrentPostCategory } from "../../../services/PostService";
 import Modal from "./Modal";
+import { userState } from '../../../atom';
 function ViewPost() {
     const navigate = useNavigate();
     const { state } = useLocation();
     const { postId } = useParams();
-
+    const users = useRecoilValue(userState);
     const [myPost, setMyPost] = useState([]); // 자신이 쓴 글==true, 다른 사람이 쓴 글==false
     const [applicant, setApplicant] = useState([]);
     const [currentCategory, setCurrentCategory] = useState({});
@@ -55,9 +57,8 @@ function ViewPost() {
     //자신이 쓴 글이면 수정하기 버튼 + 신청하기 x
     //다른 사람이 쓴 글이면 + 신청하기 버튼만 ㅇ
     useEffect(() => {
-
         // 자신이 쓴 글, 다른 사람이 쓴 글 구분
-        if (state.name === localStorage.getItem('name')) {
+        if (state.name === users.name) {
             setMyPost(true);
             getApplicant(postId).then((response) => {
                 setApplicant(response);
@@ -94,7 +95,11 @@ function ViewPost() {
                     }}>완료하기</button>}
                     
                     {state.postType === "recruiting" && myPost && <button className = "ml-5 text-violet-500 " onClick={() => {
-                        //글 쓰는 페이지로 이동하면서 현재 postId의 값을 다 가지고 와야함.
+
+                        console.log("postID : "+ postId);
+                        navigate('/PostUpdate',{state:{id: postId}});
+                    
+                        // 글 쓰는 페이지로 이동하면서 현재 postId의 값을 다 가지고 와야함.
                         // deleteMyPost(state.postId).then(()=>{
                         //     navigate('/mainPage');
                         // })

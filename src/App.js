@@ -16,7 +16,7 @@ import ViewPost from "../src/components/pages/post/ViewPost";
 import ProjectManage from "../src/components/pages/post/ProjectManage";
 import PostManage from "../src/components/pages/post/PostManage";
 import ViewProject from "../src/components/pages/post/ViewProject";
-
+import {UpdatePost} from "../src/components/route/UpdatePost";
 import React from 'react';
 import { styled } from '@mui/material/styles';
 
@@ -55,12 +55,15 @@ function App() {
                       
                       <Route path="/" element={<LandingPage />} />
                       <Route path="/main" element={<LandingPage />} />
+                      <Route path="/home" element={<LandingPage />} />
                       <Route path="/kakaologin" element={<KakaoLogin />} />
                       <Route path="/kakaologout" element={<KakaoLogout />} />
                       <Route path="/mypage" element={<MyPage />} />
                       <Route path="/portfolio" element = {<Portfolio/>}/>
                       <Route path="/createpost" element= {<CreatePost/>}/>
                       <Route path="/portfolioview" element = {<Portfolioview/>}/>
+                      <Route path="/postUpdate" element = {<UpdatePost/>}/>
+                    
                       <Route path="/user/attached" />
                       
                     

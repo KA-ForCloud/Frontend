@@ -32,8 +32,8 @@ function Header() {
     let [isLogin, setIsLogin] = useState([false]);
     const [logoutAlert,setLogoutAlert]=useState([false]);
     let navigate = useNavigate();
-    localStorage.setItem("memberId", 2);
-    localStorage.setItem("name", "bbb")
+    // localStorage.setItem("memberId", 2);
+    // localStorage.setItem("name", "bbb")
 
     useEffect(()=>{
         if(!localStorage.getItem('memberId')) {

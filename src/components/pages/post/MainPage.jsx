@@ -19,6 +19,7 @@ function MainPage(props) {
   const [temperatureList, setTemperatureList] = useState([]);
   useEffect(() => {
     getPosts().then((response) => {
+      console.log(response);
       setpostList(response);
 
       getTemperatures().then((response) => {
@@ -104,87 +105,87 @@ function MainPage(props) {
     ))
   }
 
-  const makeMaxViewPost = useCallback(() => {
-    if (postList.length === 0) return;
-    const area = postList.map(data => {
-      if (!data.area) {
-        return {
-          ...data, area: [
+  // const makeMaxViewPost = useCallback(() => {
+  //   if (postList.length === 0) return;
+  //   const area = postList.map(data => {
+  //     if (!data.area) {
+  //       return {
+  //         ...data, area: [
 
-          ]
-        }
-      }
-    })
+  //         ]
+  //       }
+  //     }
+  //   })
 
-    const modifiedPostList = area.map((data) => {
-      let tempCate;
-      for(let i=0; i<2; i++){
-        if(data.post_category[i].type.includes("recruits")){
-            tempCate = data.post_category[i];
-            break;
-        }
-      }
-        const abc = [];
-        for (const [key, value] of Object.entries(tempCate).filter(([, count]) => count > 0)) {
-          if(key !== 'id'){
-            const area_detail = {
-              img: `${key}`,
-              name: `${key}`,
-              value: `${value}`,
-            };
-            abc.push(area_detail);
-          }
-        }
-        delete data.post_category;
-        return {
-          ...data,
-          area: data.area.concat(abc)
-        };
-    })
+  //   const modifiedPostList = area.map((data) => {
+  //     let tempCate;
+  //     for(let i=0; i<2; i++){
+  //       if(data.post_category[i].type.includes("recruits")){
+  //           tempCate = data.post_category[i];
+  //           break;
+  //       }
+  //     }
+  //       const abc = [];
+  //       for (const [key, value] of Object.entries(tempCate).filter(([, count]) => count > 0)) {
+  //         if(key !== 'id'){
+  //           const area_detail = {
+  //             img: `${key}`,
+  //             name: `${key}`,
+  //             value: `${value}`,
+  //           };
+  //           abc.push(area_detail);
+  //         }
+  //       }
+  //       delete data.post_category;
+  //       return {
+  //         ...data,
+  //         area: data.area.concat(abc)
+  //       };
+  //   })
 
-    let maxView = modifiedPostList[0].views;
-    let maxViewPost;
-    modifiedPostList.map(item => {
-      if(item.views > maxView){
-        maxView = item.views;
-        maxViewPost = item;
-      }
-    },[postList])
+  //   let maxView = modifiedPostList[0].views;
+  //   let maxViewPost;
+  //   modifiedPostList.map(item => {
+  //     if(item.views > maxView){
+  //       maxView = item.views;
+  //       maxViewPost = item;
+  //     }
+  //   },[postList])
 
-    return (
-      <div className="min-w-max text-left rounded-2xl border-4 border-white hover:border-black flex-column cursor-pointer "
-        onClick={() => { navigate(`/viewPost/${maxViewPost.id}`, {state: maxViewPost}) }}>
-        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">프로젝트 제목: {maxViewPost.post_name}</h3>
-        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">모집기한: {maxViewPost.end_time}</h3>
-        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">진행기간: {maxViewPost.duration}개월</h3>
-        <hr className="h-px mx-4 my-2 first-line:mt-4 border-white"></hr>
+  //   return (
+  //     <div className="min-w-max text-left rounded-2xl border-4 border-white hover:border-black flex-column cursor-pointer "
+  //       onClick={() => { navigate(`/viewPost/${maxViewPost.id}`, {state: maxViewPost}) }}>
+  //       <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">프로젝트 제목: {maxViewPost.post_name}</h3>
+  //       <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">모집기한: {maxViewPost.end_time}</h3>
+  //       <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">진행기간: {maxViewPost.duration}개월</h3>
+  //       <hr className="h-px mx-4 my-2 first-line:mt-4 border-white"></hr>
 
-        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold text-center">모집분야</h3>
-        <div className="min-w-max mx-2 grid grid-rows-2 grid-cols-3 gap-x-2 gap-y-2">
-        {maxViewPost.area.map((k, key) => {
-            for(let i=0; i<tool.length; i++){
-              if(tool[i].name.toLowerCase() === k.img.toLowerCase()){
-                k.img = tool[i].img;
-                k.name = tool[i].name;
-                break;
-              }
-            }
-            return (
-              <div key={key} className="flex border rounded-2xl">
-                <img className="rounded-2xl w-9 h-10" src={k.img} alt={k.name} />
-                <p className="m-auto">{k.name}</p>
-              </div>
-            );
-          })}
-        </div>
-        <hr className="h-px mx-4 my-4 first-line:mt-4 border-white"></hr>
-        <div className="flex mb-4">
-          <h3 className="mx-auto text-dark text-2xl font-weight-bold">작성자: {maxViewPost.name}</h3>
-          <h3 className="mx-auto text-dark text-2xl font-weight-bold">조회수: {maxViewPost.views}회</h3>
-        </div>
-      </div>
-    )
-  })
+  //       <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold text-center">모집분야</h3>
+  //       <div className="min-w-max mx-2 grid grid-rows-2 grid-cols-3 gap-x-2 gap-y-2">
+  //       {maxViewPost.area.map((k, key) => {
+  //           for(let i=0; i<tool.length; i++){
+  //             if(tool[i].name.toLowerCase() === k.img.toLowerCase()){
+  //               k.img = tool[i].img;
+  //               k.name = tool[i].name;
+  //               break;
+  //             }
+  //           }
+  //           return (
+  //             <div key={key} className="flex border rounded-2xl">
+  //               <img className="rounded-2xl w-9 h-10" src={k.img} alt={k.name} />
+  //               <p className="m-auto">{k.name}</p>
+  //             </div>
+  //           );
+  //         })}
+  //       </div>
+  //       <hr className="h-px mx-4 my-4 first-line:mt-4 border-white"></hr>
+  //       <div className="flex mb-4">
+  //         <h3 className="mx-auto text-dark text-2xl font-weight-bold">작성자: {maxViewPost.name}</h3>
+  //         <h3 className="mx-auto text-dark text-2xl font-weight-bold">조회수: {maxViewPost.views}회</h3>
+  //       </div>
+  //     </div>
+  //   )
+  // })
 
   const makeCategories = () => {
     if (categories.length === 0) return;
@@ -244,7 +245,7 @@ function MainPage(props) {
       <div className="min-w-max my-7 grid grid-cols-2 gap-4 text-center">
         <div className="min-w-max rounded-2xl flex-column bg-sky-100" >
           <h3 className="m-2 text-dark text-3xl font-bold">😍 최다 조회수 모집 게시글 😍</h3>
-          {makeMaxViewPost()}
+          {/* {makeMaxViewPost()} */}
         </div>
 
         <div className="min-w-max rounded-2xl border flex-column bg-purple-100 ">

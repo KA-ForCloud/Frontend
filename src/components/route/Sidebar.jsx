@@ -12,7 +12,7 @@ const sidebarNavItems = [
     {
         display: '포트폴리오',
         icon: <i className='bx bx-user'></i>,
-        to: '/portfolio',
+        to: '/portfolioview',
         section: 'portfolio'
     },
     {

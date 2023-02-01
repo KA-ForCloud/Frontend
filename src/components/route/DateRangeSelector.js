@@ -6,18 +6,23 @@ import { Card, Form } from 'react-bootstrap';
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import PropTypes from "prop-types";
-
+import {UpdatePost} from '../route/UpdatePost';
 const DateRangeSelector = (props, { ranges, onChange, onSubmit, ...rest }) => {
 
+
+    console.log("in");
     let today = new Date();
     let hours = ('0' + today.getHours()).slice(-2);
     let minutes = ('0' + today.getMinutes()).slice(-2);
     let seconds = ('0' + today.getSeconds()).slice(-2);
     let timeString = hours + ':' + minutes;
 
-    const [startTime, setStartTime] = useState(timeString);
-    const [endTime, setEndTime] = useState(timeString);
 
+
+    // const [startTime, setStartTime] = useState(timeString);
+    // const [endTime, setEndTime] = useState(timeString);
+
+ 
     const [selectedDateRange, setSelectedDateRange] = useState({
         startDate: new Date(),
         endDate: new Date(),
@@ -59,6 +64,7 @@ const DateRangeSelector = (props, { ranges, onChange, onSubmit, ...rest }) => {
             <div className="shadow d-inline-block" style={{marginBottom:'20px'}}>
                 <DateRange
                     onChange={handleSelect}
+                    defaultValue = {"Wed Feb 02 2023 00:00:00 GMT+0900"}
                     showSelectionPreview={true}
                     moveRangeOnFirstSelection={false}
                     months={2}
