@@ -32,8 +32,8 @@ function Header() {
     let [isLogin, setIsLogin] = useState([false]);
     const [logoutAlert,setLogoutAlert]=useState([false]);
     let navigate = useNavigate();
-    localStorage.setItem("memberId", 2);
-    localStorage.setItem("name", "bbb")
+    localStorage.setItem("memberId", 1);
+    localStorage.setItem("name", "aaa")
 
     useEffect(()=>{
         if(!localStorage.getItem('memberId')) {
@@ -57,10 +57,10 @@ function Header() {
     const [open, setOpen] = useState(null);
 
     return (
-            <div className="mx-auto max-w-screen-2xl px-4 ">
-                <div className="flex items-center justify-between border-b-4 border-sky-200 py-3 md:justify-start md:space-x-10 ">
-                    
-                    <div className="flex justify-start lg:w-0 lg:flex-1">
+            <div className="mx-auto 2xl:max-w-screen-2xl xl:max-w-screen-xl lg:max-w-screen-lg 
+            md:max-w-screen-md px-4 ">
+                <div className="p-2 flex items-center justify-between border-b-4 border-sky-200">
+                    <div className="md:flex-1 justify-start">
                         {/* 로고 */}
                         <a href="/">
                             <span className="sr-only">Your Company</span>
@@ -72,17 +72,20 @@ function Header() {
                         </a>
                     </div>
 
-                    <a href="/mainPage" className="text-2xl font-bold text-gray-500 hover:text-gray-900">
-                        팀 모집
-                    </a>
+                    {users.login && 
+                        <div className ="hidden justify-center md:flex md:space-x-10 md:ml-5">
+                            <a href="/mainPage" className="text-2xl font-bold text-gray-500 hover:text-gray-900">
+                                팀 모집
+                            </a>
 
-                    <a href="/rooms/*" className="text-2xl font-bold text-gray-500 hover:text-gray-900">
-                        채팅
-                    </a>
+                            <a href="/rooms/*" className="text-2xl font-bold text-gray-500 hover:text-gray-900">
+                                채팅
+                            </a>
 
-                    <a href="/mypage" className="text-2xl font-bold text-gray-500 hover:text-gray-900">
-                        마이 페이지
-                    </a>
+                            <a href="/mypage" className="text-2xl font-bold text-gray-500 hover:text-gray-900">
+                                마이 페이지
+                            </a>
+                    </div>}
 
 
                     {/* 로그인 */}
@@ -96,7 +99,7 @@ function Header() {
                         {users.login ?
                             // 로그인 되어 있을 때
 
-                            <div className="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
+                            <div className="hidden items-center justify-end md:flex md:flex-1">
                                 <button
                                     onClick={() => {navigate('/kakaologout')}}
                                     className="hover:text-gray-500 px-4 py-2 text-2xl font-bold text-black"
@@ -106,7 +109,7 @@ function Header() {
                             </div>
                             :
                             // 로그인 안되어 있을 때
-                            <div className="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
+                            <div className="items-center justify-end md:flex md:flex-1">
                                 <button
                                     // type="button"
                                     onClick={handleLogin}

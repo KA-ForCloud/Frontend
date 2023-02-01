@@ -132,7 +132,7 @@ function LandingPage() {
 				console.log("처음아님");
 				setUser(false);
 				setNonUser(false);
-				navigate("/home")
+				navigate("/mainPage")
 				//GetTokenByEmail(users, userHandler);
 			}
 			console.log(users);
@@ -140,7 +140,6 @@ function LandingPage() {
 		} else {
 			if (users.isFirst) {
 				// 헤이폼이 처음이신가요
-				console.log('헤이폼이 처음이신가요')
 				setNonUser(true);
 			}
 		}

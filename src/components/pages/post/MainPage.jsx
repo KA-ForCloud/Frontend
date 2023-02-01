@@ -24,6 +24,12 @@ function MainPage(props) {
       getTemperatures().then((response) => {
         setTemperatureList(response);
       })
+      .catch(()=>{
+        console.log("사용자 없음");
+      })
+    })
+    .catch(()=>{
+      console.log("게시글 없음");
     });
   }, []);
 
@@ -152,14 +158,14 @@ function MainPage(props) {
     },[postList])
 
     return (
-      <div className="min-w-max text-left rounded-2xl border-4 border-white hover:border-black flex-column cursor-pointer "
+      <div className=" min-w-max text-left rounded-2xl border-4 border-white hover:border-black flex-column cursor-pointer text-2xl"
         onClick={() => { navigate(`/viewPost/${maxViewPost.id}`, {state: maxViewPost}) }}>
-        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">프로젝트 제목: {maxViewPost.post_name}</h3>
-        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">모집기한: {maxViewPost.end_time}</h3>
-        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">진행기간: {maxViewPost.duration}개월</h3>
+        <h3 className="mx-5 my-2 text-dark font-weight-bold">프로젝트 제목: {maxViewPost.post_name}</h3>
+        <h3 className="mx-5 my-2 text-dark font-weight-bold">모집기한: {maxViewPost.end_time}</h3>
+        <h3 className="mx-5 my-2 text-dark font-weight-bold">진행기간: {maxViewPost.duration}개월</h3>
         <hr className="h-px mx-4 my-2 first-line:mt-4 border-white"></hr>
 
-        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold text-center">모집분야</h3>
+        <h3 className="mx-5 my-2 text-dark font-weight-bold text-center">모집분야</h3>
         <div className="min-w-max mx-2 grid grid-rows-2 grid-cols-3 gap-x-2 gap-y-2">
         {maxViewPost.area.map((k, key) => {
             for(let i=0; i<tool.length; i++){
@@ -179,8 +185,8 @@ function MainPage(props) {
         </div>
         <hr className="h-px mx-4 my-4 first-line:mt-4 border-white"></hr>
         <div className="flex mb-4">
-          <h3 className="mx-auto text-dark text-2xl font-weight-bold">작성자: {maxViewPost.name}</h3>
-          <h3 className="mx-auto text-dark text-2xl font-weight-bold">조회수: {maxViewPost.views}회</h3>
+          <h3 className="mx-auto text-dark font-weight-bold">작성자: {maxViewPost.name}</h3>
+          <h3 className="mx-auto text-dark font-weight-bold">조회수: {maxViewPost.views}회</h3>
         </div>
       </div>
     )
@@ -240,39 +246,40 @@ function MainPage(props) {
   }
 
   return (
-    <div className="mx-auto max-w-7xl my-4 px-4 sm:px-6">
-      <div className="min-w-max my-7 grid grid-cols-2 gap-4 text-center">
-        <div className="min-w-max rounded-2xl flex-column bg-sky-100" >
-          <h3 className="m-2 text-dark text-3xl font-bold">😍 최다 조회수 모집 게시글 😍</h3>
+    <div className="mx-auto 2xl:max-w-screen-2xl xl:max-w-screen-xl lg:max-w-screen-lg 
+    md:max-w-screen-md w-auto my-4 px-4 min-h-screen">
+      <div className="min-w-max mx-8 my-7 grid-cols-1 grid lg:grid-cols-2 gap-4 text-center ">
+        <div className="rounded-2xl flex-column bg-sky-100" >
+          <h3 className="m-2 text-dark text-3xl font-bold ">😍 최다 조회수 모집 게시글 😍</h3>
           {makeMaxViewPost()}
         </div>
 
-        <div className="min-w-max rounded-2xl border flex-column bg-purple-100 ">
-          <h3 className="m-2 text-dark text-3xl font-bold">😍 마음의 온도 랭킹 게시판 😍</h3>
-          <div className="mt-12">
+        <div className="rounded-2xl flex-column bg-purple-100 ">
+          <h3 className="m-2 text-dark text-3xl font-bold ">😍 마음의 온도 랭킹 게시판 😍</h3>
+          <div className="mt-10">
             {makeTemperatures()}
           </div>
         </div>
       </div>
 
-      <div>
+      <div className ="mx-8">
         <div className="flex mt-10 mr-4 text-4xl font-bold">{makeCategories()}</div>
       </div>
-      <hr className="h-px mt-4 mb-5 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+      <hr className="h-px mx-8 mt-4 mb-5 bg-gray-200 border-0 dark:bg-gray-700"></hr>
 
-      <div className="min-w-max grid grid-cols-6 text-center gap-4">
+      <div className="min-w-max mx-8 grid grid-cols-3 xl:grid-cols-6 lg:grid-cols-5 text-center gap-4 md:grid-cols-4">
         {makeToolfilter()}
       </div>
 
-      <div className="flex min-w-max mt-40 mb-5">
+      <div className="flex min-w-max mt-40 mb-5 mx-8">
         <div className="flex text-4xl font-bold">{makePostStatus()}</div>
         <button 
           onClick = {() => {navigate('/createpost')}}
           className="ml-auto mr-4 text-4xl font-bold tracking-tight">새 글 쓰기</button>
       </div>
-      <hr className="h-px mt-4 mb-5 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+      <hr className="h-px mt-4 mb-5 mx-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
 
-      <div className="min-w-max grid grid-cols-3 gap-x-4 gap-y-10 "> 
+      <div className="min-w-max mx-8 grid grid-cols-1 lg:grid-cols-3 gap-x-4 gap-y-10 md:grid-cols-2"> 
           {postList && <PostList postList = {postList} type ={"main"}/>} 
       </div>
     </div>
