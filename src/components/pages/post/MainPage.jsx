@@ -19,7 +19,6 @@ function MainPage(props) {
   const [temperatureList, setTemperatureList] = useState([]);
   useEffect(() => {
     getPosts().then((response) => {
-      console.log(response);
       setpostList(response);
 
       getTemperatures().then((response) => {
@@ -166,7 +165,7 @@ function MainPage(props) {
         <h3 className="mx-5 my-2 text-dark font-weight-bold">진행기간: {maxViewPost.duration}개월</h3>
         <hr className="h-px mx-4 my-2 first-line:mt-4 border-white"></hr>
 
-        <h3 className="mx-5 my-2 text-dark font-weight-bold text-center">모집분야</h3>
+        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold text-center">모집분야</h3>
         <div className="min-w-max mx-2 grid grid-rows-2 grid-cols-3 gap-x-2 gap-y-2">
         {maxViewPost.area.map((k, key) => {
             for(let i=0; i<tool.length; i++){
@@ -186,8 +185,8 @@ function MainPage(props) {
         </div>
         <hr className="h-px mx-4 my-4 first-line:mt-4 border-white"></hr>
         <div className="flex mb-4">
-          <h3 className="mx-auto text-dark font-weight-bold">작성자: {maxViewPost.name}</h3>
-          <h3 className="mx-auto text-dark font-weight-bold">조회수: {maxViewPost.views}회</h3>
+          <h3 className="mx-auto text-dark text-2xl font-weight-bold">작성자: {maxViewPost.name}</h3>
+          <h3 className="mx-auto text-dark text-2xl font-weight-bold">조회수: {maxViewPost.views}회</h3>
         </div>
       </div>
     )
