@@ -2,10 +2,10 @@ node {
     checkout scm
     
     stage('Git Clone') {
-            steps {
+        steps {
                 git branch: 'cicdtest', url: 'https://github.com/KA-ForCloud/Frontend.git'
-            }
         }
+    }
     
     stage('build') {
         sh "echo $PATH"
