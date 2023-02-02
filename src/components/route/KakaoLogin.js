@@ -106,15 +106,15 @@ function KakaoLogin() {
                     
 
                     console.log('ACCESS_TOKEN',ACCESS_TOKEN);
-                    axios.post(`http://localhost:8082/user/register/${ACCESS_TOKEN}`)
+                    axios.post(`/api/user/register/${ACCESS_TOKEN}`)
                         .then((response) => {
-                            console.log('response.data.token', "-", response.data.user_id, "-");
+                            console.log('response.data.token', "-", response.data.id, "-");
                             userHandler(
                                 {   
                                     token: response.data.token,
                                     kakaoToken: ACCESS_TOKEN,
                                     kakaoRefreshToken: REFRESH_TOKEN,
-                                    id: response.data.user_id,
+                                    id: response.data.id,
                                     name: data.kakao_account.profile.nickname,
                                     profileImg: data.kakao_account.profile.profile_image_url,
                                     email: data.kakao_account.email,

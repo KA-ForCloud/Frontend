@@ -1,17 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ReduxThunk from 'redux-thunk';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { RecoilRoot } from "recoil";
+import {Provider} from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
+import promiseMiddleware from 'redux-promise';
+import rootReducer from './modules';
 
 
-
-
+const store=createStore(rootReducer);
+const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore);
 ReactDOM.render(
   <RecoilRoot>
   <React.StrictMode>
-    <App />
+    <Provider
+        store={createStoreWithMiddleware(rootReducer,
+          window.__REDUX_DEVTOOLS_EXTENSION__ &&
+          window.__REDUX_DEVTOOLS_EXTENSION__()
+          )}>
+            <App/>
+      </Provider>
   </React.StrictMode>
   </RecoilRoot>,
   document.getElementById('root')

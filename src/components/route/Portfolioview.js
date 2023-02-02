@@ -186,7 +186,7 @@ function Portfolioview() {
                 navigate('/portfolioview');
                 console.log(users.portsave);    
                 if ( window.location == 'http://localhost:3000/portfolioview' ) {
-                     window.location.href='http://localhost:8082/user/attached/'+users.portsave;
+                     window.location.href='http://localhost:8080/user/attached/'+users.portsave;
                 }
                 
                 navigate('/portfolioview');
@@ -218,7 +218,7 @@ function Portfolioview() {
 
     return (
         <>
-
+            <Sidebar />
             <div className="my-5 flex mx-auto max-w-7xl sm:px-6">
                 {/* <img src={logo}
                     sx={{
@@ -313,6 +313,13 @@ function Portfolioview() {
                     {/* <FileUploader handleChange={handleChange} name="file" types={fileTypes} /> */}
                     </StyledContent>
 					
+                    <div className="text-center">
+									<button className="ml-auto border-2 rounded-md p-1 border-sky-200 my-4 text-2xl font-bold hover:bg-sky-200"
+                                    
+										onClick={() => {
+											navigate('/portfolio')
+										}}>수정하기</button>
+                                        </div>
                 </Container>
             </div>
             

@@ -19,6 +19,7 @@ function MainPage(props) {
   const [temperatureList, setTemperatureList] = useState([]);
   useEffect(() => {
     getPosts().then((response) => {
+      console.log(response);
       setpostList(response);
 
       getTemperatures().then((response) => {

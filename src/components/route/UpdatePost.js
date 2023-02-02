@@ -1,20 +1,25 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import React,{ useCallback, useEffect, useRef, useState } from 'react';
 import { Button, Card, Col, Form, InputGroup, Modal, Nav, Row } from 'react-bootstrap';
 // import { Helmet } from 'react-helmet';
 import { MdDelete } from 'react-icons/md';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState} from 'recoil';
 import styled, { css } from 'styled-components';
 import axios from 'axios';
 import {useImperativeHandle } from "react";
-
+import { DateRange } from "react-date-range";
+// import { defaultStaticRanges } from "./defaultRanges";
+import { format } from "date-fns";
+import "react-date-range/dist/styles.css"; // main style file
+import "react-date-range/dist/theme/default.css"; // theme css file
+import PropTypes from "prop-types";
 import { KAKAO_AUTH_URL } from '../../OAuth';
 import { DateRangeSelector } from '../route/DateRangeSelector';
 import { userState } from '../../atom';
 // import { DropdownCmpt } from '../components/DropdownCmpt.js';
 // import { Preview } from '../components/Survey/Preview.js';
 // @css
-import './CreatePost.css';
+import './UpdatePost.css';
 import { TextField } from '@mui/material';
 // @mui
 // import { styled } from '@mui/material/styles';
@@ -63,27 +68,27 @@ const ItemBlock = styled.div`
   }
 `;
 
-const Text = styled.div`
-  flex: 1;
-  font-size: 18px;
-  color: white;
-  margin-bottom: 1%;
-  margin-left: 15px;
-  ${(props) =>
-		props.done &&
-		css`
-      color: #ced4da;
-    `}
-`;
+// const Text = styled.div`
+//   flex: 1;
+//   font-size: 18px;
+//   color: white;
+//   margin-bottom: 1%;
+//   margin-left: 15px;
+//   ${(props) =>
+// 		props.done &&
+// 		css`
+//       color: #ced4da;
+//     `}
+// `;
 
 
 
-function CreatePost() {
+function UpdatePost() {
 
 	const childRef = useRef();
 	const [, updateState] = useState();
 	const forceUpdate = useCallback(() => updateState({}, []));
-
+	
 	let [savedQsList, setSavedQsList] = useState([]);
 	let [curQs, setCurQs] = useState('');
 	let [curQsItemList, setCurQsItemList] = useState([]);
@@ -98,6 +103,8 @@ function CreatePost() {
 	//post에 사용
 	let [postName, setpostName] = useState(null);
 	let [postContents, setpostContents] = useState(null);
+	let [endtime, setendtime] = useState("");
+	let [starttime, setstarttime] = useState("");
 	let [postId, setPostId] = useState(0);
 	let postState = useRef(-1);
 	window.localStorage.setItem("count", 1);
@@ -113,12 +120,16 @@ function CreatePost() {
 	let postDto = new Object();
 	let postCatDto = new Object();
 
+
+	const location = useLocation();
+	let post_id = location.state.id;
+
 	// surveyDto
 	postDto.status = null;
 	postDto.end_time = '12:12:12 12:12:00';
 	postDto.end_time = '12:12:12 12:12:00';
-	postDto.post_name = null;
-	postDto.contents = null;
+	postDto.post_name = "";
+	postDto.contents = "";
 	postDto.views= 0;
 
 	// surveyDto.survey_id = null;
@@ -151,10 +162,47 @@ function CreatePost() {
 	}, [])
 
 	useEffect(() => {
+		setTimeout(function () {
+			getPostInfo();
+        }, 1000);
 		setCurQs('');
 		setCurQsItemList([]);
 	}, [curSelectedType, makeQsSwitch, showCreate])
 
+
+
+
+
+ 
+    const [selectedDateRange, setSelectedDateRange] = useState({
+        startDate: new Date(),
+        endDate: new Date(),
+        key: "selection"
+    });
+
+
+    const orientation = window.matchMedia("(max-width: 500px)").matches
+        ? "vertical"
+        : "horizontal";
+
+    function formatDateDisplay(date, defaultText) {
+        if (!date) return defaultText;
+        return format(date, "yyyy-MM-dd");
+    }
+
+    const handleSelect = (ranges) => {
+        setSelectedDateRange(ranges.selection);
+        console.log(ranges.selection);
+    };
+
+    const onClickClear = () => {
+        setSelectedDateRange({
+            startDate: new Date(),
+            endDate: new Date(),
+            key: "selection"
+        });
+    //    setShow(false);
+    };
 	//체크박스 하나만 선택
 	const checkOnlyOne = (checkThis) => {
 		const checkboxes = document.getElementsByName('shareWay')
@@ -202,6 +250,10 @@ function CreatePost() {
 	let nextDateString = year + '-' + nextMonth + '-' + day;
 	let current_time_temp = dateString + ' ' + timeString + ':' + seconds;
 
+
+
+	postDto.starTime = timeString;
+	postDto.endTime = timeString;
 	// 설문 공유때 사용되는 시작 시간 및 종료 시간
 	// start_time: 배포 시작 날짜 및 시간, 예시 "2022-12-11 12:00:00"
 	let start_time_temp = dateString + ' ' + timeString + ':00';
@@ -213,6 +265,9 @@ function CreatePost() {
 	const [endDate, setEndDate] = useState(nextDateString);
 	const [endTime, setEndTime] = useState(timeString);
 	
+
+	const [title, setTitle] = useState("");
+	const [content, setContent] = useState("");
 	const [springbootCount, setspringbootCount] = useState(0);
 	const [pythonCount, setpythonCount] = useState(0);
 	const [springCount, setspringCount] = useState(0);
@@ -298,6 +353,60 @@ function CreatePost() {
     });
 
 
+	function getPostInfo(){
+		console.log("stateId"+location.state.id);
+		post_id = location.state.id;
+
+		console.log(post_id);
+        axios.get(`/api/post/info/${post_id}`)
+			.then((response) => {
+                console.log('get data.data.token', "-", response, "-");
+				postDto.post_name = response.data.post_name;
+				postDto.contents = response.data.contents;
+				postDto.start_time = response.data.start_time;
+				postDto.end_time = response.data.end_time;
+				const stimes = postDto.start_time.split(' ');
+				const etimes = postDto.end_time.split(' ');
+				postDto.startDate = stimes[0];
+				postDto.startTime = stimes[1];
+				postDto.id = response.data.id;
+				postDto.endDate =  etimes[0];
+				postDto.endTime = etimes[1];
+
+				postCatDto.id = response.data.post_category[1].id;
+				// setEndTime(formatDateDisplay(postDto.endTime));
+				// setStartTime(formatDateDisplay(postDto.startTime));
+				setSelectedDateRange({
+					startDate: new Date(postDto.startDate),
+					endDate: new Date(postDto.endDate),
+					key: "selection"
+				});
+
+				
+				setprojectLengthCount(response.data.duration);
+				setspringCount(response.data.post_category[1].spring);
+				setspringbootCount(response.data.post_category[1].springboot);
+				setpythonCount(response.data.post_category[1].python);
+				setreactCount(response.data.post_category[1].react);
+				setjavaCount(response.data.post_category[1].java);
+				setjavascriptCount(response.data.post_category[1].javascript);
+
+            })
+            .catch((error) => {
+                console.log(error);
+                console.log('실패');
+                return "error";
+            })
+			.finally(() => {
+				setpostName(postDto.post_name);
+				setpostContents(postDto.contents);
+				setstarttime(postDto.startTime.slice(0,5));
+				setendtime(postDto.endTime.slice(0,5));
+				console.log("ㅔㅐㄴㅇ"+postDto.id);
+				console.log(postDto);
+			});
+        }
+
 	const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
 
@@ -329,10 +438,8 @@ function CreatePost() {
 	function handlePostCreateButton() {
 
 		postDto.status = null;
-		postDto.end_time = '12:12:12 12:12:00';
-		postDto.end_time = '12:12:12 12:12:00';
-		postDto.post_name = null;
-		postDto.contents = null;
+		postDto.post_name = "";
+		postDto.contents = "";
 		postDto.views= 0;
 		postDto.durations = projectLengthCount;
 		start_time_temp = startDate + ' ' + startTime + ':00'
@@ -389,7 +496,6 @@ function CreatePost() {
 			postCatDto.javascript = javascriptCount;
 			postCatDto.python = pythonCount;
 			postCatDto.react = reactCount;
-			postCatDto.post_id = null;
 
 			postDto.spring = springCount;
 			postDto.java = javaCount;
@@ -398,6 +504,7 @@ function CreatePost() {
 			postDto.python = pythonCount;
 			postDto.react = reactCount;
 			postDto.postCategoryDto = postCatDto;
+			postDto.id = location.state.id;
 
 			console.log(users);
 			console.log("postDto",postDto)
@@ -408,10 +515,6 @@ function CreatePost() {
 			.catch((error) => {
 				console.log(error);
 			})
-			.finally(() => {
-				navigate('/mainPage');
-			});
-			
 
 			console.log(postDto)
 
@@ -431,11 +534,12 @@ function CreatePost() {
 						<div className="mx-auto max-w-7xl px-4 sm:px-6">
 							<div className="mx-8 my-5">
 								<h6 className ="font-bold my-2 text-2xl">프로젝트 명</h6>
-								<Form.Control className="w-full border contents-area my-2" size="lg" as="textarea" placeholder="프로젝트 명을 입력해주세요"
+								<Form.Control className="w-full border contents-area my-2" size="lg" as="textarea"
 									cols= "120"
+									defaultValue={postName}
 									onChange={(e) => {
 										setpostName(e.target.value);
-									}}>{postName}</Form.Control>
+									}}></Form.Control>
 								<h6 className ="font-bold my-2 text-2xl">프로젝트 기간 설정</h6>
 								<table className="w-full my-5 text-base border">
 									<td>프로젝트 기간 설정</td>
@@ -494,7 +598,76 @@ function CreatePost() {
 								<h6 className ="font-bold mb-5 text-2xl">프로젝트 기간 설정</h6>
 								<h6 className ="font-bold mb-5 text-xl text-center">날짜를 드래그하거나 클릭하세요! 😉</h6>
 								<div className="text-center p-4" >
-									<DateRangeSelector startDateHandler={setStartDate} endDateHandler={setEndDate} startTimeHandler={setStartTime} endTimeHandler={setEndTime}/>
+								<React.Fragment style={{ width: "80%" }}>
+            <div className="shadow d-inline-block" style={{marginBottom:'20px'}}>
+                <DateRange
+                    onChange={handleSelect}
+                    defaultValue = {"Wed Feb 02 2023 00:00:00 GMT+0900"}
+                    showSelectionPreview={true}
+                    moveRangeOnFirstSelection={false}
+                    months={2}
+                    color='#0d6efd'
+                    rangeColors={['#0d6efd', 'red']}
+                    ranges={[selectedDateRange]}
+                    direction={orientation}
+                    // orientation="horizontal"
+                    autoFocus/>
+                <div className="text-right position-relative rdr-buttons-position mt-2 mr-3" style={{ bottom: "0.3rem" }}>
+                    <button
+                        className="btn btn-transparent text-primary rounded-0 px-4 mr-2"
+                        onClick={() => setShow(true)}
+                    >
+                        확인
+                    </button>
+                    <button
+                        className="btn btn-transparent text-danger rounded-0 px-4"
+                        onClick={onClickClear}
+                    >
+                        초기화
+                    </button>
+                </div>
+            </div>
+
+            
+                <div className=" h-100 mt-3 alert alert-transparent" direction={orientation}>
+                    <h6 className ="font-bold mb-5 text-2xl"><strong>⏰ 를 눌러서 시간을 조정할 수 있어요!</strong></h6>
+
+                    <Card className='basicCard' key={"key"} style={{ display: "inline-block", margin: "2%", marginBottom: "3%", padding: "4%", border: "none", borderRadius: "20px", boxShadow: "1px 1px 4px 0px gray" }}>
+                        <h5>
+                            시작 일시
+                        </h5>
+                        <div style={{ fontWeight: "bold", marginTop: "2%", float: "left" }}>
+                            
+                            {formatDateDisplay(selectedDateRange.startDate)}
+                            <Form.Control type="time"
+                                style={{ marginBottom: "1%", background: "rgba(0,0,0,0)", color: "black", border: "none", boxShadow: "none", display: "inline-block" }}
+                                defaultValue={starttime} onChange={(e) => setStartTime(e.target.value)}  />
+                        </div>
+                    </Card>
+                    <Card className='basicCard' key={"key"} style={{ display: "inline-block", margin: "2%", marginBottom: "3%", padding: "4%", border: "none", borderRadius: "20px", boxShadow: "1px 1px 4px 0px gray" }}>
+                        <h5>
+                            마감 일시
+                        </h5>
+                        <div style={{ fontWeight: "bold", marginTop: "2%", float: "left" }}>
+                        
+                            {formatDateDisplay(selectedDateRange.endDate)}
+                            <Form.Control type="time"
+                                style={{ marginBottom: "1%", background: "rgba(0,0,0,0)", color: "black", border: "none", boxShadow: "none", display: "inline-block" }}
+                                onChange={(e) => setEndTime(e.target.value)} defaultValue={endtime} />
+                        </div>
+                    </Card>
+                    {/* <button
+            className="mb-1 btn btn-transparent text-danger"
+            onClick={() => setShow(false)}
+            variant="outline-success"
+          >
+            {" "}
+            Close
+          </button> */}
+                </div>
+
+            
+        </React.Fragment>
 									{/* <div style={{ marginTop: '10px' }}>
 										<input className="form-check-input" id="qrCheckBox" name="shareWay" type="checkbox" value="" onChange={(e) => {
 											checkOnlyOne(e.target)
@@ -506,9 +679,10 @@ function CreatePost() {
 								<Form.Control className="border contents-area w-full" size="lg" as="textarea" placeholder="프로젝트 소개를 입력해주세요"
 									rows = "5"
 									cols= "120"
+									defaultValue={postContents}	
 									onChange={(e) => {
 										setpostContents(e.target.value);
-									}}>{postContents}</Form.Control>
+									}}></Form.Control>
 	                            
                             <div className="auth__contentCount">
                                 <span>{`${inputs.content.length} / 300`}</span>
@@ -541,5 +715,5 @@ function CreatePost() {
 	);
 }
 
-export { CreatePost };
+export { UpdatePost };
 

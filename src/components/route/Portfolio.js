@@ -61,7 +61,7 @@ function Portfolio() {
     let [tech, setTech] = useState(null);
     const [show, setShow] = useState(false);
     const users = useRecoilValue(userState);
-
+    const [filecheck, setFilecheck] = useState(false);
     let userDto = new Object();
     let userCategoryDto = new Object();
 
@@ -71,7 +71,7 @@ function Portfolio() {
     userCategoryDto.javascript = 0;
     userCategoryDto.python = 0;
     userCategoryDto.react = 0;
-    userCategoryDto.user_id = null;
+    userCategoryDto.id = null;
 
     const forceUpdate = useCallback(() => updateState({}, []));
     const userHandler = useSetRecoilState(userState);
@@ -89,7 +89,6 @@ function Portfolio() {
     var images = []
     var filename = "";
 
-    var filecheck = false;
 
 
     
@@ -136,13 +135,19 @@ function Portfolio() {
     const handleChange = (file) => {
       setFile(file);
       filename = file.name;
-      filecheck = true;
-      console.log(filename);
+      setFilecheck(true);
+      console.log("file"+filename);
+      console.log(filecheck);
       console.log(file);
     };
 
   
     useEffect(() => {
+        setTimeout(function () {
+            getPortInfo();
+            getCategoryInfo();
+        }, 1000);
+        // getPortInfo();
         // if (!users.login) {
         //     window.location.href = KAKAO_AUTH_URL;
         // }
@@ -152,6 +157,87 @@ function Portfolio() {
     const sleep = (ms) => {
         return new Promise((resolve) => setTimeout(resolve, ms))
       }
+
+    function getPortInfo(){
+        axios.get(`/api/user/info/${users.id}`)
+			.then((response) => {
+                console.log('get data.data.token', "-", response, "-");
+                console.log(filename);
+                userHandler(
+                    {   
+                        kakaoToken: response.data.user_token,
+                        kakaoRefreshToken: users.REFRESH_TOKEN,
+                        id: response.data.id,
+                        name: response.data.user_name,
+                        profileImg: response.data.user_image,
+                        email: response.data.user_email,
+                        age: response.data.user_age,
+                        gender: response.data.user_gender,
+                        isFirst: users.isFirst,
+                        school: response.data.school,
+                        tech: response.data.tech,
+                        portname: response.data.port,
+                        portsave: response.data.portsave_name,
+                        refresh: true,
+                        push: false,
+                        login: true,
+                    }
+                )
+                console.log(users.portsave)
+            })
+            .catch((error) => {
+                console.log(error);
+                console.log('실패');
+                return "error";
+            })
+        }
+        function getCategoryInfo(){
+            axios.get(`/api/userCategory/${users.id}`)
+                .then((response) => {
+                    console.log('get categorydata.data.token', "-", response, "-");
+                    userCategoryDto.java = response.data.java;
+                    userCategoryDto.javascript = response.data.javascript;
+                    userCategoryDto.python = response.data.python;
+                    userCategoryDto.react = response.data.react;
+                    userCategoryDto.spring = response.data.spring;
+                    userCategoryDto.springboot = response.data.springboot;
+                    userCategoryDto.id = response.data.category_id;
+                })
+                .catch((error) => {
+                    console.log(error);
+                    console.log('실패');
+                    return "error";
+                })
+                .finally(() => {
+                    console.log(userCategoryDto);
+                    selectItemCheck();
+                });
+
+            
+            }
+    function selectItemCheck(){
+        if(userCategoryDto.java == 1){
+            handleSingleCheck(true, 5);
+        }
+        if(userCategoryDto.spring == 1){
+            handleSingleCheck(true, 0);
+        }
+        if(userCategoryDto.python == 1){
+            handleSingleCheck(true, 2);
+        }
+        if(userCategoryDto.springboot == 1){
+            handleSingleCheck(true, 1);
+        }
+        if(userCategoryDto.react == 1){
+            handleSingleCheck(true, 3);
+        }
+        if(userCategoryDto.javascript == 1){
+            handleSingleCheck(true, 4);
+        }
+    }
+    
+   
+
     function handlePostCreateButton() {
 
             if (school == null){
@@ -174,8 +260,9 @@ function Portfolio() {
             
             if(filecheck){
 
-
-            axios.post(`http://localhost:8082/user/upload/${users.id}`,formData)
+            console.log("ininiinin");
+            setFilecheck(false);
+            axios.post(`/api/user/upload/${users.id}`,formData)
 			.then((response) => {
                 console.log('response.data.token', "-", response, "-");
                 console.log(filename);
@@ -183,7 +270,7 @@ function Portfolio() {
                     {   
                         kakaoToken: response.data.user_token,
                         kakaoRefreshToken: users.REFRESH_TOKEN,
-                        id: response.data.user_id,
+                        id: response.data.id,
                         name: response.data.user_name,
                         profileImg: response.data.user_image,
                         email: response.data.user_email,
@@ -244,7 +331,7 @@ function Portfolio() {
 
             
             console.log("userCategoryDto",userJson);
-			axios.post(`http://localhost:8082/user/port/save/${users.id}?portname=${filename}`,userDto)
+			axios.post(`/api/user/port/save/${users.id}?portname=${filename}`,userDto)
 			.then((response) => {
                 console.log('response.data.token', "-", response, "-");
                 console.log(filename);
@@ -252,7 +339,7 @@ function Portfolio() {
                     {   
                         kakaoToken: response.data.user_token,
                         kakaoRefreshToken: users.REFRESH_TOKEN,
-                        id: response.data.user_id,
+                        id: response.data.id,
                         name: response.data.user_name,
                         profileImg: response.data.user_image,
                         email: response.data.user_email,
@@ -291,7 +378,7 @@ function Portfolio() {
                 navigate('/portfolio');
                 console.log(users.portsave);    
                 if ( window.location == 'http://localhost:3000/portfolio' ) {
-                     window.location.href='http://localhost:8082/user/attached/'+users.portsave;
+                     window.location.href='http://localhost:8080/user/attached/'+users.portsave;
                 }
                 
                 navigate('/portfolio');
@@ -325,7 +412,7 @@ function Portfolio() {
     return (
         
         <>
-        
+            
             <div className="my-5 flex mx-auto max-w-4xl sm:px-6 mr-72">
                 {/* <img src={logo}
                     sx={{
