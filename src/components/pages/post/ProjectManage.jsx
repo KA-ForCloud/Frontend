@@ -3,10 +3,15 @@ import { useState, useEffect } from 'react';
 import { getProject } from '../../../services/PostService';
 import Sidebar from '../../route/Sidebar';
 import PostList from './PostList';
+
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { userState } from '../../../atom';
 function ProjectManage() {
+
+    const users = useRecoilValue(userState);
     const [myProjectList, setMyProjectList] = useState([]);
     useEffect(()=> {
-       getProject().then((response) => {
+       getProject(users.id).then((response) => {
         setMyProjectList(response);
        })
     }, [])

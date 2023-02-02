@@ -3,17 +3,21 @@ import { useState, useEffect } from 'react';
 import { getMyPost, getRequestedPost } from '../../../services/PostService';
 import Sidebar from '../../route/Sidebar';
 import PostList from './PostList';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { userState } from '../../../atom';
 function PostManage() {
 
+
+    const users = useRecoilValue(userState);
     const [myPost, setMyPost] = useState([]);
     const [requestedPost, setRequestedPost] = useState([]);
 
     useEffect(()=> {
-      getMyPost().then((response) => {
+      getMyPost(users.id).then((response) => {
         setMyPost(response);
       })
 
-      getRequestedPost().then((response) => {
+      getRequestedPost(users.id).then((response) => {
         setRequestedPost(response);
       })
     }, [])
