@@ -6,7 +6,7 @@ node {
              nvmIoJsOrgMirror: 'https://iojs.org/dist',
              nvmNodeJsOrgMirror: 'https://nodejs.org/dist', 
              version: '10.16.0') {
-                    sh "yum install gcc gcc-c++ make"
+                    sh "apt-get install gcc gcc-c++ make -y"
                     sh "npm install"
                     echo "Build main site distribution"
                     sh "npm run build"
