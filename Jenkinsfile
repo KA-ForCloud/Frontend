@@ -9,7 +9,7 @@ node {
              nvmIoJsOrgMirror: 'https://iojs.org/dist',
              nvmNodeJsOrgMirror: 'https://nodejs.org/dist', 
              version: '10.16.0') {
-                    sh "sudo apt-get install build-essential"
+                    sh "apt-get install build-essential"
                     sh "npm install"
                     echo "Build main site distribution"
                     sh "npm run build"
