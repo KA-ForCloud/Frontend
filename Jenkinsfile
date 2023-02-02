@@ -5,10 +5,13 @@ pipeline {
             args '-p 3001:3000' 
         }
     }
+    environment {
+        HOME = '.'
+    }
     stages {
         stage('Build') { 
             steps {
-                sh 'npm install --legacy-peer-deps' 
+                sh 'npm install' 
             }
         }
     }
