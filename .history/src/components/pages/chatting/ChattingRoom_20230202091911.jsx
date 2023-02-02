@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useRef } from "react";
 import {connect, getRooms, subscribe,publish,getChattings,client,updateLastRead} from '../../../services/ChattingService';
 import { useParams } from 'react-router-dom';
-import MessageList from "./list/MsgList";
+import MessageList from "./list/MessageList";
 import { useDispatch,useSelector } from 'react-redux';
 import { connectSocket,saveSubscription,saveRoomId } from "../../../modules/socket";
 import { getDate } from "./Date";
