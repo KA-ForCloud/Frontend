@@ -279,7 +279,7 @@ function MainPage(props) {
       </div>
       <hr className="h-px mt-4 mb-5 mx-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
 
-      <div className="min-w-max mx-8 grid grid-cols-1 lg:grid-cols-3 gap-x-4 gap-y-10 md:grid-cols-2"> 
+      <div className="min-w-max mx-8 grid grid-cols-1 xl:grid-cols-3 gap-x-4 gap-y-10 md:grid-cols-2"> 
           {postList && <PostList postList = {postList} type ={"main"}/>} 
       </div>
     </div>
