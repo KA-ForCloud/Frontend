@@ -107,7 +107,7 @@ function ViewPost() {
                     }
 
                     {myPost && <button className = {state.postType === "recruiting" ? "ml-5 text-red-500" : "ml-auto text-red-500"} onClick={() => {
-                        deleteMyPost(postId).then(()=>{
+                        deleteMyPost(postId, users.id).then(()=>{
                             console.log("삭제완료")
                             navigate('/mainPage');
                         })
