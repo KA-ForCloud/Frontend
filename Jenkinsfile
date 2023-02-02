@@ -19,6 +19,7 @@ node {
                     echo "sshagent start"
                     sh '''
                         ssh -o StrictHostKeyChecking=no centos@210.109.63.198 -p 10001 uptime
+                        rm -rf /var/jenkins_home/workspace/forCloud_Frontend_Pipeline
                         scp -r -P 10001 /var/jenkins_home/workspace/forCloud_Frontend_Pipeline centos@210.109.63.198:/home/centos/Frontend
                     '''
                     echo "Success"
