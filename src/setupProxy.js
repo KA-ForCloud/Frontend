@@ -4,7 +4,7 @@ module.exports = (app) => {
   app.use(
 		'/api',
 		createProxyMiddleware({
-			target: 'http://localhost:8080',
+			target: 'http://172.16.1.171:8080',
 			changeOrigin: true,
 		}))
 	// dummy 포함 하위 route에 대해서는 localhost:6000/v1을 domain으로 하여 proxy설정
