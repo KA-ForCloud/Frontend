@@ -8,9 +8,8 @@ node {
              version: '10.16.0') {
                     sh "apt-get update"
                     sh "apt-get install gcc g++ make -y"
-                    sh "npm install"
+                    sh "npm install --legacy-peer-deps"
                     echo "Build main site distribution"
-                    sh "npm run build"
               }
 
     }
