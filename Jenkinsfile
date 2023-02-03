@@ -20,6 +20,7 @@ node {
         echo "Deploy Start"
         sshagent(credentials: ['kic_key']) {
                     echo "sshagent start"
+                    slackSend (channel: '#migrator', color: '#FFFF00', message: "Deploy Start: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                     sh '''
                         ssh -o StrictHostKeyChecking=no centos@210.109.63.198 -p 10002 uptime
                         ssh -t centos@210.109.63.198 -p 10002 ./please.sh
@@ -27,7 +28,7 @@ node {
                         ssh -t centos@210.109.63.198 -p 10002 ./deploy.sh
                     '''
                     echo "Success"
-                    slackSend (channel: '#migrator', color: '#FFFF00', message: "Deploy Complete: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                    
         }
     }
 
