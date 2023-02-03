@@ -13,7 +13,7 @@ const sidebarNavItems = [
         display: '포트폴리오',
         icon: <i className='bx bx-user'></i>,
         to: '/portfolioview',
-        section: 'portfolio'
+        section: 'portfolioview'
     },
     {
         display: '게시글 관리',
@@ -36,7 +36,7 @@ const Sidebar = () => {
     const sidebarRef = useRef();
     const indicatorRef = useRef();
     const location = useLocation();
-
+    const [toggle, setToggle] = useState(false);
     useEffect(() => {
         setTimeout(() => {
             const sidebarItem = sidebarRef.current.querySelector('.sidebar__menu__item');
@@ -53,7 +53,6 @@ const Sidebar = () => {
     }, [location]);
 
     return <div className='sidebar'>
-        
         <div ref={sidebarRef} className="sidebar__menu">
             <div
                 ref={indicatorRef}
@@ -78,6 +77,8 @@ const Sidebar = () => {
             }
         </div>
     </div>
+
+    
 };
 
 export default Sidebar;

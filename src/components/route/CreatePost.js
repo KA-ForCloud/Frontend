@@ -3,11 +3,16 @@ import { Button, Card, Col, Form, InputGroup, Modal, Nav, Row } from 'react-boot
 // import { Helmet } from 'react-helmet';
 import { MdDelete } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState} from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled, { css } from 'styled-components';
 import axios from 'axios';
+
 import {useImperativeHandle } from "react";
 import { useDispatch,useSelector } from 'react-redux';
+
+import { useImperativeHandle } from "react";
+
+
 import { KAKAO_AUTH_URL } from '../../OAuth';
 import { DateRangeSelector } from '../route/DateRangeSelector';
 import { userState } from '../../atom';
@@ -123,7 +128,7 @@ function CreatePost() {
 	postDto.end_time = '12:12:12 12:12:00';
 	postDto.post_name = null;
 	postDto.contents = null;
-	postDto.views= 0;
+	postDto.views = 0;
 
 	// surveyDto.survey_id = null;
 	// surveyDto.survey_url = null;
@@ -216,7 +221,7 @@ function CreatePost() {
 	const [startTime, setStartTime] = useState(timeString);
 	const [endDate, setEndDate] = useState(nextDateString);
 	const [endTime, setEndTime] = useState(timeString);
-	
+
 	const [springbootCount, setspringbootCount] = useState(0);
 	const [pythonCount, setpythonCount] = useState(0);
 	const [springCount, setspringCount] = useState(0);
@@ -227,53 +232,53 @@ function CreatePost() {
 	const [projectLengthCount, setprojectLengthCount] = useState(0);
 	// const [javascriptCount, setjavascriptCount] = useState(0);
 	// const [javascriptCount, setjavascriptCount] = useState(0);
-	
+
 	const onClick = (event) => {
 		const id = event.target.id;
-		switch(id){
+		switch (id) {
 			case 'springPlus':
-				setspringCount(springCount+1)
+				setspringCount(springCount + 1)
 				break
 			case 'pythonPlus':
-				setpythonCount(pythonCount+1)
+				setpythonCount(pythonCount + 1)
 				break
 			case 'springMinus':
-				setspringCount(springCount-1)
+				setspringCount(springCount - 1)
 				break
 			case 'pythonMinus':
-				setpythonCount(pythonCount-1)
+				setpythonCount(pythonCount - 1)
 				break
 			case 'springbootPlus':
-				setspringbootCount(springbootCount+1)
+				setspringbootCount(springbootCount + 1)
 				break
 			case 'reactPlus':
-				setreactCount(reactCount+1)
+				setreactCount(reactCount + 1)
 				break
 			case 'springbootMinus':
-				setspringbootCount(springbootCount-1)
+				setspringbootCount(springbootCount - 1)
 				break
 			case 'reactMinus':
-				setreactCount(reactCount-1)
+				setreactCount(reactCount - 1)
 				break
 			case 'javaPlus':
-				setjavaCount(javaCount+1)
+				setjavaCount(javaCount + 1)
 				break
 			case 'javascriptPlus':
-				setjavascriptCount(javascriptCount+1)
+				setjavascriptCount(javascriptCount + 1)
 				break
 			case 'javaMinus':
-				setjavaCount(javaCount-1)
+				setjavaCount(javaCount - 1)
 				break
 			case 'javascriptMinus':
-				setjavascriptCount(javascriptCount-1)
+				setjavascriptCount(javascriptCount - 1)
 				break
 			case 'projectMemPlus':
-				setprojectLengthCount(projectLengthCount+1)
+				setprojectLengthCount(projectLengthCount + 1)
 				break
 			case 'projectMemMinus':
-				setprojectLengthCount(projectLengthCount-1)
+				setprojectLengthCount(projectLengthCount - 1)
 				break
-				
+
 			// case 'javaPlus':
 			// 	setjavaCount(javaCount+1)
 			// 	break
@@ -289,37 +294,37 @@ function CreatePost() {
 		}
 	}
 	const [inputs, setInputs] = useState({
-        userId: "",
-        password: "",
-        passwordConfirm: "",
-        gender: "woman",
-        year: 2022,
-        month: 1,
-        day: "",
-        checkbox: {},
-        content: "",
-        errors: {},
-    });
+		userId: "",
+		password: "",
+		passwordConfirm: "",
+		gender: "woman",
+		year: 2022,
+		month: 1,
+		day: "",
+		checkbox: {},
+		content: "",
+		errors: {},
+	});
 
 
 	const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
+		const { name, value, type, checked } = e.target;
 
-        if (type === "checkbox") {
-            setInputs((state) => ({
-                ...state,
-                checkbox: {
-                    ...state.checkbox,
-                    [name]: checked,
-                },
-            }));
-        } else {
-            setInputs((state) => ({
-                ...state,
-                [name]: value,
-            }));
-        }
-    };
+		if (type === "checkbox") {
+			setInputs((state) => ({
+				...state,
+				checkbox: {
+					...state.checkbox,
+					[name]: checked,
+				},
+			}));
+		} else {
+			setInputs((state) => ({
+				...state,
+				[name]: value,
+			}));
+		}
+	};
 
 
 	// 설문 저장하기 버튼을 누를 때
@@ -327,7 +332,7 @@ function CreatePost() {
 		// setShow(true);
 		setViewSwitch('공유');
 	}
-	
+
 
 	// 설문 제작 완료 버튼을 누를때 (공유탭))
 	function handlePostCreateButton() {
@@ -337,7 +342,7 @@ function CreatePost() {
 		postDto.end_time = '12:12:12 12:12:00';
 		postDto.post_name = null;
 		postDto.contents = null;
-		postDto.views= 0;
+		postDto.views = 0;
 		postDto.durations = projectLengthCount;
 		start_time_temp = startDate + ' ' + startTime + ':00'
 		end_time_temp = endDate + ' ' + endTime + ':00';
@@ -345,13 +350,13 @@ function CreatePost() {
 		postDto.start_time = start_time_temp;
 		console.log('postdto의 시작시간', postDto.start_time);
 		postDto.end_time = end_time_temp;
-		
+
 		// 아래의 세가지 변수는 설문 state 판별을 위한 조건문에 사용
 		// 0: 진행중 1: 배포전 2: 종료
 		let start_time = new Date(start_time_temp);
 		let end_time = new Date(end_time_temp);
 		let current_time = new Date(current_time_temp);
-		
+
 		// console.log('현재', surveyState.current);
 
 		if (start_time > end_time) {
@@ -377,11 +382,11 @@ function CreatePost() {
 
 		if (postState.current != -1) {
 
-			
 
-				// //객관식이면 객관식 질문 문항들을 함께 전송해야함
-				// //객관식이면 객관식 질문 문항들을 함께 전송해야함
-				
+
+			// //객관식이면 객관식 질문 문항들을 함께 전송해야함
+			// //객관식이면 객관식 질문 문항들을 함께 전송해야함
+
 
 			// questionHandler(copy);
 			postDto.post_name = postName;
@@ -404,19 +409,8 @@ function CreatePost() {
 			postDto.postCategoryDto = postCatDto;
 
 			console.log(users);
+
 			console.log("postDto",postDto)
-			// TODO: 게시글 생성 시 채팅방 자동 생성
-			// axios.post(`/api/post/save/${users.id}`, postDto)
-			// .then((response) => {
-			// 	console.log(response);
-			// })
-			// .catch((error) => {
-			// 	console.log(error);
-			// })
-			// .finally(() => {
-			// 	const chattingId=res
-			// 	navigate('/mainPage');
-			// });
 			
 			savePost(users.id,postDto).then((response)=>{
 				if(response.data.code!==1000){
@@ -430,129 +424,130 @@ function CreatePost() {
 				}
 			})
 
+
 			console.log(postDto)
 
 			forceUpdate();
-		
+
 		}
 	}
 
 	//자압구니
-	
+
 
 
 	return (
 		<>
-					
-					<>
-						<div className="mx-auto max-w-7xl px-4 sm:px-6">
-							<div className="mx-8 my-5">
-								<h6 className ="font-bold my-2 text-2xl">프로젝트 명</h6>
-								<Form.Control className="w-full border contents-area my-2" size="lg" as="textarea" placeholder="프로젝트 명을 입력해주세요"
-									cols= "120"
-									onChange={(e) => {
-										setpostName(e.target.value);
-									}}>{postName}</Form.Control>
-								<h6 className ="font-bold my-2 text-2xl">프로젝트 기간 설정</h6>
-								<table className="w-full my-5 text-base border">
-									<td>프로젝트 기간 설정</td>
-									<td>{projectLengthCount} 개월</td>
-									<td><button id = 'projectMemPlus' onClick= {onClick}>+</button></td>
-									<td><button id = 'projectMemMinus' onClick= {onClick}>-</button></td>
-								</table>
-								<h6 className ="font-bold my-2 text-2xl">프로젝트 인원 지정</h6>
-								<div>
-								<table className="w-full my-5 text-base text-left border rounded-sm">
-									<thead>
-										<th>분야</th>
-										<th>인원 수</th>
-										<th colSpan={1}></th>
-									</thead>
-									<tbody>
-										<tr>
-											<td >React</td>
-											<td>{reactCount} 명</td>
-											<td><button id = 'reactPlus' onClick= {onClick}>+</button></td>
-											<td><button id = 'reactMinus' onClick= {onClick}>-</button></td>
-										</tr>
-										<tr>
-											<td>Java</td>
-											<td>{javaCount} 명</td>
-											<td><button id = 'javaPlus' onClick= {onClick}>+</button></td>
-											<td><button id = 'javaMinus' onClick= {onClick}>-</button></td>
-										</tr>
-										<tr>
-											<td>Javascript</td>
-											<td>{javascriptCount} 명</td>
-											<td><button id = 'javascriptPlus' onClick= {onClick}>+</button></td>
-											<td><button id = 'javascriptMinus' onClick= {onClick}>-</button></td>
-										</tr>
-										<tr>
-											<td>Spring</td>
-											<td>{springCount} 명</td>
-											<td><button id = 'springPlus' onClick= {onClick}>+</button></td>
-											<td><button id = 'springMinus' onClick= {onClick}>-</button></td>
-										</tr>
-										<tr>
-											<td>Springboot</td>
-											<td>{springbootCount} 명</td>
-											<td><button id = 'springbootPlus' onClick= {onClick}>+</button></td>
-											<td><button id = 'springbootMinus' onClick= {onClick}>-</button></td>
-										</tr>
-										<tr>
-											<td>Python</td>
-											<td>{pythonCount} 명</td>
-											<td><button id = 'pythonPlus' onClick= {onClick}>+</button></td>
-											<td><button id = 'pythonMinus' onClick= {onClick}>-</button></td>
-										</tr>
-									</tbody>
-								</table>
-								</div>
-								<h6 className ="font-bold mb-5 text-2xl">프로젝트 기간 설정</h6>
-								<h6 className ="font-bold mb-5 text-xl text-center">날짜를 드래그하거나 클릭하세요! 😉</h6>
-								<div className="text-center p-4" >
-									<DateRangeSelector startDateHandler={setStartDate} endDateHandler={setEndDate} startTimeHandler={setStartTime} endTimeHandler={setEndTime}/>
-									{/* <div style={{ marginTop: '10px' }}>
+
+			<>
+				<div className="mx-auto w-9/12 my-4 px-4">
+					<div className="mx-8 my-5">
+						<h6 className="font-bold my-2 text-2xl">프로젝트 명</h6>
+						<Form.Control className="w-full border contents-area my-2" size="lg" as="textarea" placeholder="프로젝트 명을 입력해주세요"
+							cols="120"
+							onChange={(e) => {
+								setpostName(e.target.value);
+							}}>{postName}</Form.Control>
+						<h6 className="font-bold my-2 text-2xl">프로젝트 기간 설정</h6>
+						<table className="w-full my-5 text-base border">
+							<td>프로젝트 기간 설정</td>
+							<td>{projectLengthCount} 개월</td>
+							<td><button id='projectMemPlus' onClick={onClick}>+</button></td>
+							<td><button id='projectMemMinus' onClick={onClick}>-</button></td>
+						</table>
+						<h6 className="font-bold my-2 text-2xl">프로젝트 인원 지정</h6>
+						<div>
+							<table className="w-full my-5 text-base text-left border rounded-sm">
+								<thead>
+									<th>분야</th>
+									<th>인원 수</th>
+									<th colSpan={1}></th>
+								</thead>
+								<tbody>
+									<tr>
+										<td >React</td>
+										<td>{reactCount} 명</td>
+										<td><button id='reactPlus' onClick={onClick}>+</button></td>
+										<td><button id='reactMinus' onClick={onClick}>-</button></td>
+									</tr>
+									<tr>
+										<td>Java</td>
+										<td>{javaCount} 명</td>
+										<td><button id='javaPlus' onClick={onClick}>+</button></td>
+										<td><button id='javaMinus' onClick={onClick}>-</button></td>
+									</tr>
+									<tr>
+										<td>Javascript</td>
+										<td>{javascriptCount} 명</td>
+										<td><button id='javascriptPlus' onClick={onClick}>+</button></td>
+										<td><button id='javascriptMinus' onClick={onClick}>-</button></td>
+									</tr>
+									<tr>
+										<td>Spring</td>
+										<td>{springCount} 명</td>
+										<td><button id='springPlus' onClick={onClick}>+</button></td>
+										<td><button id='springMinus' onClick={onClick}>-</button></td>
+									</tr>
+									<tr>
+										<td>Springboot</td>
+										<td>{springbootCount} 명</td>
+										<td><button id='springbootPlus' onClick={onClick}>+</button></td>
+										<td><button id='springbootMinus' onClick={onClick}>-</button></td>
+									</tr>
+									<tr>
+										<td>Python</td>
+										<td>{pythonCount} 명</td>
+										<td><button id='pythonPlus' onClick={onClick}>+</button></td>
+										<td><button id='pythonMinus' onClick={onClick}>-</button></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<h6 className="font-bold mb-5 text-2xl">프로젝트 기간 설정</h6>
+						<h6 className="font-bold mb-5 text-xl text-center">날짜를 드래그하거나 클릭하세요! 😉</h6>
+						<div className="text-center p-4" >
+							<DateRangeSelector startDateHandler={setStartDate} endDateHandler={setEndDate} startTimeHandler={setStartTime} endTimeHandler={setEndTime} />
+							{/* <div style={{ marginTop: '10px' }}>
 										<input className="form-check-input" id="qrCheckBox" name="shareWay" type="checkbox" value="" onChange={(e) => {
 											checkOnlyOne(e.target)
 											is_checked()
 										}} /> QR코드 생성하기
 									</div> */}
-								<h6 className ="font-bold mb-5 text-2xl text-left">프로젝트 소개! 😉</h6>
-									<Form.Group>
+							<h6 className="font-bold mb-5 text-2xl text-left">프로젝트 소개! 😉</h6>
+							<Form.Group>
 								<Form.Control className="border contents-area w-full" size="lg" as="textarea" placeholder="프로젝트 소개를 입력해주세요"
-									rows = "5"
-									cols= "120"
+									rows="5"
+									cols="120"
 									onChange={(e) => {
 										setpostContents(e.target.value);
 									}}>{postContents}</Form.Control>
-	                            
-                            <div className="auth__contentCount">
-                                <span>{`${inputs.content.length} / 300`}</span>
-                            </div>
-                        </Form.Group>
-								<div className='text-right'>
-									<button className="font-bold my-5 text-2xl border-2 border-sky-200 hover:bg-sky-100 rounded-md p-1"
-										onClick={() => {
-											handlePostCreateButton()
-										}}>게시글 게시</button>
 
-										<button className="ml-2 font-bold my-5 text-2xl border-2 border-red-200 hover:bg-red-100 rounded-md p-1"
-										onClick={() => {
-											navigate('/mainPage')
-										}}>작성 취소</button>
+								<div className="auth__contentCount">
+									<span>{`${inputs.content.length} / 300`}</span>
 								</div>
-								
+							</Form.Group>
+							<div className='text-right'>
+								<button className="font-bold my-5 text-2xl border-2 border-sky-200 hover:bg-sky-100 rounded-md p-1"
+									onClick={() => {
+										handlePostCreateButton()
+									}}>게시글 게시</button>
 
-
+								<button className="ml-2 font-bold my-5 text-2xl border-2 border-red-200 hover:bg-red-100 rounded-md p-1"
+									onClick={() => {
+										navigate('/mainPage')
+									}}>작성 취소</button>
 							</div>
 
-						</div>
+
 
 						</div>
 
-						
-					</>
+					</div>
+
+				</div>
+
+
+			</>
 		</>
 
 	);

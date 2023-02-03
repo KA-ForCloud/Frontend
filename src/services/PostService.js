@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { userState } from '../atom';
-import { useRecoilValue } from 'recoil';
 
 const BACKEND_API_BASE_URL="http://localhost:8080";
 
@@ -8,7 +6,6 @@ const BACKEND_API_BASE_URL="http://localhost:8080";
 
 export async function getPosts(){
     const response=await axios.get(`/api/post`);
-    
     return response.data.result;
 }
 
@@ -27,8 +24,8 @@ export async function getRequestedPost(userId){
     return response.data.result;
 }
 
-export async function getTemperatures(){
-    const response = await axios.get(`/api/temperature`)
+export async function getPopularCategorys(){
+    const response = await axios.get(`/api/popularCategory`)
     return response.data.result;
 }
 
@@ -46,24 +43,27 @@ export async function getCurrentPostCategory(postId){
 export async function createApplicant(postId,request,userId){
     const response = await axios.post(`/api/registerApplicant`, {
         postId: postId,
-        userId: userId,
-        request: request
+        request: request,
+        userId: userId
     })
     return response.data.code;
 }
 
+
 // 승인하기 클릭 시-> 채팅방 참여 메세지 발송되어야 함.
-export async function createParticipant(postId,name){
+
+export async function createParticipant(postId,userId){
+
     const response = await axios.post(`/api/registerParticipant`, {
         postId: postId,
-        name: name
+        userId: userId
     })
     console.log("response",response);
     return response;
 }
 
-export async function deleteApplicant(postId,name){
-    const response = await axios.delete(`/api/applicant/${postId}/${name}`)
+export async function deleteApplicant(postId,userId){
+    const response = await axios.delete(`/api/applicant/${postId}/${userId}`)
     return response.data.code;
 }
 
@@ -82,8 +82,8 @@ export async function updatePostView(postId){
     return response.data.result;
 }
 
-export async function updateCurrentCategory(postId, name){
-    const response = await axios.patch(`/api/postCategory/${postId}/${name}`)
+export async function updateCurrentCategory(postId, userId){
+    const response = await axios.patch(`/api/postCategory/${postId}/${userId}`)
     return response.data.code;
 }
 

@@ -3,7 +3,7 @@ import { Container, Stack, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // hooks
 import React, { useCallback,useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,useLocation  } from 'react-router-dom';
 import useResponsive from '../../hooks/useResponsive';
 import Carousel from 'react-bootstrap/Carousel'
 // components
@@ -22,6 +22,8 @@ import Sidebar  from './Sidebar';
 import { Outlet } from "react-router-dom";
 import axios from 'axios';
 import { MdSystemSecurityUpdate } from 'react-icons/md';
+
+
 const StyledRoot = styled('div')(({ theme }) => ({
     [theme.breakpoints.up('md')]: {
         display: 'flex',
@@ -79,9 +81,9 @@ const StyledContent = styled('div')(({ theme }) => ({
 //     }
 // `;
 // ----------------------------------------------------------------------
-function Portfolioview() {
+function Portfolioviewer() {
 
-
+    const { state } = useLocation();
     const [, updateState] = useState();
 	let [school, setSchool] = useState(null);
     let [tech, setTech] = useState(null);
@@ -89,15 +91,7 @@ function Portfolioview() {
     const users = useRecoilValue(userState);
 
     let userDto = new Object();
-    let userCategoryDto = new Object();
 
-    userCategoryDto.spring = 0;
-    userCategoryDto.java = 0;
-    userCategoryDto.springboot = 0;
-    userCategoryDto.javascript = 0;
-    userCategoryDto.python = 0;
-    userCategoryDto.react = 0;
-    userCategoryDto.user_id = null;
     
     
     
@@ -111,9 +105,24 @@ function Portfolioview() {
     const [imgFile, setImgFile] = useState(null);	//파일	
     const [tag, setTag] = useState([]);
     const [comment,setComment] = useState();
+
+    const [username, setUsername] = useState("");
+    const [profileImag, setProfileImg] = useState("");
+    const [email, setEmail] = useState("");
+    const [age, setAge] = useState("");
+    const [portname, setPortname] = useState("");
+    const [portsave, setPortsave] = useState("");
+    const [gender, setGender] = useState("");
+
     var images = []
     var filename = "";
-    
+
+    // useEffect(() => {
+    //     setTimeout(function () {
+    //         getPortInfo();
+    //     }, 1000);
+
+    // }, [])
     
     const data = [
         {id: 0, title: 'Spring'},
@@ -166,17 +175,37 @@ function Portfolioview() {
     };
 
     let refresh_check = false;
-    useEffect(() => {
-        
-        // console.log(users.tech);
-        
-        // forceUpdate();
-        // if (!users.login) {
-        //     window.location.href = KAKAO_AUTH_URL;
-        // }
 
-    }, [])
 
+    function getPortInfo(){
+        axios.get(`/api/user/info/${1}`)
+			.then((response) => {
+                console.log('getgetgetdata.data.token', "-", response, "-");
+                console.log(filename);
+                setUsername(response.data.user_name);
+                setProfileImg(response.data.user_image);
+                setAge(response.data.user_age);
+                setSchool(response.data.school);
+                setTech(response.data.tech);
+                
+                userDto.profileImg = response.data.user_image;
+                userDto.email = response.data.user_email;
+                userDto.age = response.data.user_age;
+                userDto.gender = response.data.user_gender;
+                userDto.school = response.data.school;
+                userDto.tech =  response.data.tech;
+                userDto.portname = response.data.port;
+                userDto.portsave = response.data.portsave_name;
+                console.log(userDto);
+                
+            })
+            .catch((error) => {
+                console.log(error);
+                console.log('실패');
+                return "error";
+            })
+            
+        }
 
     
     const onClick = (event) => {
@@ -185,8 +214,8 @@ function Portfolioview() {
             case 'download':
                 navigate('/portfolioview');
                 console.log(users.portsave);    
-                if ( window.location == 'http://localhost:3000/portfolioview' ) {
-                     window.location.href='http://localhost:8080/api/user/attached/'+users.portsave;
+                if ( window.location == 'http://localhost:3000/api/portfolioview' ) {
+                     window.location.href='http://localhost:8080/api/user/attached/'+userDto.portsave;
                 }
                 
                 navigate('/portfolioview');
@@ -197,29 +226,11 @@ function Portfolioview() {
         }
     
     }
-    // function getUserInfo(){
-
-    //     axios.get('https://localhost:8080/user/get', headers)
-    //     .then((response) => {
-    //         console.log('get all survey ok');
-    //         console.log(response.data)
-    //         Surveys = JSON.stringify(response.data);
-    //     })
-    //     .catch((error) => {
-    //         console.log(error)
-    //     })
-    // }
-    // useEffect(() => {
-    //     handleShow();
-    //     setTimeout(function () {
-    //         getKakaoToken();
-    //     }, 1000);
-    // }, []);
+    
 
     return (
         <>
-            <Sidebar />
-            <div className="my-5 flex mx-auto max-w-7xl sm:px-6" style={{marginRight : 40}}>
+            <div className="my-5 flex mx-auto max-w-7xl sm:px-6">
                 {/* <img src={logo}
                     sx={{
                         position: 'fixed',
@@ -235,32 +246,26 @@ function Portfolioview() {
                         </Typography> */}
                         <div className="box" style={{ background: "#BDBDBD" }}>
                             {/* <img className="profile" src='https://d2u3dcdbebyaiu.cloudfront.net/uploads/atch_img/944/eabb97e854d5e5927a69d311701cc211_res.jpeg' /> */}
-                            <img className="profile" src={users.profileImg} />
+                            <img className="profile" src={state.profileImg} />
                         </div>
                     </StyledSection>
                 )}
 
-                <Container maxWidth="sm" >
+                <Container maxWidth="sm">
                     <StyledContent>
-                        <Typography variant="h4" gutterBottom style={{ marginTop: 30}}>
-                            안녕하세요. <strong>{users.name}</strong>님
-                        </Typography>
+                        
                         <Typography variant="h6" gutterBottom>
-                            포트폴리오🤗
+                            {state.name} 님의 포트폴리오🤗
                         </Typography>
 
                         <hr style={{ marginBottom: 50 }}></hr>
 
                         <Stack spacing={3}>
-                            <TextField label="이메일" defaultValue={users.email} inputProps={{ }} />
-                            <TextField label="성별" defaultValue={users.gender} inputProps={{ }} />
-                            <TextField label="연령대" defaultValue={users.age} inputProps={{ }} />
-                            <TextField label="학교" defaultValue={users.school} inputProps={{ }} onChange={(e) => {
-											setSchool(e.target.value);
-										}}> </TextField> 
-                            <TextField label="기술 스택" defaultValue={users.tech} inputProps={{ }} style={{marginBottm:20}} onChange={(e) => {
-											setTech(e.target.value);
-										}}></TextField>
+                            <TextField label="이메일" defaultValue={state.username} inputProps={{ readOnly: true }}/>
+                            <TextField label="성별" defaultValue={state.gender} inputProps={{ readOnly: true }}/>
+                            <TextField label="연령대" defaultValue={state.age} inputProps={{ readOnly: true }}/>
+                            <TextField label="학교" defaultValue={state.school}  inputProps={{ readOnly: true }}> </TextField> 
+                            <TextField label="기술 스택" defaultValue={state.tech} style={{marginBottm:20}} inputProps={{ readOnly: true }}></TextField>
                         </Stack>
                         {/* <table border={10} width = "90%" marginTop="502x" >
                             <thead style={{ marginTop: 50 }}>
@@ -300,12 +305,12 @@ function Portfolioview() {
                     <Typography variant="h6" gutterBottom style={{ marginTop: 50}}>
                             포트폴리오 파일
                         </Typography>
-                    {users.portname != "" &&<Button id="download" onClick= {onClick} variant="h9" style={{ marginTop: 10}}>
-                        {users.portname}
+                    {userDto.portname != "" &&<Button id="download" onClick= {onClick} variant="h9" style={{ marginTop: 10}}>
+                        {userDto.portname}
                     </Button>}
 
                     <a thhref="|/attached/${filename}|" thtext="dddd"/>
-                    {users.portname == ""&&<Typography variant="h9" style={{ marginTop: 50}}>
+                    {userDto.portname == ""&&<Typography variant="h9" style={{ marginTop: 50}}>
                         {filename}
                     
                     </Typography>}
@@ -313,13 +318,7 @@ function Portfolioview() {
                     {/* <FileUploader handleChange={handleChange} name="file" types={fileTypes} /> */}
                     </StyledContent>
 					
-                    <div className="text-center">
-									<button className="ml-auto border-2 rounded-md p-1 border-sky-200 my-4 text-2xl font-bold hover:bg-sky-200"
-                                    
-										onClick={() => {
-											navigate('/portfolio')
-										}}>수정하기</button>
-                                        </div>
+                    
                 </Container>
             </div>
             
@@ -331,5 +330,5 @@ function Portfolioview() {
     );
 }
 
-export { Portfolioview };
+export { Portfolioviewer };
 

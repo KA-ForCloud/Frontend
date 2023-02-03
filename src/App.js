@@ -17,6 +17,7 @@ import ProjectManage from "../src/components/pages/post/ProjectManage";
 import PostManage from "../src/components/pages/post/PostManage";
 import ViewProject from "../src/components/pages/post/ViewProject";
 import {UpdatePost} from "../src/components/route/UpdatePost";
+import { Portfolioviewer } from './components/route/Portfolioviewer';
 import React from 'react';
 import { styled } from '@mui/material/styles';
 
@@ -62,9 +63,10 @@ function App() {
                       <Route path="/portfolio" element = {<Portfolio/>}/>
                       <Route path="/createpost" element= {<CreatePost/>}/>
                       <Route path="/portfolioview" element = {<Portfolioview/>}/>
+                      <Route path="/portfolioviewer/*" element = {<Portfolioviewer/>}/>
                       <Route path="/postUpdate" element = {<UpdatePost/>}/>
                     
-                      <Route path="/user/attached" />
+                      <Route path="/user/attached/*" />
                       
                     
                       <Route path="rooms/*" element={<ChattingPage/>}/>
