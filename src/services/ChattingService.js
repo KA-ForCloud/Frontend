@@ -1,7 +1,7 @@
 import axios from 'axios';
 import SockJS from 'sockjs-client';
-// import Stomp from '@stomp/stompjs';
-
+import StompJs from '@stomp/stompjs';
+import { Client, Message } from '@stomp/stompjs';
 
 
 // 채팅방 리스트 조회
@@ -19,14 +19,14 @@ export async function getChattings(roomId){
     return response;
 }
 
-// 채팅방 나가기
+// 참여자의 채팅방 나가기
 export async function exitRoom(roomId,memberId){
     const response=await axios.delete(`/api/member/${memberId}/rooms/${roomId}/participant`);
     // console.log("[exitRoom]",response);
     return response;
 }
 
-// 채팅방 삭제
+// 개설자의 채팅방 삭제
 export async function deleteRoom(roomId,memberId){
     // console.log("try to delete room");
     const response=await axios.delete(`/api/member/${memberId}/rooms/${roomId}`);
@@ -34,6 +34,12 @@ export async function deleteRoom(roomId,memberId){
     return response;
 }
 
+// 개설자의 채팅방 종료
+export async function endRoom(roomId,memberId){
+    const response=await axios.patch(`/api/member/${memberId}/rooms/${roomId}`);
+
+    return response;
+}
 // ChattingListItem에 넣기 위한 데이터 가져오기 - 채팅 이력에 의한 채팅 개수, 마지막 채팅
 export async function getChattingListItemInfo(roomId){
     const response=await axios.get(`/chat/chatting/${roomId}`);
@@ -59,6 +65,7 @@ export const stomp = require('stompjs');
 export let client;
 // 소켓 연결
 export function connect(){ // 연결할 때
+    
     let socket=new SockJS('http://localhost:8081/stomp/chat');
     client=stomp.over(socket);
     console.log("client ",client);
@@ -75,26 +82,44 @@ export function connect(){ // 연결할 때
 };
 
 // 채팅방 참여 - send message TODO: memberId, nickname 수정 필요
-export function publish(roomId,message,memberId,nickname,now){
+export function publish(roomId,message,memberId,nickname,now,msgType){
+    console.log("publish msgType: ",msgType);
     client.send(`/pub/chat.message.${roomId}`,{}, JSON.stringify({
         msg: message,
         nickName: nickname,
         roomId: roomId,
         timestamp: now,
-        memberId: memberId
+        memberId: memberId,
+        msgType: msgType
     }));
 };
 
 // 채팅방 참여 - enter 
-export function enter(roomId,msg,sender){
-    
-    client.send('/pub/chat.enter.' + roomId, (body) => {
-    // const json_body = JSON.parse(body.body);
-    // setChatList((_chat_list) => [
-    //     ..._chat_list, json_body
-    // ]);
-    });
+export function enter(roomId,msg,memberId,nickname,now,msgType){
+    console.log("now",now);
+    client.send(`/pub/chat.enter.${roomId}`,{},JSON.stringify({
+        msg:msg,
+        nickName:nickname,
+        roomId:roomId,
+        timestamp:now,
+        memberId:memberId,
+        msgType:"enter"
+    }))
 };
+
+// 파일 전송
+export async function submitFile(data){
+    console.log("data",data);
+    const config = {
+        headers : {
+            'Content-Type' : 'multipart/form-data'
+        }
+    }
+    const response=await axios.post(`/chat/file`,data,config);
+    console.log("response",response);
+    // const lastReadNum=await axios.get(`/api/member/${memberId}/`)
+    return response;
+} 
 // 채팅방 참여 - receive message
 export function subscribe(socket,roomId){
     var response;

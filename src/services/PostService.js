@@ -1,5 +1,9 @@
 import axios from 'axios';
 
+const BACKEND_API_BASE_URL="http://localhost:8080";
+
+
+
 export async function getPosts(){
     const response=await axios.get(`/api/post`);
     return response.data.result;
@@ -35,6 +39,7 @@ export async function getCurrentPostCategory(postId){
     return response.data.result;
 }
 
+// 신청하기 클릭 시 api
 export async function createApplicant(postId,request,userId){
     const response = await axios.post(`/api/registerApplicant`, {
         postId: postId,
@@ -44,12 +49,17 @@ export async function createApplicant(postId,request,userId){
     return response.data.code;
 }
 
+
+// 승인하기 클릭 시-> 채팅방 참여 메세지 발송되어야 함.
+
 export async function createParticipant(postId,userId){
+
     const response = await axios.post(`/api/registerParticipant`, {
         postId: postId,
         userId: userId
     })
-    return response.data.code;
+    console.log("response",response);
+    return response;
 }
 
 export async function deleteApplicant(postId,userId){
@@ -82,5 +92,9 @@ export async function updatePostStatus(postId){
     return response.data.result;
 }
 
-
+export async function savePost(userId,postDto){
+    const response=await axios.post(`/api/post/save/${userId}`,postDto);
+    console.log("response: ",response);
+    return response;
+}
 

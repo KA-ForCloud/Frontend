@@ -43,7 +43,9 @@ function ChattingListItem(props) {
     }
     
     useEffect(() => {
+        console.log("memberId",memberId);
         getChattingListItemInfo(item.chattingId).then((response)=>{
+            console.log("====response",response);
             // console.log("item.last",item.last);
             setNumberOfChattings(response.data.result.number-1-item.last); // 안읽은 메세지 개수 = 전체 메세지 개수 - 1 - 참여자가 마지막으로 읽은 메세지 인덱스
             console.log("last",response.data.result.last);
@@ -55,6 +57,7 @@ function ChattingListItem(props) {
             console.log("msgType",msgType);
 
             setNewChat(response.data.result.last);
+            console.log("newChat",newChat);
             setCheck(true);
             setParticipants(item.participantList.length);
             if(numberOfChattings-1-item.last===0) {
@@ -72,14 +75,19 @@ function ChattingListItem(props) {
         const callback=function(message){
             if(message!==undefined&&message!=='undefined'){
                 const received=JSON.parse(message.body);
+                console.log("received",received);
                 const data={
                     nickName:received.nickName,
                     memberId:received.memberId,
                     roomId:received.roomId,
                     msg:received.msg,
-                    timestamp:received.timestamp
+                    timestamp:received.timestamp,
+                    msgType:received.msgType,
+                    originalFileName:received.originalFileName
                 }
+                console.log("data",data);
                 setNewChat(data);
+                console.log("newchat---",newChat);
                 if(data.msg==="exit") setMsgType(1);
                 else if(data.msg==="remove") setMsgType(2);
                 else setMsgType(3);
@@ -120,16 +128,18 @@ function ChattingListItem(props) {
         
         // console.log("numberOfChattings-1",numberOfChattings-1);
         // console.log("item.last",item.last);
-        if(newChat.msg==="exit") {
+        if(newChat.msgType==="exit") {
             console.log("exit");
             setParticipants(participants=>participants-1); // 참여자 나가기 메세지
+            console.log("participants",participants);
             // console.log("msgType",msgType);
             
         }
-        // else if(newChat.msg==="remove") msgType=2; // 개설자의 채팅방 삭제 메세지
-        // else {
-        //     msgType=3;
-        // }
+        else if(newChat.msgType==="enter"){
+            console.log("enter");
+            setParticipants(participants=>participants+1); // 참여자 나가기 메세지
+
+        }
         if(newChat.roomId!==Number(location.slice(-1))){
             setNumDiv(true);
         }
@@ -150,9 +160,10 @@ function ChattingListItem(props) {
                     {check&&<p className='mr-4 pt-2 text-sm text-gray-500'>{newChat.timestamp.substr(0,4)+"/"+newChat.timestamp.substr(4,2)+"/"+newChat.timestamp.substr(6,2)+" "+newChat.timestamp.substr(8,2)+":"+newChat.timestamp.substr(10,2)}</p>}
                 </div>
                 <div className='flex'>
-                    {msgType===3&&check&&<p className="text-sm font-extralight pl-6 grow mt-4 mb-2"> {newChat.msg} </p>}
-                    {msgType===1&&check&&<p className="text-sm font-extralight pl-6 grow mt-4 mb-2"> {newChat.nickName+"님이 퇴장하셨습니다."} </p>}
-
+                    {newChat!==null&&newChat.msgType==="msg"&&check&&<p className="text-sm font-extralight pl-6 grow mt-4 mb-2"> {newChat.msg} </p>}
+                    {newChat!==null&&newChat.msgType==="enter"&&check&&<p className="text-sm font-extralight pl-6 grow mt-4 mb-2"> {newChat.msg} </p>}
+                    {newChat!==null&&(newChat.msgType==="file"||newChat.msgType==="img")&&check&&<p className="text-sm font-extralight pl-6 grow mt-4 mb-2"> {newChat.nickName+"님이 파일을 업로드했습니다."} </p>}
+                    {newChat!==null&&newChat.msgType==="exit"&&check&&<p className="text-sm font-extralight pl-6 grow mt-4 mb-2"> {newChat.nickName+"님이 퇴장하셨습니다."} </p>}
                     {numDiv&&numberOfChattings>0?
                         <div className='flex justify-center content-center text-sm font-bold rounded-full md:w-6 md:h-6 mr-4 mt-4 text-center bg-indigo-300 text-white'>
                             <div className='m-auto'>{numberOfChattings}</div>

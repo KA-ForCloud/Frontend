@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import {connect, getRooms, subscribe,getClient,deleteRoom,exitRoom, publish} from '../../../services/ChattingService';
+import {connect, getRooms, subscribe,getClient,deleteRoom,exitRoom, publish, endRoom} from '../../../services/ChattingService';
 import ChattingRoom from "./ChattingRoom";
 import ChattingList from "./list/ChattingList";
 import { useRef } from "react";
@@ -27,6 +27,7 @@ export default function ChattingPage() {
     const [roomId,setRoomId]=useState();
     const [msg,setMsg]=useState();
     const [msgType,setMsgType]=useState();
+    const [btnType,setBtnType]=useState(0);
     let bi=0;
 
     ///////////////////////////////////// 테스트용 코드
@@ -40,6 +41,8 @@ export default function ChattingPage() {
         const infos=input.split(" ");
         setMemberId(infos[0]);
         setNickname(infos[1]);
+        console.log("memberId",memberId);
+        console.log("nickname",nickname);
         // setNickname(infos[1]);
         // setMemberId(e.target.value);
         // e.preventDefault();
@@ -60,11 +63,18 @@ export default function ChattingPage() {
     };
     //////////////////////////////////////////////////////////////////
 
-    // 채팅방 삭제, 나가기에 대한 메세지 발행
-    const removeAndExit= (roomId,msg) => {
-        publish(roomId,msg,memberId,nickname,getDate());
+    // 채팅방 삭제에 대한 메세지 발행
+    const remove= (roomId,msg) => {
+        publish(roomId,msg,memberId,nickname,getDate(),"remove");
     }
-    
+    // 채팅방 나가기에 대한 메세지 발행
+    const exit= (roomId,msg) => {
+        publish(roomId,msg,memberId,nickname,getDate(),"exit");
+    }
+    // 채팅방 종료 대한 메세지 발행
+    const end= (roomId,msg) => {
+        publish(roomId,msg,memberId,nickname,getDate(),"end");
+    }
     // 채팅방 선택 시 우측 화면 상단에 채팅방 제목을 보여줌
     const selectRoom=(item,itemTitle)=>{
         // console.log('chatting page - selected room id',item);
@@ -74,18 +84,18 @@ export default function ChattingPage() {
         setRoomId(item.chattingId);
         // setSelectedRoomNum(item.chattingId);
         item.participantList.map((p)=>{
-            // console.log("p",p.type);
+            console.log("p",p);
             if(p.type==="팀장") {
-                // console.log("memberIIIIDDDD",p.memberId);
-                bi=p.memberId;
-                // console.log("boss Id",bi);
+                console.log("memberIIIIDDDD",p.userId);
+                bi=p.userId;
+                console.log("boss Id",bi);
             }
         });
         setBtn(true);
         // console.log("bossId",typeof(bi));
         // console.log("memberId",typeof(memberId));
-        if(bi===Number(memberId)) setText("삭제");
-        else setText("나가기");
+        if(bi===Number(memberId)) setBtnType(1);
+        else setBtnType(2);
     }
     const newMsg=(msg,msgType)=>{
         setMsg(msg);
@@ -102,8 +112,9 @@ export default function ChattingPage() {
                 const data=response.data.result;
                 if(data.length===0) console.log("no rooms");
                 else{
+                    console.log("$$response",response);
                     setRoomList(data);
-                    // console.log("chatting page",roomList);
+                    console.log("chatting page",roomList);
 
                 }
             }
@@ -158,29 +169,38 @@ export default function ChattingPage() {
                         <div className="md:w-full md:h-full">
                             <div className="flex">
                                     <p className="text-2xl font-bold text-gray-900">{roomTitle}</p>
-                                    {btn?
-                                         <button className="ml-auto" onClick={()=>{
-                                            if(text==="나가기"){
-                                                const existMsg="exit";
-                                                removeAndExit(roomId,existMsg);
-                                                exitRoom(room.chattingId,memberId).then((response)=>{
-                                                    let newRoomList=roomList.filter(
-                                                        roomItem=>roomItem.chattingId!=room.chattingId
-                                                    )
-                                                    setRoomList(newRoomList);
-                                                });
-                                                navigate('/rooms');
-                                            }
-                                            else if(text==="삭제"){
-                                                deleteRoom(room.chattingId,memberId).then((response)=>{
+                                    {btnType===1&&
+                                        <button className="ml-auto" onClick={()=>{
+                                            deleteRoom(room.chattingId,memberId).then((response)=>{
+                                                const des="/sub/chat/"+room.chattingId;
+                                                // publish(room.chattingId,msg,memberId,nickname,getDate());
+                                                const removeMsg="remove";
+                                                remove(roomId,removeMsg);
+                                                subscriptions.map((sub)=>{
+                                                    if(sub.des===des) socket.unsubscribe(sub.id);
+                                                })
+                                                subscriptions=subscriptions.filter(
+                                                    subsrciption=>subsrciption.des!=des
+                                                )
+                                                dispatch(saveSubscription(subscriptions));
+                                                let newRooms=roomList.filter(
+                                                    roomItem=>roomItem.chattingId!=room.chattingId
+                                                )
+                                                setRoomList(newRooms);
+                                            });
+                                            navigate("/rooms");
+                                        }}>삭제</button>
+                                    }
+                                    {btnType===1&&
+                                        <button className="ml-3" onClick={()=>{
+                                            endRoom(room.chattingId,memberId).then((response)=>{
+                                                if(response.data.code===1000){
                                                     const des="/sub/chat/"+room.chattingId;
-                                                    // publish(room.chattingId,msg,memberId,nickname,getDate());
-                                                    const removeMsg="remove";
-                                                    removeAndExit(roomId,removeMsg);
+                                                    const endMsg="end";
+                                                    end(roomId,endMsg);
                                                     subscriptions.map((sub)=>{
                                                         if(sub.des===des) socket.unsubscribe(sub.id);
                                                     })
-
                                                     subscriptions=subscriptions.filter(
                                                         subsrciption=>subsrciption.des!=des
                                                     )
@@ -189,11 +209,31 @@ export default function ChattingPage() {
                                                         roomItem=>roomItem.chattingId!=room.chattingId
                                                     )
                                                     setRoomList(newRooms);
-                                                });
-                                            }
-                                         }}>{text}</button>
-                                         :
-                                        <div/>
+                                                }
+                                            })
+                                        }}>종료</button>
+                                    }
+                                     {btnType===2&&
+                                        <button className="ml-auto" onClick={()=>{
+                                            
+                                            exitRoom(room.chattingId,memberId).then((response)=>{
+                                                const des="/sub/chat/"+room.chattingId;
+                                                const existMsg="exit";
+                                                exit(roomId,existMsg);
+                                                subscriptions.map((sub)=>{
+                                                    if(sub.des===des) socket.unsubscribe(sub.id);
+                                                })
+                                                subscriptions=subscriptions.filter(
+                                                    subsrciption=>subsrciption.des!=des
+                                                )
+                                                dispatch(saveSubscription(subscriptions));
+                                                let newRoomList=roomList.filter(
+                                                    roomItem=>roomItem.chattingId!=room.chattingId
+                                                )
+                                                setRoomList(newRoomList);
+                                            });
+                                            navigate('/rooms');
+                                        }}>나가기</button>
                                     }
                             </div> 
                             

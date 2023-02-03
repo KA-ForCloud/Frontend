@@ -34,7 +34,7 @@ function ChattingList(props) {
       }
     },[msgType])
     return (
-      <div class="mt-10 flex flex-col h-96 overflow-auto">
+      <div className="flex-col h-96 overflow-auto">
         
         {items && items.map((item,idx)=>{
           // console.log("CHATTING",item.chattingId);

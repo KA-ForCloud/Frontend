@@ -10,16 +10,26 @@ import spring from "../../../category_img/spring.png";
 import springboot from "../../../category_img/springBoot.png";
 import {categoryState, postStatusState, checkedItemsState} from "../../../atom";
 import PostList from "./PostList";
-
-function MainPage() {
+import { connect } from "../../../services/ChattingService";
+import { useDispatch,useSelector } from 'react-redux';
+import { connectSocket } from "../../../modules/socket";
+function MainPage(props) {
   const navigate = useNavigate();
-  const [postList, setpostList] = useState([]);
+  const dispatch=useDispatch();
+  const [postList, setpostList] = useRecoilState(postState);
   const [popularCategoryList, setPopularCategoryList] = useState([]);
+  useEffect(() => {
+    // 소켓 연결
+    const client=connect();
+    dispatch(connectSocket(client));
+
+  
 
   useEffect(() => {
     if(postList.length === 0){
       getPosts().then((response) => {
         setpostList(response);
+
       })
       .catch(()=>{
         console.log("게시글 없음");

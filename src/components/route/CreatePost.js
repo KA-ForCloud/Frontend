@@ -6,7 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled, { css } from 'styled-components';
 import axios from 'axios';
+
+import {useImperativeHandle } from "react";
+import { useDispatch,useSelector } from 'react-redux';
+
 import { useImperativeHandle } from "react";
+
 
 import { KAKAO_AUTH_URL } from '../../OAuth';
 import { DateRangeSelector } from '../route/DateRangeSelector';
@@ -16,6 +21,9 @@ import { userState } from '../../atom';
 // @css
 import './CreatePost.css';
 import { TextField } from '@mui/material';
+import { savePost } from '../../services/PostService';
+import { publish, enter } from '../../services/ChattingService';
+import { getDate } from '../pages/chatting/Date';
 // @mui
 // import { styled } from '@mui/material/styles';
 
@@ -83,6 +91,7 @@ function CreatePost() {
 	const childRef = useRef();
 	const [, updateState] = useState();
 	const forceUpdate = useCallback(() => updateState({}, []));
+    let socket=useSelector(state=>state.socket.socket);
 
 	let [savedQsList, setSavedQsList] = useState([]);
 	let [curQs, setCurQs] = useState('');
@@ -400,17 +409,20 @@ function CreatePost() {
 			postDto.postCategoryDto = postCatDto;
 
 			console.log(users);
-			console.log("postDto", postDto)
-			axios.post(`/api/post/save/${users.id}`, postDto)
-				.then((response) => {
-					console.log(response);
-				})
-				.catch((error) => {
-					console.log(error);
-				})
-				.finally(() => {
+
+			console.log("postDto",postDto)
+			
+			savePost(users.id,postDto).then((response)=>{
+				if(response.data.code!==1000){
+					console.log("FAIL - savePost");
+				}
+				else{
+					const chattingId=response.data.result;
+					const msg=users.name+"님이 입장하셨습니다.";
+					enter(chattingId,msg,users.id,users.name,getDate(),"msg");
 					navigate('/mainPage');
-				});
+				}
+			})
 
 
 			console.log(postDto)
