@@ -214,7 +214,7 @@ function Portfolioviewer() {
             case 'download':
                 navigate('/portfolioview');
                 console.log(users.portsave);    
-                if ( window.location == 'http://localhost:3000/portfolioview' ) {
+                if ( window.location == 'http://localhost:3000/api/portfolioview' ) {
                      window.location.href='http://localhost:8080/api/user/attached/'+userDto.portsave;
                 }
                 
@@ -230,7 +230,6 @@ function Portfolioviewer() {
 
     return (
         <>
-            <Sidebar />
             <div className="my-5 flex mx-auto max-w-7xl sm:px-6">
                 {/* <img src={logo}
                     sx={{
@@ -254,25 +253,19 @@ function Portfolioviewer() {
 
                 <Container maxWidth="sm">
                     <StyledContent>
-                        <Typography variant="h4" gutterBottom style={{ marginTop: 30}}>
-                            안녕하세요. <strong>{state.name}</strong>님
-                        </Typography>
+                        
                         <Typography variant="h6" gutterBottom>
-                            포트폴리오🤗
+                            {state.name} 님의 포트폴리오🤗
                         </Typography>
 
                         <hr style={{ marginBottom: 50 }}></hr>
 
                         <Stack spacing={3}>
-                            <TextField label="이메일" defaultValue={state.username}  />
-                            <TextField label="성별" defaultValue={state.gender}  />
-                            <TextField label="연령대" defaultValue={state.age} />
-                            <TextField label="학교" defaultValue={state.school}  onChange={(e) => {
-											setSchool(e.target.value);
-										}}> </TextField> 
-                            <TextField label="기술 스택" defaultValue={state.tech} style={{marginBottm:20}} onChange={(e) => {
-											setTech(e.target.value);
-										}}></TextField>
+                            <TextField label="이메일" defaultValue={state.username} inputProps={{ readOnly: true }}/>
+                            <TextField label="성별" defaultValue={state.gender} inputProps={{ readOnly: true }}/>
+                            <TextField label="연령대" defaultValue={state.age} inputProps={{ readOnly: true }}/>
+                            <TextField label="학교" defaultValue={state.school}  inputProps={{ readOnly: true }}> </TextField> 
+                            <TextField label="기술 스택" defaultValue={state.tech} style={{marginBottm:20}} inputProps={{ readOnly: true }}></TextField>
                         </Stack>
                         {/* <table border={10} width = "90%" marginTop="502x" >
                             <thead style={{ marginTop: 50 }}>
@@ -325,13 +318,7 @@ function Portfolioviewer() {
                     {/* <FileUploader handleChange={handleChange} name="file" types={fileTypes} /> */}
                     </StyledContent>
 					
-                    <div className="text-center">
-									<button className="ml-auto border-2 rounded-md p-1 border-sky-200 my-4 text-2xl font-bold hover:bg-sky-200"
-                                    
-										onClick={() => {
-											navigate('/portfolio')
-										}}>수정하기</button>
-                                        </div>
+                    
                 </Container>
             </div>
             
