@@ -4,8 +4,16 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { getApplicant, deleteMyPost, updatePostView, updatePostStatus, getCurrentPostCategory } from "../../../services/PostService";
 import Modal from "./Modal";
 import { userState } from '../../../atom';
+import axios from 'axios';
+
+
+
+
+
+
 function ViewPost() {
     const navigate = useNavigate();
+    let userDto = new Object();
     const { state } = useLocation();
     const { postId } = useParams();
     const users = useRecoilValue(userState);
@@ -80,7 +88,34 @@ function ViewPost() {
 
     }, []);
 
-
+    function getPortInfo(userId){
+    
+        axios.get(`/api/user/info/${userId}`)
+            .then((response) => {
+                console.log('getgetgetdata.data.token', "-", response, "-");
+                
+                userDto.profileImg = response.data.user_image;
+                userDto.email = response.data.user_email;
+                userDto.age = response.data.user_age;
+                userDto.gender = response.data.user_gender;
+                userDto.school = response.data.school;
+                userDto.tech =  response.data.tech;
+                userDto.portname = response.data.port;
+                userDto.portsave = response.data.portsave_name;
+                console.log(userDto);
+                
+            })
+            .catch((error) => {
+                console.log(error);
+                console.log('실패');
+                return "error";
+            })
+            .finally(() => {
+                navigate('/portfolioviewer',{state: userDto});
+            });
+            
+            
+        }
 
     return (
         <div className="mx-auto w-9/12 px-4 mb-7 ">
@@ -167,11 +202,13 @@ function ViewPost() {
             {applicant.length !== 0 && state.postType === "recruiting" && myPost && <div className='mx-40 mt-7 mb-4 border-4 border-sky-200 rounded-2xl p-5 flex-column font-bold text-2xl max-h-96'>
                 <p>신청자 리스트</p>
                 <hr className="h-px my-4 border-2 border-indigo-100 "></hr>
+           
                 <div className="flex-column max-h-72 overflow-y-auto scrollbar-hide">
                     {applicant.map((item, idx) => {
                         return (
                             <div key={idx} className="flex my-2 pb-1 border-b border-b-cyan-100">
-                                <p className="ml-1">이름: {item.name}</p>
+                                
+                                <p className="ml-1" onClick = {getPortInfo(item.id)}  >이름: {item.name}</p>
                                 <p className="ml-4">신청: {item.requested}</p>
                                 <div className ="ml-auto">
                                     <button
