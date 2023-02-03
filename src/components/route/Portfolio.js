@@ -424,7 +424,7 @@ function Portfolio() {
                 <Sidebar />
                 <Outlet />
 
-                <Container maxWidth="sm">
+                <Container maxWidth="sm" style={{marginLeft: 50}}>
                     <StyledContent>
                         <Typography variant="h4" gutterBottom style={{ marginTop: 30}}>
                             안녕하세요. <strong>{users.name}</strong>님

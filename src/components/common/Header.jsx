@@ -17,6 +17,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userState } from '../../atom'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import logo from '../../img/forCloud_logo.png'
+import menu from '../../menu.png';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {MyPage} from '../route/MyPage'
 // import GoogleLoginB from '../GoogleLoginB'
@@ -86,7 +87,7 @@ function Header() {
                                 마이 페이지
                             </a>
                     </div>}
-
+                    
 
                     {/* 로그인 */}
                     {/* 로그인 상태에 따라서 버튼 내용 바뀜 */}
@@ -94,6 +95,7 @@ function Header() {
                     <>
                     
                     </>
+                    
                     <>
                     
                         {users.login ?
@@ -120,6 +122,10 @@ function Header() {
                             </div>
                         }
                     </>
+                    <div>
+        
+        
+    </div>
                     {users.login &&
                         <IconButton
                         onClick={() => {navigate('/mypage')}}
