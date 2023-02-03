@@ -229,6 +229,7 @@ function MyPage() {
         <>
             <Sidebar />
             <div className="my-5 flex mx-auto max-w-7xl sm:px-6" style={{marginRight : 40}}>
+
                 {/* <img src={logo}
                     sx={{
                         position: 'fixed',

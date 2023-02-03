@@ -101,25 +101,42 @@ function PostList(props) {
         post = [...filteredPost];
     }else if(type === 'my' || type === 'requested'){
         post = [...modifiedPostList];
-    }else {
+    }else if(type ==='ongoing' || type === 'completed') {
         const filteredPost = type === 'ongoing' ? modifiedPostList.filter(el => el.projectType.includes("onGoing")) : 
         modifiedPostList.filter(el => el.projectType.includes("completed"));
         post = [...filteredPost];
+    }else{
+
+        let maxView = -1;
+        let maxViewPost;
+        modifiedPostList.map(item => {
+            if(item.views > maxView){
+                maxView = item.views;
+                maxViewPost = item;
+            }
+        })
+        post.push(maxViewPost)
     }
     
     return (
-     post.map((item, idx) => (
-      <div key={idx} className= {type === "main" ? "min-w-max rounded-2xl border py-10 flex-column hover:scale-105 transition cursor-pointer"
-        : "min-w-max rounded-2xl mx-2 border flex-column hover:bg-sky-50 transition cursor-pointer"}
+    <div className = {type === "main" ? "grid grid-cols-1 xl:grid-cols-3 gap-x-4 gap-y-4 md:grid-cols-2"
+        : type === "my" || type === "requested" ? "grid grid-cols-1 xl:grid-cols-3 md:grid-cols-2 gap-y-4"
+        : "w-full"}>
+     {post && post.map((item, idx) => (
+
+      <div key={idx} className= {type === "main" ? "rounded-2xl border py-10 flex-column hover:scale-105 transition cursor-pointer"
+        : type === 'my' || type === 'requested' ? "rounded-2xl mx-3 border flex-column hover:bg-sky-50 transition cursor-pointer"
+        : "text-left rounded-2xl border-4 border-white hover:border-black flex-column cursor-pointer text-2xl"}
         onClick= {type === 'ongoing' || type === 'completed' ? () => { navigate(`/viewProject/${item.id}`, {state: item})} :
         () => { navigate(`/viewPost/${item.id}`, {state: item})}}>
+
         <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">프로젝트 제목: {item.post_name}</h3>
         <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">모집기한: {item.end_time}</h3>
         <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">진행기간: {item.duration}개월</h3>
         <hr className="h-px mx-4 my-2 first-line:mt-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
 
         <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold text-center">모집분야</h3>
-        <div className="min-w-max mx-2 grid grid-rows-2 grid-cols-3 gap-x-2 gap-y-2">
+        <div className="mx-2 grid grid-rows-2 grid-cols-3 gap-x-2 gap-y-2">
           {item.area.map((k, key) => {
             for(let i=0; i<tool.length; i++){
               if(tool[i].name.toLowerCase() === k.img.toLowerCase()){
@@ -142,7 +159,8 @@ function PostList(props) {
           <h3 className="mx-auto text-dark text-2xl font-weight-bold">조회수: {item.views}회</h3>
         </div>
       </div>
-    ))
+    ))}
+    </div>
   )
 }
 

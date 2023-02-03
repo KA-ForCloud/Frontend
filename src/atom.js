@@ -3,10 +3,7 @@ import { recoilPersist } from 'recoil-persist'
 
 const { persistAtom } = recoilPersist()
 
-export const postState = atom({
-    key: 'post',
-    default: [],
-})
+
 export const categoryState = atom({
     key: 'category',
     default: "all"
