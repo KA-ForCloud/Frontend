@@ -1,11 +1,36 @@
 import React, { useState,useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { getAllFiles } from "../../../services/ProjectService";
+import FileList
+ from "./FileList";
 function ViewOngoingProject(){
     const navigate = useNavigate();
     const { state } = useLocation();
     const { postId } = useParams();
-    //프로젝트 진행중일 때는 데일리 회고록/파일 저장 칸 만들면 될듯?
+    const [minutes,setMinutes]=useState([]); // 회의록
+    const [files,setFiles]=useState([]); // 파일
 
+    function downloadPDF(pdf) {
+        const linkSource = `data:application/pdf;base64,${pdf}`;
+        const downloadLink = document.createElement("a");
+        const fileName = "file.pdf";
+    
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    }
+
+    
+    //프로젝트 진행중일 때는 데일리 회고록/파일 저장 칸 만들면 될듯?
+    useEffect(()=>{
+        getAllFiles(postId).then((response)=>{
+            if(response.data.code!==1000) console.log("ERROR");
+            else{
+                setMinutes(response.data.result.minutesList);
+                setFiles(response.data.result.filesList);
+            }
+        })
+    },[])
     return (
         <div className="mx-auto max-w-7xl px-4 sm:px-6 min-w-min ">  
             <div className='mx-40 my-7 border-4 border-sky-200 rounded-2xl p-5 flex-column font-bold text-2xl'>
@@ -34,7 +59,8 @@ function ViewOngoingProject(){
                 <div className="my-2 grid grid-cols-2 gap-x-10">
                     <div className="flex-column">
                         <p className="mx-2">데일리 회의록</p>
-                        <div className ="my-2 text-xl min-w-max grid grid-cols-2 text-center h-36 overflow-y-auto border-4 border-indigo-100 rounded-md">
+                        {minutes&&<FileList items={minutes}/>}
+                        {/* <div className ="my-2 text-xl min-w-max grid grid-cols-2 text-center h-36 overflow-y-auto border-4 border-indigo-100 rounded-md">
                             <p> 2023-01-01 회의록</p>
                             <p> 2023-01-02 회의록</p>
                             <p> 2023-01-03 회의록</p>
@@ -43,15 +69,24 @@ function ViewOngoingProject(){
                             <p> 2023-01-06 회의록</p>
                             <p> 2023-01-07 회의록</p>
                             <p> 2023-01-06 회의록</p>
-                        </div>
+                            {minutes&&minutes.map((minute,idx)=>{
+                                // downloadPDF(minute.base64);
+                                console.log("minute",minute);
+                                <p>{minute.name}</p>
+                            })}
+                            
+                        </div> */}
                     </div>
                     <div className="flex-column">
                         <p className="mx-2">업로드된 파일</p>
-                        <div className ="my-2 px-2 text-xl grid grid-cols-1 h-36 overflow-y-auto border-4 border-indigo-100 rounded-md">
-                            <p>소프트웨어 개발 프로세스 엔지니어링 보고서</p>
-                            <p>ForCloud 요구사항 분석 보고서</p>
-                            <p>사진3</p>
-                        </div>
+                        {files&&<FileList items={files}/>}
+                        {/* <div className ="my-2 px-2 text-xl grid grid-cols-1 h-36 overflow-y-auto border-4 border-indigo-100 rounded-md">
+                            {files&&files.map((file,idx)=>{
+                                // downloadPDF(file.base64);
+                                console.log("file",file.name);
+                                <p className="text-black">aaa</p>
+                            })}
+                        </div> */}
                     </div>
                 </div>
             </div>

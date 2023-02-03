@@ -11,13 +11,18 @@ import springboot from "../../../category_img/springBoot.png";
 import { postState, categoryState, postStatusState, checkedItemsState } from "../../../atom";
 import { useCallback } from "react";
 import PostList from "./PostList";
-
+import { connect } from "../../../services/ChattingService";
+import { useDispatch,useSelector } from 'react-redux';
+import { connectSocket } from "../../../modules/socket";
 function MainPage(props) {
   const navigate = useNavigate();
+  const dispatch=useDispatch();
   const [postList, setpostList] = useRecoilState(postState);
-
   const [temperatureList, setTemperatureList] = useState([]);
   useEffect(() => {
+    // 소켓 연결
+    const client=connect();
+    dispatch(connectSocket(client));
     getPosts().then((response) => {
       setpostList(response);
 

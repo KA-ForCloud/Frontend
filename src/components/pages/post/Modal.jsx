@@ -1,6 +1,8 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom";
+import { enter } from '../../../services/ChattingService';
 import { createApplicant, createParticipant, deleteApplicant, getApplicant, getCurrentPostCategory, updateCurrentCategory } from '../../../services/PostService';
+import { getDate } from '../chatting/Date';
 
 function Modal(props) {
     const navigate = useNavigate();
@@ -16,7 +18,7 @@ function Modal(props) {
             })
         }else if(header === "승인하기"){
             createParticipant(postId, category).then((response) => {
-                if(response === 1000){
+                if(response.data.code === 1000){
                     console.log('승인하기 성공')
                     updateCurrentCategory(postId, category).then((response) => {
                         if(response === 1000){
@@ -35,9 +37,18 @@ function Modal(props) {
                                     close();
                                 }
                             })
+
+                            
+
                         }
+                       
                     })
+                    console.log("response",response);
+                    // TODO : 입장 메세지 발송
+                    const enterMsg=response.data.result.name+"님이 입장하셨습니다.";
+                    enter(response.data.result.roomId,enterMsg,response.data.result.memberId,response.data.result.name,getDate(),"enter");
                 }
+
             })
         }else if(header === "거절하기"){
             deleteApplicant(postId, category).then((response) => {
