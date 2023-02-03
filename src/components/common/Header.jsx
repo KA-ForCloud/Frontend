@@ -57,9 +57,8 @@ function Header() {
     const [open, setOpen] = useState(null);
 
     return (
-            <div className="mx-auto 2xl:max-w-screen-2xl xl:max-w-screen-xl lg:max-w-screen-lg 
-            md:max-w-screen-md px-4 ">
-                <div className="p-2 flex items-center justify-between border-b-4 border-sky-200">
+            <div className="mx-auto w-10/12 px-4 ">
+                <div className=" p-2 flex items-center justify-between border-b-4 border-sky-200">
                     <div className="md:flex-1 justify-start">
                         {/* 로고 */}
                         <a href="/">

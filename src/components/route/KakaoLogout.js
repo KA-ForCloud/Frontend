@@ -170,7 +170,7 @@ function KakaoLogout() {
     }, []);
 
     return (
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="mx-auto w-10/12 my-4 px-4">
         {/* Illustration behind hero content */}
         <div className="absolute left-1/2 transform -translate-x-1/2 bottom-0 pointer-events-none" aria-hidden="true">
           <svg width="1360" height="578" viewBox="0 0 1360 578" xmlns="http://www.w3.org/2000/svg">
@@ -191,18 +191,13 @@ function KakaoLogout() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="pt-32 pb-12 md:pt-40 md:pb-20">
             <div className="text-center pb-12 md:pb-16">
-            <h1 className="text-5xl md:text-6xl font-extrabold leading-tighter pr-1tracking-tighter mb-4" data-aos="zoom-y-out"> 편안한 설문조사 서비스 <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400"> COMFY  </span></h1> 
-              <div className="max-w-3xl mx-auto">
-                <p className="text-xl text-gray-600 mb-8" data-aos="zoom-y-out" data-aos-delay="150"> COMFY에서 설문지를 제작하고 관리하고 다른 사람들에게 공유할 수 있습니다.</p>
-               <div className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center" data-aos="zoom-y-out" data-aos-delay="300">
-                  {<h5>로그아웃하는중</h5>
-                  }
+               <div className="text-3xl mx-auto sm:max-w-none sm:flex sm:justify-center" data-aos="zoom-y-out" data-aos-delay="300">
+                  {<h1>😂 로그아웃하는중 😂</h1>}
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
     )
 
 }

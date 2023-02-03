@@ -62,7 +62,7 @@ function MyPage() {
     return (
         <>
 
-            <div className='flex mx-auto max-w-5xl mr-72'>
+            <div className='mx-auto w-9/12 my-4 px-4 flex'>
                 {/* <img src={logo}
                     sx={{
                         position: 'fixed',

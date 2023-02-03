@@ -4,7 +4,6 @@ import { useRecoilValue } from 'recoil';
 
 export async function getPosts(){
     const response=await axios.get(`/api/post`);
-    
     return response.data.result;
 }
 
@@ -23,8 +22,8 @@ export async function getRequestedPost(userId){
     return response.data.result;
 }
 
-export async function getTemperatures(){
-    const response = await axios.get(`/api/temperature`)
+export async function getPopularCategorys(){
+    const response = await axios.get(`/api/popularCategory`)
     return response.data.result;
 }
 
