@@ -83,35 +83,22 @@ function ViewPost() {
 
     }, []);
 
-    // function getPortInfo(userId){
-    
-    //     axios.get(`/api/user/info/${userId}`)
-    //         .then((response) => {
-    //             console.log('getgetgetdata.data.token', "-", response, "-");
-                
-    //             userDto.profileImg = response.data.user_image;
-    //             userDto.email = response.data.user_email;
-    //             userDto.age = response.data.user_age;
-    //             userDto.gender = response.data.user_gender;
-    //             userDto.school = response.data.school;
-    //             userDto.tech =  response.data.tech;
-    //             userDto.portname = response.data.port;
-    //             userDto.portsave = response.data.portsave_name;
-    //             console.log(userDto);
-                
-    //         })
-    //         .catch((error) => {
-    //             console.log(error);
-    //             console.log('실패');
-    //             return "error";
-    //         })
-    //         .finally(() => {
-    //             navigate('/portfolioviewer',{state: userDto});
-    //         });
-            
-            
-    //     }
-
+    function getPortInfo(userId){
+        axios.get(`/api/user/info/${userId}`)
+            .then((response) => {
+                console.log('getgetgetdata.data.token', "-", response, "-");
+                userDto.name = response.data.user_name;
+                userDto.profileImg = response.data.user_image;
+                userDto.email = response.data.user_email;
+                userDto.age = response.data.user_age;
+                userDto.gender = response.data.user_gender;
+                userDto.school = response.data.school;
+                userDto.tech =  response.data.tech;
+                userDto.portname = response.data.port;
+                userDto.portsave = response.data.portsave_name;
+                console.log(userDto);
+        }
+        
     return (
         <div className="mx-auto w-9/12 px-4 mb-7 ">
             <div className='my-7 border-4 border-sky-200 rounded-2xl p-5 flex-column font-bold text-2xl'>
@@ -169,7 +156,7 @@ function ViewPost() {
                                         onClick={openModal}
                                         value={k.name}
                                         className="ml-4 border rounded-md w-24 bg-sky-100 outline-none hover:bg-sky-200">신청하기</button>}
-                                    {registerModalOpen && <Modal open={registerModalOpen} close={closeModal1} header="모집분야" postId ={postId} category={clickedCategory}>
+                                    {registerModalOpen && <Modal open={registerModalOpen} close={closeModal1} header="모집분야"  postId ={postId} category={clickedCategory}>
                                         해당 모집분야에 신청하시겠습니까?
                                     </Modal>}
                                 </div>
@@ -189,6 +176,7 @@ function ViewPost() {
 
             {applicant.length !== 0 && state.postType === "recruiting" && myPost && <div className='mt-7 mb-4 border-4 border-sky-200 rounded-2xl p-5 flex-column font-bold max-h-96'>
                 <p className = "">신청자 리스트</p>
+
                 <hr className="h-px my-4 border-2 border-indigo-100 "></hr>
            
                 <div className="flex-column overflow-y-auto scrollbar-hide">
@@ -197,7 +185,7 @@ function ViewPost() {
                         return (
                             <div key={idx} className="text-2xl flex my-2 pb-1 border-b border-b-cyan-100">
                                 
-                                <p className="ml-1">이름: {item.name}</p>
+                                <p className="ml-1" >이름: {item.name}</p>
                                 <p className="ml-4">신청: {item.requested}</p>
 
                                 <div className ="hidden md:flex md:text-2xl ml-auto">
@@ -211,9 +199,9 @@ function ViewPost() {
                                     </Modal>}
 
                                     <button
-                                        onClick ={()=>navigate("/portfolioview")}
-                                        value={item.userId}
-                                        className="px-1 ml-4 border rounded-md  bg-sky-100 outline-none hover:bg-sky-200">포트폴리오</button>
+                                        onClick ={()=>getPortInfo(item.id)}
+                                        value={item.name}
+                                        className="ml-4 border rounded-md w-24 bg-sky-100 outline-none hover:bg-sky-200">포트폴리오</button>
                                         
                                     <button
                                         onClick = {rejectModal}
