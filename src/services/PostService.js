@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { userState } from '../atom';
-import { useRecoilValue } from 'recoil';
 
 export async function getPosts(){
     const response=await axios.get(`/api/post`);
@@ -40,22 +38,22 @@ export async function getCurrentPostCategory(postId){
 export async function createApplicant(postId,request,userId){
     const response = await axios.post(`/api/registerApplicant`, {
         postId: postId,
-        userId: userId,
-        request: request
+        request: request,
+        userId: userId
     })
     return response.data.code;
 }
 
-export async function createParticipant(postId,name){
+export async function createParticipant(postId,userId){
     const response = await axios.post(`/api/registerParticipant`, {
         postId: postId,
-        name: name
+        userId: userId
     })
     return response.data.code;
 }
 
-export async function deleteApplicant(postId,name){
-    const response = await axios.delete(`/api/applicant/${postId}/${name}`)
+export async function deleteApplicant(postId,userId){
+    const response = await axios.delete(`/api/applicant/${postId}/${userId}`)
     return response.data.code;
 }
 
@@ -74,8 +72,8 @@ export async function updatePostView(postId){
     return response.data.result;
 }
 
-export async function updateCurrentCategory(postId, name){
-    const response = await axios.patch(`/api/postCategory/${postId}/${name}`)
+export async function updateCurrentCategory(postId, userId){
+    const response = await axios.patch(`/api/postCategory/${postId}/${userId}`)
     return response.data.code;
 }
 
