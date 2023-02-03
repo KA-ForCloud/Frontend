@@ -11,6 +11,7 @@ node {
                     sh "npm install --legacy-peer-deps"
                     echo "Build main site distribution"
                     sh "npm run build"
+                    slackSend (channel: '#migrator', color: '#FFFF00', message: "Build Complete: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
               }
 
     }
@@ -26,6 +27,7 @@ node {
                         ssh -t centos@210.109.63.198 -p 10002 ./deploy.sh
                     '''
                     echo "Success"
+                    slackSend (channel: '#migrator', color: '#FFFF00', message: "Deploy Complete: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
         }
     }
 
