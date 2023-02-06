@@ -44,7 +44,7 @@ export default function ChattingRoom(props) {
     };
     const handleSubmit = async (e) => {
         const now=getDate();
-        publish(roomId,msg,info[0],nickname,now,"msg"); // TODO 수정해야해애애애애ㅐㅇ애
+        publish(roomId,msg,memberId,nickname,now,"msg"); // TODO 수정해야해애애애애ㅐㅇ애
         setMsg("");
     };
 
@@ -57,7 +57,7 @@ export default function ChattingRoom(props) {
     // 파일 전송
     const sendFile=()=>{
         console.log("file",file);
-        console.log("memberId",info[0]);
+        console.log("memberId",memberId);
         const formData=new FormData();
         formData.append("file",file);
         formData.append("memberId",info[0]);
@@ -69,7 +69,7 @@ export default function ChattingRoom(props) {
             const msg=response.data.result.fileId;
             console.log("msg",msg);
             const sendTime=response.data.result.timestamp;
-            publish(roomId,msg,info[0],nickname,sendTime,"file");
+            publish(roomId,msg,memberId,nickname,sendTime,"file");
         })
         setFile(null);
     }
@@ -125,10 +125,7 @@ export default function ChattingRoom(props) {
                             <p className="bg-orange-200 text-black rounded-sm pb-1 text-center pt-1">업로드</p>
                         </label>
                         <input type="file" id="input-file" style={{display:"none"}} onChange={selectFile}/>
-                        {/* <button className="bg-orange-200 text-black rounded-sm" htmlFor="input-file">업로드</button> */}
                     </div>
-                    // <FileUpload htmlFor="input_file">file</FileUpload>
-                    // <input type="file" id="input_file" style={{display:"none"}} onChange={sendFile}/>
                 }
                 {file!==null&&
                     <button className="bg-orange-200 text-black rounded-sm float-right w-1/12 border-2 pt-1 pb-1 text-center" onClick={sendFile}>전송</button>

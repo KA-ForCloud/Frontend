@@ -48,8 +48,6 @@ function MessageListItem(props) {
         else setMy(false);
 
         if(item.msgType==="img"){
-            // console.log("file");
-            // const img="data:image/jpeg;base64,"+item.msg;
             console.log("img",item.msg);
             setBase64(item.msg);
         }
@@ -136,7 +134,6 @@ function MessageListItem(props) {
                         {time}
                     </div>
                     <div className='rounded-sm w-fit h-full text-sm font-bold bg-sky-200 text-black mr-2 py-1 px-2' onClick={()=>{downloadPDF(item)}}>
-                        {/* {item.nickName+"님이 파일을 업로드했습니다. 프로젝트 관리 페이지에서 확인해보세요!"} */}
                         {"[FILE] "+item.originalFileName}
                     </div>
                 </div>
