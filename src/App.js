@@ -69,7 +69,7 @@ function App() {
                       <Route path="/user/attached/*" />
                       
                     
-                      <Route path="rooms/*" element={<ChattingPage/>}/>
+                      <Route path="/rooms" element={<ChattingPage/>}/>
                       <Route path="member/:memberId/rooms/:roomId" element={<ChattingRoom />} />
                       <Route path="/mainPage" element={<MainPage />} />
                       <Route path="/viewPost/:postId" element={<ViewPost />} />
