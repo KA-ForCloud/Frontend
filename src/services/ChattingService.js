@@ -64,7 +64,7 @@ export let client;
 // 소켓 연결
 export function connect(){ // 연결할 때
     
-    let socket=new SockJS('http://localhost:8081/stomp/chat');
+    let socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
     client=stomp.over(socket);
     console.log("client ",client);
     client.connect({},function(){
