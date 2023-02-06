@@ -178,6 +178,7 @@ export default function ChattingPage() {
                                                 setRoomList(newRooms);
                                             });
                                             navigate("/rooms");
+                                            setRoomTitle("원하는 채팅방을 선택하세요!");
                                         }}>삭제</button>
                                     }
                                     {btnType===1&&
@@ -199,7 +200,9 @@ export default function ChattingPage() {
                                                     )
                                                     setRoomList(newRooms);
                                                 }
-                                            })
+                                            });
+                                            navigate("/rooms");
+                                            setRoomTitle("원하는 채팅방을 선택하세요!");
                                         }}>종료</button>
                                     }
                                      {btnType===2&&
@@ -222,6 +225,7 @@ export default function ChattingPage() {
                                                 setRoomList(newRoomList);
                                             });
                                             navigate('/rooms');
+                                            setRoomTitle("원하는 채팅방을 선택하세요!");
                                         }}>나가기</button>
                                     }
                             </div> 
