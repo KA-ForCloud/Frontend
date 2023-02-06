@@ -27,15 +27,15 @@ node {
                         ssh -t centos@210.109.63.198 -p 10002 ./please.sh
                         scp -r -P 10002 /var/jenkins_home/workspace/forCloud_Frontend_Pipeline/build centos@210.109.63.198:/home/centos/Frontend
                         ssh -t centos@210.109.63.198 -p 10002 ./deploy.sh
-                        
-                        
-                        
+                    '''
+                    echo "Web_2_Success"
+                    sh ''' 
                         ssh -o StrictHostKeyChecking=no centos@210.109.63.198 -p 10007 uptime
                         ssh -t centos@210.109.63.198 -p 10007 ./please.sh
                         scp -r -P 10007 /var/jenkins_home/workspace/forCloud_Frontend_Pipeline/build centos@210.109.63.198:/home/centos/Frontend
                         ssh -t centos@210.109.63.198 -p 10007 ./deploy.sh
                     '''
-                    echo "Success"
+                    echo "Web_1_Success"
                     
         }
     }
