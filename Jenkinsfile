@@ -31,8 +31,8 @@ node {
                         scp -r -P 10007 /var/jenkins_home/workspace/forCloud_Frontend_Pipeline centos@210.109.63.198:/home/centos/Frontend
                         scp -r -P 10002 /var/jenkins_home/workspace/forCloud_Frontend_Pipeline centos@210.109.63.198:/home/centos/Frontend
                         
-                        ssh -t centos@210.109.63.198 -p 10007 ./deploy.sh
                         ssh -t centos@210.109.63.198 -p 10002 ./deploy.sh
+                        ssh -t centos@210.109.63.198 -p 10007 ./deploy.sh
                     '''
                     echo "Success"
                     
