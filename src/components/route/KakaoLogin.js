@@ -138,6 +138,9 @@ function KakaoLogin() {
                             console.log('실패');
                             return "error";
                         })
+                        .finally(() => {
+                        console.log(users);
+                    });
 
                 } else {
                     console.log("유저 정보 가져오기 실패");
