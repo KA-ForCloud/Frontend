@@ -36,7 +36,7 @@ export default function ChattingRoom(props) {
     const [chatList, setChatList] = useState([]); // 화면에 표시될 채팅 기록
     const [checkChatList,setCheckChatList]=useState(false);
     const [firstMsg,setFirstMsg]=useState();
-    const info=memberId.split(" ");
+    // const info=memberId.split(" ");
     const [file,setFile]=useState(null);
     // 메세지 전송
     const handleOnChange = (e) => {
@@ -60,7 +60,7 @@ export default function ChattingRoom(props) {
         console.log("memberId",memberId);
         const formData=new FormData();
         formData.append("file",file);
-        formData.append("memberId",info[0]);
+        formData.append("memberId",memberId);
         formData.append("roomId",roomId);
         formData.append("timestamp",getDate());
         formData.append("nickName",nickname);
