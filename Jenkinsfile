@@ -6,6 +6,7 @@ node {
              nvmIoJsOrgMirror: 'https://iojs.org/dist',
              nvmNodeJsOrgMirror: 'https://nodejs.org/dist', 
              version: '16.19.0') {
+                    sh "nvm use 16.19.0"
                     sh "apt-get update"
                     sh "apt-get install gcc g++ make -y"
                     sh "npm install --legacy-peer-deps"
