@@ -10,7 +10,7 @@ node {
                     sh "apt-get install gcc g++ make -y"
                     sh "npm install --legacy-peer-deps"
                     echo "Build main site distribution"
-                    sh "npm run build"
+                    sh "CI=false npm run build"
                     slackSend (channel: '#jenkins-alert', color: '#FFFF00', message: "Frontend Build Complete: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
               }
 
