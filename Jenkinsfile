@@ -7,8 +7,8 @@ node {
              nvmNodeJsOrgMirror: 'https://nodejs.org/dist', 
              version: '16.19.0') {
                     sh "node -v"
-                    sh "apt-get update"
-                    sh "apt-get install gcc g++ make -y"
+//                     sh "apt-get update"
+//                     sh "apt-get install gcc g++ make -y"
                     sh "npm install --legacy-peer-deps"
                     echo "Build main site distribution"
                     sh "npm run build"
