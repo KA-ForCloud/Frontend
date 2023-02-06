@@ -1,7 +1,5 @@
 import axios from 'axios';
 import SockJS from 'sockjs-client';
-import StompJs from '@stomp/stompjs';
-import { Client, Message } from '@stomp/stompjs';
 
 
 // 채팅방 리스트 조회

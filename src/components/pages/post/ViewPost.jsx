@@ -4,6 +4,7 @@ import { useRecoilValue} from 'recoil';
 import { getApplicant, deleteMyPost, updatePostView, updatePostStatus, getCurrentPostCategory } from "../../../services/PostService";
 import Modal from "./Modal";
 import { userState } from '../../../atom';
+import axios from 'axios';
 
 function ViewPost() {
     const navigate = useNavigate();
@@ -97,7 +98,7 @@ function ViewPost() {
                 userDto.portname = response.data.port;
                 userDto.portsave = response.data.portsave_name;
                 console.log(userDto);
-        }
+        })}
         
     return (
         <div className="mx-auto w-9/12 px-4 mb-7 ">

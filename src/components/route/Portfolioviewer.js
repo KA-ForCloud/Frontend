@@ -88,7 +88,6 @@ function Portfolioviewer() {
 	let [school, setSchool] = useState(null);
     let [tech, setTech] = useState(null);
     const [show, setShow] = useState(false);
-    const users = useRecoilValue(userState);
 
     let userDto = new Object();
 
@@ -212,8 +211,7 @@ function Portfolioviewer() {
 		const id = event.target.id;
 		switch(id){
             case 'download':
-                navigate('/portfolioview');
-                console.log(users.portsave);    
+                navigate('/portfolioview');  
                 if ( window.location == 'http://localhost:3000/api/portfolioview' ) {
                      window.location.href='http://localhost:8080/api/user/attached/'+userDto.portsave;
                 }
