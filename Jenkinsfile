@@ -2,7 +2,7 @@ node {
     checkout scm
     
     stage('build') {
-        git branch: 'main', url: 'https://github.com/KA-ForCloud/Frontend.git'
+        git branch: 'master', url: 'https://github.com/KA-ForCloud/Frontend.git'
         nvm(nvmInstallURL: 'https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh', 
              nvmIoJsOrgMirror: 'https://iojs.org/dist',
              nvmNodeJsOrgMirror: 'https://nodejs.org/dist', 
