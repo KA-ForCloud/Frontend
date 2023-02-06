@@ -8,7 +8,7 @@ import { connectSocket, saveSubscription } from "../../../modules/socket";
 import { useNavigate,useLocation } from "react-router-dom";
 import {BrowserRouter, Link, Route, Routes,Router} from "react-router-dom";
 import { getDate } from "./Date";
-import { userState } from '../../atom';
+import { userState } from '../../../atom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 export default function ChattingPage() {
