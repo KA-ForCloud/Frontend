@@ -94,7 +94,7 @@ export default function ChattingPage() {
         });
         setBtn(true);
 
-        if(bi===Number(memberId)) setBtnType(1);
+        if(bi===Number(users.id)) setBtnType(1);
         else setBtnType(2);
     }
     const newMsg=(msg,msgType)=>{
