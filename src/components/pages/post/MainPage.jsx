@@ -16,16 +16,14 @@ import { connectSocket } from "../../../modules/socket";
 function MainPage(props) {
   const navigate = useNavigate();
   const dispatch=useDispatch();
-  const [postList, setpostList] = useRecoilState(postState);
+  const [postList, setpostList] = useState([]);
+
   const [popularCategoryList, setPopularCategoryList] = useState([]);
   useEffect(() => {
-    // 소켓 연결
+
     const client=connect();
     dispatch(connectSocket(client));
-
-  
-
-  useEffect(() => {
+    
     if(postList.length === 0){
       getPosts().then((response) => {
         setpostList(response);
