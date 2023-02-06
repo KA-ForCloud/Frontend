@@ -5,7 +5,7 @@ node {
         nvm(nvmInstallURL: 'https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh', 
              nvmIoJsOrgMirror: 'https://iojs.org/dist',
              nvmNodeJsOrgMirror: 'https://nodejs.org/dist', 
-             version: '16.9.0') {
+             version: '16.19.0') {
                     sh "apt-get update"
                     sh "apt-get install gcc g++ make -y"
                     sh "npm install --legacy-peer-deps"
