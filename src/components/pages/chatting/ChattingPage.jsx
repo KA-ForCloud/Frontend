@@ -68,15 +68,15 @@ export default function ChattingPage() {
 
     // 채팅방 삭제에 대한 메세지 발행
     const remove= (roomId,msg) => {
-        publish(roomId,msg,memberId,nickname,getDate(),"remove");
+        publish(roomId,msg,users.id,users.name,getDate(),"remove");
     }
     // 채팅방 나가기에 대한 메세지 발행
     const exit= (roomId,msg) => {
-        publish(roomId,msg,memberId,nickname,getDate(),"exit");
+        publish(roomId,msg,users.id,users.name,getDate(),"exit");
     }
     // 채팅방 종료 대한 메세지 발행
     const end= (roomId,msg) => {
-        publish(roomId,msg,memberId,nickname,getDate(),"end");
+        publish(roomId,msg,users.id,users.name,getDate(),"end");
     }
     // 채팅방 선택 시 우측 화면 상단에 채팅방 제목을 보여줌
     const selectRoom=(item,itemTitle)=>{
@@ -161,7 +161,7 @@ export default function ChattingPage() {
                                     <p className="text-2xl font-bold text-gray-900">{roomTitle}</p>
                                     {btnType===1&&
                                         <button className="ml-auto" onClick={()=>{
-                                            deleteRoom(room.chattingId,memberId).then((response)=>{
+                                            deleteRoom(room.chattingId,users.id).then((response)=>{
                                                 const des="/sub/chat/"+room.chattingId;
                                                 const removeMsg="remove";
                                                 remove(roomId,removeMsg);
@@ -182,7 +182,7 @@ export default function ChattingPage() {
                                     }
                                     {btnType===1&&
                                         <button className="ml-3" onClick={()=>{
-                                            endRoom(room.chattingId,memberId).then((response)=>{
+                                            endRoom(room.chattingId,users.id).then((response)=>{
                                                 if(response.data.code===1000){
                                                     const des="/sub/chat/"+room.chattingId;
                                                     const endMsg="end";
@@ -205,7 +205,7 @@ export default function ChattingPage() {
                                      {btnType===2&&
                                         <button className="ml-auto" onClick={()=>{
                                             
-                                            exitRoom(room.chattingId,memberId).then((response)=>{
+                                            exitRoom(room.chattingId,users.id).then((response)=>{
                                                 const des="/sub/chat/"+room.chattingId;
                                                 const existMsg="exit";
                                                 exit(roomId,existMsg);
