@@ -358,7 +358,7 @@ function UpdatePost() {
 		post_id = location.state.id;
 
 		console.log(post_id);
-        axios.get(`/api/post/info/${post_id}`)
+        axios.get(`http://210.109.62.6:8080/api/post/info/${post_id}`)
 			.then((response) => {
                 console.log('get data.data.token', "-", response, "-");
 				postDto.post_name = response.data.post_name;
@@ -508,7 +508,7 @@ function UpdatePost() {
 
 			console.log(users);
 			console.log("postDto",postDto)
-			axios.post(`/api/post/save/${users.id}`, postDto)
+			axios.post(`http://210.109.62.6:8080/api/post/save/${users.id}`, postDto)
 			.then((response) => {
 				console.log(response);
 			})
