@@ -2,13 +2,11 @@ node {
     checkout scm
     
     stage('build') {
+        git branch: 'main', url: 'https://github.com/KA-ForCloud/Frontend.git'
         nvm(nvmInstallURL: 'https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh', 
              nvmIoJsOrgMirror: 'https://iojs.org/dist',
              nvmNodeJsOrgMirror: 'https://nodejs.org/dist', 
              version: '16.19.0') {
-                    sh "node -v"
-//                     sh "apt-get update"
-//                     sh "apt-get install gcc g++ make -y"
                     sh "npm install --legacy-peer-deps"
                     echo "Build main site distribution"
                     sh "CI=false npm run build"
