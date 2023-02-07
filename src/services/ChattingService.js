@@ -67,8 +67,9 @@ export function connect(){ // 연결할 때
     
     let socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
     client=stomp.over(socket);
-    console.log("client ",client);
+    
     client.connect({},function(){
+        console.log("client1 ",client);
         // var rooms=[];
         // rooms=getRooms().result;
         // for(let i=0;i<rooms.length;i++){
@@ -76,7 +77,8 @@ export function connect(){ // 연결할 때
         // }
         // subscribe();
     });
-    // client.current.activate(); // 클라이언트 활성화
+    client.current.activate(); // 클라이언트 활성화
+    console.log("client2 ",client);
     return client;
 };
 
