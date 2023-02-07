@@ -8,7 +8,7 @@ import { connectSocket,saveSubscription } from "../../../../modules/socket";
 
 function ChattingList(props) {
   
-    const {items,seletedRoomTitle,onClickItem,selectRoom,memberId,newMsg,socket}=props;
+    const {items,seletedRoomTitle,onClickItem,selectRoom,memberId,newMsg}=props;
 
     // let subscriptions=useSelector(state=>state.socket.subscriptions);
     const [newChat,setNewChat]=useState(null); // 새로 도착한 채팅
@@ -56,7 +56,7 @@ function ChattingList(props) {
                 memberId={memberId}
                 selectedRoom={selectedRoom}
                 newMsg={settingMsg}
-                socket={socket}
+                
                 onClick={()=>{
                   onClickItem(item);
                 }}/>

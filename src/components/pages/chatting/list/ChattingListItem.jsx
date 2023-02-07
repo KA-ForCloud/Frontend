@@ -13,10 +13,10 @@ function ChattingListItem(props) {
     const dispatch=useDispatch();
 
 
-    const {item,selectedRoom,memberId,newMsg,socket}=props;
+    const {item,selectedRoom,memberId,newMsg}=props;
     // console.log("list item key: ",key);
     const navigate=useNavigate();
-    // let socket=useSelector(state=>state.socket.socket);
+    let socket=useSelector(state=>state.socket.socket);
 	console.log('[ChattingListItem] - socket',socket);
     let destinations=useSelector(state=>state.socket.subscriptions);
     const [newChat,setNewChat]=useState(null); // 새로 도착한 채팅

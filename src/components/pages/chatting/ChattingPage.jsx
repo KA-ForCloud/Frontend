@@ -155,7 +155,7 @@ export default function ChattingPage() {
             <div className="flex flex-row pt-5 md:h-full">
                 <div className='md:h-full md:w-1/3'>
                     <p className="text-2xl font-bold text-gray-900">채팅방 리스트</p>
-                    {roomList&&<ChattingList items={roomList} selectRoom={selectRoom} memberId={users.id} newMsg={newMsg} socket={client}/>}
+                    {roomList&&<ChattingList items={roomList} selectRoom={selectRoom} memberId={users.id} newMsg={newMsg}/>}
                 </div>
 
                 <div className='md:h-fit pl-10 md:w-full'>
