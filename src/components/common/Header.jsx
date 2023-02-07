@@ -49,12 +49,6 @@ function Header() {
             setLogoutAlert(true);
         }
         else {
-            let socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
-            client=stomp.over(socket);
-            client.connect({},function(){
-              console.log("client1 ",client);
-              dispatch(connectSocket(client));
-            });
             setIsLogin(true);
             setLogoutAlert(false);
         }
@@ -91,9 +85,12 @@ function Header() {
                                 팀 모집
                             </a>
 
-                            <a href="/rooms" className="text-2xl font-bold text-gray-500 hover:text-gray-900">
+                            {/* <a href="/rooms" className="text-2xl font-bold text-gray-500 hover:text-gray-900">
                                 채팅
-                            </a>
+                            </a> */}
+                            <div className="text-2xl font-bold text-gray-500 hover:text-gray-900" onClick={()=>{
+                                navigate("/rooms");
+                            }}>채팅</div>
 
                             <a href="/mypage" className="text-2xl font-bold text-gray-500 hover:text-gray-900">
                                 마이 페이지
