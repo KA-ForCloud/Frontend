@@ -5,7 +5,6 @@ import { getApplicant, deleteMyPost, updatePostView, updatePostStatus, getCurren
 import Modal from "./Modal";
 import { userState } from '../../../atom';
 import axios from 'axios';
-
 function ViewPost() {
     const navigate = useNavigate();
     let userDto = new Object();
@@ -87,7 +86,6 @@ function ViewPost() {
     function getPortInfo(userId){
         axios.get(`/api/user/info/${userId}`)
             .then((response) => {
-                console.log('getgetgetdata.data.token', "-", response, "-");
                 userDto.name = response.data.user_name;
                 userDto.profileImg = response.data.user_image;
                 userDto.email = response.data.user_email;
@@ -97,7 +95,8 @@ function ViewPost() {
                 userDto.tech =  response.data.tech;
                 userDto.portname = response.data.port;
                 userDto.portsave = response.data.portsave_name;
-                console.log(userDto);
+                console.log(userDto)
+                navigate(`/portfolioviewer/${userId}`, {state : userDto})
         })}
         
     return (
@@ -200,8 +199,8 @@ function ViewPost() {
                                     </Modal>}
 
                                     <button
-                                        onClick ={()=>getPortInfo(item.id)}
-                                        value={item.name}
+                                        onClick ={()=>getPortInfo(item.userId)}
+                                        value={item.userId}
                                         className="ml-4 border rounded-md w-24 bg-sky-100 outline-none hover:bg-sky-200">포트폴리오</button>
                                         
                                     <button

@@ -10,9 +10,8 @@ import spring from "../../../category_img/spring.png";
 import springboot from "../../../category_img/springBoot.png";
 import {categoryState, postStatusState, checkedItemsState} from "../../../atom";
 import PostList from "./PostList";
-import { connect } from "../../../services/ChattingService";
 import { useDispatch,useSelector } from 'react-redux';
-import { connectSocket } from "../../../modules/socket";
+
 function MainPage(props) {
   const navigate = useNavigate();
   const dispatch=useDispatch();
@@ -21,9 +20,9 @@ function MainPage(props) {
   const [popularCategoryList, setPopularCategoryList] = useState([]);
   useEffect(() => {
 
-    const client=connect();
-    dispatch(connectSocket(client));
-    
+    // const client=connect();
+    // dispatch(connectSocket(client));
+    console.log(postList)
     if(postList.length === 0){
       getPosts().then((response) => {
         setpostList(response);
