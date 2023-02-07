@@ -10,6 +10,8 @@ import {BrowserRouter, Link, Route, Routes,Router} from "react-router-dom";
 import { getDate } from "./Date";
 import { userState } from '../../../atom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import SockJS from 'sockjs-client';
+export const stomp = require('stompjs');
 
 export default function ChattingPage() {
     const dispatch=useDispatch();
