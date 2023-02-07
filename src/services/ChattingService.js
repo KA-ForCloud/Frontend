@@ -77,7 +77,6 @@ export function connect(){ // 연결할 때
         // }
         // subscribe();
     });
-    client.current.activate(); // 클라이언트 활성화
     console.log("client2 ",client);
     return client;
 };
