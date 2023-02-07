@@ -23,8 +23,9 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import {MyPage} from '../route/MyPage'
 // import GoogleLoginB from '../GoogleLoginB'
 import SockJS from 'sockjs-client';
-export const stomp = require('stompjs');
 import { connectSocket } from '../../modules/socket';
+export const stomp = require('stompjs');
+
 
 const handleLogin = () => {
     window.location.href = KAKAO_AUTH_URL;
