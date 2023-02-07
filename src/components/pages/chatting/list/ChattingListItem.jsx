@@ -44,7 +44,7 @@ function ChattingListItem(props) {
     }
     
     useEffect(() => {
-        console.log("memberId",memberId);
+        console.log("[ChattingListItem]");
         getChattingListItemInfo(item.chattingId).then((response)=>{
             console.log("====response",response);
             // console.log("item.last",item.last);
