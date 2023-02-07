@@ -17,8 +17,8 @@ export default function ChattingPage() {
     const dispatch=useDispatch();
     const navigate=useNavigate();
     let client;
-    // const socket=useSelector(state=>state.socket.socket);
-    // console.log('[ChattingPage] - socket',socket);
+    const socket=useSelector(state=>state.socket.socket);
+    console.log('[ChattingPage] - socket',socket);
     // let subscriptions=useSelector(state=>state.socket.subscriptions);
     const location=useLocation().pathname;
     const users = useRecoilValue(userState);
@@ -107,12 +107,12 @@ export default function ChattingPage() {
     }
     useEffect(()=>{
         console.log("[ChattingPage]");
-        let socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
-        client=stomp.over(socket);
-        client.connect({},function(){
-        console.log("client1 ",client);
-        dispatch(connectSocket(client));
-        });
+        // let socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
+        // client=stomp.over(socket);
+        // client.connect({},function(){
+        //     console.log("client1 ",client);
+        //     dispatch(connectSocket(client));
+        // });
         console.log('chatting page socket',client);
         getRooms(Number(users.id)).then((response)=>{
             if(response.data.code!==1000) console.log("SERVER ERROR");
