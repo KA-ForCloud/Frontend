@@ -2,7 +2,13 @@ import axios from 'axios';
 import { userState } from '../atom';
 import { useRecoilValue } from 'recoil';
 
+<<<<<<< Updated upstream
 const BACKEND_API_BASE_URL="http://localhost:8080";
+=======
+const BACKEND_API_BASE_URL="http://210.109.62.6:8080";
+// const BACKEND_API_BASE_URL="http://localhost:8080";
+
+>>>>>>> Stashed changes
 
 
 

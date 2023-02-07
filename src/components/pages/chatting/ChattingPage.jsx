@@ -103,8 +103,8 @@ export default function ChattingPage() {
     }
     useEffect(()=>{
     //    connect();
-        const client=connect();
-        dispatch(connectSocket(client));
+        // const client=connect();
+        // dispatch(connectSocket(client));
         // console.log('chatting page socket',socket);
         getRooms(Number(memberId)).then((response)=>{
             if(response.data.code!==1000) console.log("SERVER ERROR");
