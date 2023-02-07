@@ -94,7 +94,7 @@ function ChattingListItem(props) {
                 newMsg(data,msgType);      
             }
         }
-        console.log("subscriptions",subscriptions);
+        // console.log("subscriptions",subscriptions);
         for(let i=0;i<destinations.length;i++){
             if(destinations[i].des===des){
                 subId=destinations.id;
