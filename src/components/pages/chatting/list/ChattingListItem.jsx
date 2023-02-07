@@ -17,7 +17,7 @@ function ChattingListItem(props) {
     // console.log("list item key: ",key);
     const navigate=useNavigate();
     let socket=useSelector(state=>state.socket.socket);
-	console.log('[ChattingListItem] - socket',socket);
+	// console.log('[ChattingListItem] - socket',socket);
     let destinations=useSelector(state=>state.socket.subscriptions);
     const [newChat,setNewChat]=useState(null); // 새로 도착한 채팅
     const [numberOfChattings,setNumberOfChattings]=useState();
@@ -44,7 +44,6 @@ function ChattingListItem(props) {
     }
     
     useEffect(() => {
-        console.log("[ChattingListItem]");
         getChattingListItemInfo(item.chattingId).then((response)=>{
             console.log("====response",response);
             // console.log("item.last",item.last);
