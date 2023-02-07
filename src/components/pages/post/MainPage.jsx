@@ -20,12 +20,10 @@ function MainPage(props) {
   const [popularCategoryList, setPopularCategoryList] = useState([]);
   useEffect(() => {
 
-    // const client=connect();
-    // dispatch(connectSocket(client));
-    console.log(postList)
+    const client=connect();
+    dispatch(connectSocket(client));
     if(postList.length === 0){
       getPosts().then((response) => {
-        console.log(response)
         setpostList(response);
 
       })
