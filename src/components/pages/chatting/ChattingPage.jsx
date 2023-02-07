@@ -14,6 +14,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 export default function ChattingPage() {
     const dispatch=useDispatch();
     const navigate=useNavigate();
+    let client;
     // const socket=useSelector(state=>state.socket.socket);
     // console.log('[ChattingPage] - socket',socket);
     // let subscriptions=useSelector(state=>state.socket.subscriptions);
@@ -104,7 +105,7 @@ export default function ChattingPage() {
     }
     useEffect(()=>{
     //    connect();
-        const client=connect();
+        client=connect();
         dispatch(connectSocket(client));
         // console.log('chatting page socket',socket);
         getRooms(Number(users.id)).then((response)=>{
