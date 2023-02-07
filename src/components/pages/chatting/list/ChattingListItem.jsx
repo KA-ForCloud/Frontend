@@ -70,7 +70,7 @@ function ChattingListItem(props) {
         // })
         const des="/sub/chat/"+item.chattingId;
         let exist=false;
-        // let subscriptions=socket.subscriptions;
+        let subscriptions=socket.subscriptions;
         let subId;
         const callback=function(message){
             if(message!==undefined&&message!=='undefined'){
