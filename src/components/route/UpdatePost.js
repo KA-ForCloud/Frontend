@@ -1,111 +1,32 @@
 import React,{ useCallback, useEffect, useRef, useState } from 'react';
 import { Button, Card, Col, Form, InputGroup, Modal, Nav, Row } from 'react-bootstrap';
 // import { Helmet } from 'react-helmet';
-import { MdDelete } from 'react-icons/md';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState} from 'recoil';
 import styled, { css } from 'styled-components';
 import axios from 'axios';
-import {useImperativeHandle } from "react";
 import { DateRange } from "react-date-range";
-// import { defaultStaticRanges } from "./defaultRanges";
 import { format } from "date-fns";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
-import PropTypes from "prop-types";
-import { KAKAO_AUTH_URL } from '../../OAuth';
-import { DateRangeSelector } from '../route/DateRangeSelector';
 import { userState } from '../../atom';
-// import { DropdownCmpt } from '../components/DropdownCmpt.js';
-// import { Preview } from '../components/Survey/Preview.js';
-// @css
 import './UpdatePost.css';
-import { TextField } from '@mui/material';
-// @mui
-// import { styled } from '@mui/material/styles';
-
-// const Main = styled('div')(({ theme }) => ({
-// 	paddingLeft: theme.spacing(2),
-// 	paddingRight: theme.spacing(2),
-// 	paddingBottom: theme.spacing(3),
-//    // paddingRight: theme.spacing(3),
-//    [theme.breakpoints.up('lg')]: {
-//       paddingLeft: theme.spacing(6),
-//       paddingRight: theme.spacing(6),
-//    },
-// }));
-
-const Main = styled.div`
-  paddingLeft: 10px;
-  paddingRight: 10px;
-  paddingBottom: 10px;
-`
-
-const Remove = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgba(0.0.0.0);
-  font-size: 24px;
-  cursor: pointer;
-  &:hover {
-    color: rgba(0.0.0.0);
-  }
-  display: none;
-`;
-
-const ItemBlock = styled.div`
-
-  display: flex;
-  align-items: center;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  &:hover {
-	background-color: #535353;
-    ${Remove} {
-      display: initial;
-    }
-  }
-`;
-
-// const Text = styled.div`
-//   flex: 1;
-//   font-size: 18px;
-//   color: white;
-//   margin-bottom: 1%;
-//   margin-left: 15px;
-//   ${(props) =>
-// 		props.done &&
-// 		css`
-//       color: #ced4da;
-//     `}
-// `;
-
-
 
 function UpdatePost() {
 
-	const childRef = useRef();
 	const [, updateState] = useState();
 	const forceUpdate = useCallback(() => updateState({}, []));
-	
-	let [savedQsList, setSavedQsList] = useState([]);
+
 	let [curQs, setCurQs] = useState('');
 	let [curQsItemList, setCurQsItemList] = useState([]);
 	let [curSelectedType, setCurSelectedType] = useState('Type');
 	let [makeQsSwitch, setMakeQsSwitch] = useState(false);
-	let [qsType, setQsType] = useState('');
-	let [survey, setSurvey] = useState([]);
-	let [viewSwitch, setViewSwitch] = useState('create');
-	const [shareWay, setShareWay] = useState('null');
-	let count = window.localStorage.getItem("count");
 
 	//post에 사용
 	let [postName, setpostName] = useState(null);
 	let [postContents, setpostContents] = useState(null);
 	let [endtime, setendtime] = useState("");
 	let [starttime, setstarttime] = useState("");
-	let [postId, setPostId] = useState(0);
 	let postState = useRef(-1);
 	window.localStorage.setItem("count", 1);
 
@@ -132,35 +53,7 @@ function UpdatePost() {
 	postDto.contents = "";
 	postDto.views= 0;
 
-	// surveyDto.survey_id = null;
-	// surveyDto.survey_url = null;
-
-
-	// const link = useRecoilValue(linkState);
-	const [link, setLink] = useState("");
-
-	const myRef = useRef({});
 	const users = useRecoilValue(userState);
-
-	// //질문 등록 버튼
-	// const [plusButton, setPlusButton] = useState("+");
-
-	// const setPlusBtn = () => {
-	// 	if (plusButton === "+") {
-	// 		setPlusButton("질문 등록");
-	// 	}
-	// 	else if (plusButton === "질문 등록") {
-	// 		myRef.current.createQuestion();
-	// 		setPlusButton("+");
-	// 	}
-	// }
-
-	useEffect(() => {
-		// if (!users.login) {
-		// 	window.location.href = KAKAO_AUTH_URL;
-		// }
-	}, [])
-
 	useEffect(() => {
 		setTimeout(function () {
 			getPostInfo();
@@ -169,11 +62,6 @@ function UpdatePost() {
 		setCurQsItemList([]);
 	}, [curSelectedType, makeQsSwitch, showCreate])
 
-
-
-
-
- 
     const [selectedDateRange, setSelectedDateRange] = useState({
         startDate: new Date(),
         endDate: new Date(),
@@ -203,39 +91,7 @@ function UpdatePost() {
         });
     //    setShow(false);
     };
-	//체크박스 하나만 선택
-	const checkOnlyOne = (checkThis) => {
-		const checkboxes = document.getElementsByName('shareWay')
-		for (let i = 0; i < checkboxes.length; i++) {
-			if (checkboxes[i] !== checkThis) {
-				checkboxes[i].checked = false
-			}
-		}
-	}
 
-	//체크박스 체크 여부 확인
-	//체크여부에 따라서 setShareWay()
-	function is_checked() {
-
-		const linkCheckbox = document.getElementById('linkCheckBox');
-		const qrCheckBox = document.getElementById('qrCheckBox');
-
-		// const link_checked = linkCheckbox.checked;
-		const link_checked = true;
-		const qr_checked = qrCheckBox.checked;
-
-		if (qr_checked === true) {
-			setShareWay("QR");
-		} else {
-			setShareWay("writer");
-		}
-		// else {
-		// 	setShareWay("null");
-		// }
-	}
-
-	//공유 시간 및 날짜
-	//렌더링되는 시점의 날짜 및 시간 가져오기
 	let today = new Date();
 	let year = today.getFullYear();
 	let month = ('0' + (today.getMonth() + 1)).slice(-2);
@@ -265,9 +121,6 @@ function UpdatePost() {
 	const [endDate, setEndDate] = useState(nextDateString);
 	const [endTime, setEndTime] = useState(timeString);
 	
-
-	const [title, setTitle] = useState("");
-	const [content, setContent] = useState("");
 	const [springbootCount, setspringbootCount] = useState(0);
 	const [pythonCount, setpythonCount] = useState(0);
 	const [springCount, setspringCount] = useState(0);
@@ -324,19 +177,9 @@ function UpdatePost() {
 			case 'projectMemMinus':
 				setprojectLengthCount(projectLengthCount-1)
 				break
-				
-			// case 'javaPlus':
-			// 	setjavaCount(javaCount+1)
-			// 	break
-			// case 'javascriptPlus':
-			// 	setjavascriptCount(javascriptCount+1)
-			// 	break
-			// case 'javaMinus':
-			// 	setjavaCount(javaCount-1)
-			// 	break
-			// case 'javascriptMinus':
-			// 	setjavascriptCount(javascriptCount-1)
-			// 	break
+			default:
+				break
+			
 		}
 	}
 	const [inputs, setInputs] = useState({
@@ -358,7 +201,7 @@ function UpdatePost() {
 		post_id = location.state.id;
 
 		console.log(post_id);
-        axios.get(`http://210.109.62.6:8080/api/post/info/${post_id}`)
+        axios.get(`/api/post/info/${post_id}`)
 			.then((response) => {
                 console.log('get data.data.token', "-", response, "-");
 				postDto.post_name = response.data.post_name;
@@ -372,11 +215,7 @@ function UpdatePost() {
 				postDto.id = response.data.id;
 				postDto.endDate =  etimes[0];
 				postDto.endTime = etimes[1];
-				console.log(postDto)
 				postCatDto.id = response.data.post_category[1].id;
-				// setEndTime(formatDateDisplay(postDto.endTime));
-				// setStartTime(formatDateDisplay(postDto.startTime));
-				console.log(postDto)
 				setSelectedDateRange({
 					startDate: new Date(postDto.startDate),
 					endDate: new Date(postDto.endDate),
@@ -407,32 +246,6 @@ function UpdatePost() {
 				console.log(postDto);
 			});
         }
-
-	const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-
-        if (type === "checkbox") {
-            setInputs((state) => ({
-                ...state,
-                checkbox: {
-                    ...state.checkbox,
-                    [name]: checked,
-                },
-            }));
-        } else {
-            setInputs((state) => ({
-                ...state,
-                [name]: value,
-            }));
-        }
-    };
-
-
-	// 설문 저장하기 버튼을 누를 때
-	function handleSurveySaveButton() {
-		// setShow(true);
-		setViewSwitch('공유');
-	}
 	
 
 	// 설문 제작 완료 버튼을 누를때 (공유탭))
@@ -509,7 +322,7 @@ function UpdatePost() {
 
 			console.log(users);
 			console.log("postDto",postDto)
-			axios.post(`http://210.109.62.6:8080/api/post/save/${users.id}`, postDto)
+			axios.post(`/api/post/save/${users.id}`, postDto)
 			.then((response) => {
 				console.log(response);
 			})
@@ -523,10 +336,6 @@ function UpdatePost() {
 		
 		}
 	}
-
-	//자압구니
-	
-
 
 	return (
 		<>
@@ -657,24 +466,11 @@ function UpdatePost() {
                                 onChange={(e) => setEndTime(e.target.value)} defaultValue={endtime} />
                         </div>
                     </Card>
-                    {/* <button
-            className="mb-1 btn btn-transparent text-danger"
-            onClick={() => setShow(false)}
-            variant="outline-success"
-          >
-            {" "}
-            Close
-          </button> */}
                 </div>
 
             
         </React.Fragment>
-									{/* <div style={{ marginTop: '10px' }}>
-										<input className="form-check-input" id="qrCheckBox" name="shareWay" type="checkbox" value="" onChange={(e) => {
-											checkOnlyOne(e.target)
-											is_checked()
-										}} /> QR코드 생성하기
-									</div> */}
+
 								<h6 className ="font-bold mb-5 text-2xl text-left">프로젝트 소개! 😉</h6>
 									<Form.Group>
 								<Form.Control className="border contents-area w-full" size="lg" as="textarea" placeholder="프로젝트 소개를 입력해주세요"
