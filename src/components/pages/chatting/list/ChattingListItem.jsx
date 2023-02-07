@@ -5,7 +5,7 @@ import { Dialog, Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon, ForwardIcon, TrashIcon,ClipboardDocumentIcon } from '@heroicons/react/20/solid'
 import { useSelector,useDispatch } from 'react-redux';
 import { connectSocket,saveSubscription,saveRoomId } from "../../../../modules/socket";
-import {connect, getRooms, subscribe,getChattingListItemInfo,updateLastRead,getLastRead} from '../../../../services/ChattingService';
+import {connect, getRooms, subscribe,getChattingListItemInfo,updateLastRead,getLastRead,client} from '../../../../services/ChattingService';
 import { set } from 'date-fns';
 
 
@@ -17,7 +17,7 @@ function ChattingListItem(props) {
     // console.log("list item key: ",key);
     const navigate=useNavigate();
     const socket=useSelector(state=>state.socket);
-    console.log("[ChattingListItem] - socket redux",socket);
+    console.log("[ChattingListItem] - socket redux",client);
     let destinations=useSelector(state=>state.socket.subscriptions);
     const [newChat,setNewChat]=useState(null); // 새로 도착한 채팅
     const [numberOfChattings,setNumberOfChattings]=useState();
@@ -116,8 +116,8 @@ function ChattingListItem(props) {
             // const testcallback=subscriptions[subId];
             // console.log("testcallback",testcallback);
             // setCallback(subscriptions[res.id]);
-            console.log("[ChattingListItem] socket",socket);
-            const res=socket.subscribe(des,callback);
+            console.log("[ChattingListItem] client",client);
+            const res=client.subscribe(des,callback);
             destinations.push({id:res.id,des:"/sub/chat/"+item.chattingId});
             dispatch(saveSubscription(destinations));
         } 

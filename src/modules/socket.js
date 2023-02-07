@@ -60,7 +60,7 @@ export default function socket(state=initialState,action){
         case CONNECT_SOCKET:
             console.log("[CONNECT_SOCKET] - client(socket)",action.payload.socket);
             return{
-                
+                ...state,
                 socket: action.payload.socket
             }
         case SAVE_SUBSCRIPTION:
