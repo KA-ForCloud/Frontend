@@ -1,10 +1,8 @@
 import axios from 'axios';
 import SockJS from 'sockjs-client';
+
 const BACKEND_API_BASE_URL="http://210.109.62.6:8080";
 const CHATTING = "http://210.109.62.6:8081";
-// const BACKEND_API_BASE_URL="http://localhost:8080";
-// const CHATTING = "http://localhost:8081";
-
 
 // 채팅방 리스트 조회
 export async function getRooms(memberId){
