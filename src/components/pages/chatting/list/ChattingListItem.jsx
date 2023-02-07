@@ -115,6 +115,7 @@ function ChattingListItem(props) {
             // const testcallback=subscriptions[subId];
             // console.log("testcallback",testcallback);
             // setCallback(subscriptions[res.id]);
+            console.log("[ChattingListItem] socket",socket);
             const res=socket.subscribe(des,callback);
             destinations.push({id:res.id,des:"/sub/chat/"+item.chattingId});
             dispatch(saveSubscription(destinations));
@@ -124,7 +125,7 @@ function ChattingListItem(props) {
     useEffect(() => {
        if(newChat!==null&&newChat.memberId!==Number(memberId)){
         console.log("newChat",newChat);
-        console.log("path",location.slice(-1));
+        // console.log("path",location.slice(-1));
         
         // console.log("numberOfChattings-1",numberOfChattings-1);
         // console.log("item.last",item.last);

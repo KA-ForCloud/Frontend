@@ -63,6 +63,7 @@ export default function socket(state=initialState,action){
                 socket: action.payload.socket
             }
         case SAVE_SUBSCRIPTION:
+            console.log('socket: ',state.socket);
             return{
                 ...state,
                 subscriptions: action.payload.subscriptions

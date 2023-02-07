@@ -14,7 +14,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 export default function ChattingPage() {
     const dispatch=useDispatch();
     const navigate=useNavigate();
-    // let socket=useSelector(state=>state.socket.socket);
+    const socket=useSelector(state=>state.socket.socket);
     let subscriptions=useSelector(state=>state.socket.subscriptions);
     const location=useLocation().pathname;
     const users = useRecoilValue(userState);
@@ -103,8 +103,8 @@ export default function ChattingPage() {
     }
     useEffect(()=>{
     //    connect();
-        const client=connect();
-        dispatch(connectSocket(client));
+        // const client=connect();
+        // dispatch(connectSocket(client));
         // console.log('chatting page socket',socket);
         getRooms(Number(users.id)).then((response)=>{
             if(response.data.code!==1000) console.log("SERVER ERROR");
