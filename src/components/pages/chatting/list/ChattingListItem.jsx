@@ -17,6 +17,7 @@ function ChattingListItem(props) {
     // console.log("list item key: ",key);
     const navigate=useNavigate();
     const socket=useSelector(state=>state.socket.socket);
+    console.log("[ChattingListItem] - socket redux",socket);
     let destinations=useSelector(state=>state.socket.subscriptions);
     const [newChat,setNewChat]=useState(null); // 새로 도착한 채팅
     const [numberOfChattings,setNumberOfChattings]=useState();
