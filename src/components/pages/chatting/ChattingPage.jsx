@@ -15,7 +15,7 @@ export default function ChattingPage() {
     const dispatch=useDispatch();
     const navigate=useNavigate();
     const socket=useSelector(state=>state.socket.socket);
-    let subscriptions=useSelector(state=>state.socket.subscriptions);
+    // let subscriptions=useSelector(state=>state.socket.subscriptions);
     const location=useLocation().pathname;
     const users = useRecoilValue(userState);
 
