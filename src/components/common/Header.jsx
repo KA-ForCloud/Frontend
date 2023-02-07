@@ -3,6 +3,7 @@ import { Popover, Transition, Dialog } from '@headlessui/react'
 import { KAKAO_AUTH_URL } from '../../OAuth'
 import { useNavigate } from 'react-router-dom';
 import { alpha } from '@mui/material/styles';
+import { useDispatch} from 'react-redux';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton} from '@mui/material';
 import {
     Bars3Icon, 
@@ -21,7 +22,9 @@ import menu from '../../menu.png';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {MyPage} from '../route/MyPage'
 // import GoogleLoginB from '../GoogleLoginB'
-
+import SockJS from 'sockjs-client';
+export const stomp = require('stompjs');
+import { connectSocket } from '../../modules/socket';
 
 const handleLogin = () => {
     window.location.href = KAKAO_AUTH_URL;
@@ -33,6 +36,9 @@ function Header() {
     let [isLogin, setIsLogin] = useState([false]);
     const [logoutAlert,setLogoutAlert]=useState([false]);
     let navigate = useNavigate();
+    const dispatch=useDispatch();
+
+    let client;
     // localStorage.setItem("memberId", 2);
     // localStorage.setItem("name", "bbb")
 
@@ -42,6 +48,12 @@ function Header() {
             setLogoutAlert(true);
         }
         else {
+            let socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
+            client=stomp.over(socket);
+            client.connect({},function(){
+              console.log("client1 ",client);
+              dispatch(connectSocket(client));
+            });
             setIsLogin(true);
             setLogoutAlert(false);
         }
