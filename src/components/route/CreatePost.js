@@ -89,7 +89,7 @@ function CreatePost() {
 	const [, updateState] = useState();
 	const forceUpdate = useCallback(() => updateState({}, []));
     let socket=useSelector(state=>state.socket.socket);
-
+	console.log('redux test - socket',socket);
 	let [savedQsList, setSavedQsList] = useState([]);
 	let [curQs, setCurQs] = useState('');
 	let [curQsItemList, setCurQsItemList] = useState([]);
