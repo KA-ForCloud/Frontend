@@ -1,15 +1,10 @@
 import axios from 'axios';
 import SockJS from 'sockjs-client';
-<<<<<<< Updated upstream
-import StompJs from '@stomp/stompjs';
-import { Client, Message } from '@stomp/stompjs';
-
-=======
 const BACKEND_API_BASE_URL="http://210.109.62.6:8080";
 const CHATTING = "http://210.109.62.6:8081";
 // const BACKEND_API_BASE_URL="http://localhost:8080";
 // const CHATTING = "http://localhost:8081";
->>>>>>> Stashed changes
+
 
 // 채팅방 리스트 조회
 export async function getRooms(memberId){
