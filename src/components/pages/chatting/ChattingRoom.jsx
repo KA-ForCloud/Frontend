@@ -44,7 +44,7 @@ export default function ChattingRoom(props) {
     };
     const handleSubmit = async (e) => {
         const now=getDate();
-        publish(roomId,msg,memberId,nickname,now,"msg"); // TODO 수정해야해애애애애ㅐㅇ애
+        publish(socket,roomId,msg,memberId,nickname,now,"msg"); // TODO 수정해야해애애애애ㅐㅇ애
         setMsg("");
     };
 
@@ -69,7 +69,7 @@ export default function ChattingRoom(props) {
             const msg=response.data.result.fileId;
             console.log("msg",msg);
             const sendTime=response.data.result.timestamp;
-            publish(roomId,msg,memberId,nickname,sendTime,"file");
+            publish(socket,roomId,msg,memberId,nickname,sendTime,"file");
         })
         setFile(null);
     }
