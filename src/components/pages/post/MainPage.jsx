@@ -24,7 +24,6 @@ function MainPage() {
 
     const client=connect();
     dispatch(connectSocket(client));
-    
     if(postList.length === 0){
       getPosts().then((response) => {
         setpostList(response);
