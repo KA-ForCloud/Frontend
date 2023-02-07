@@ -63,7 +63,7 @@ function App() {
                       <Route path="/portfolio" element = {<Portfolio/>}/>
                       <Route path="/createpost" element= {<CreatePost/>}/>
                       <Route path="/portfolioview" element = {<Portfolioview/>}/>
-                      <Route path="/portfolioviewer/*" element = {<Portfolioviewer/>}/>
+                      <Route path="/portfolioviewer/:userId" element = {<Portfolioviewer/>}/>
                       <Route path="/postUpdate" element = {<UpdatePost/>}/>
                     
                       <Route path="/user/attached/*" />

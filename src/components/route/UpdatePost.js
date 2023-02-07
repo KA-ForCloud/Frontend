@@ -372,10 +372,11 @@ function UpdatePost() {
 				postDto.id = response.data.id;
 				postDto.endDate =  etimes[0];
 				postDto.endTime = etimes[1];
-
+				console.log(postDto)
 				postCatDto.id = response.data.post_category[1].id;
 				// setEndTime(formatDateDisplay(postDto.endTime));
 				// setStartTime(formatDateDisplay(postDto.startTime));
+				console.log(postDto)
 				setSelectedDateRange({
 					startDate: new Date(postDto.startDate),
 					endDate: new Date(postDto.endDate),
