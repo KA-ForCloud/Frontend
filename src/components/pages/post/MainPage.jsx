@@ -25,6 +25,7 @@ function MainPage(props) {
     console.log(postList)
     if(postList.length === 0){
       getPosts().then((response) => {
+        console.log(response)
         setpostList(response);
 
       })

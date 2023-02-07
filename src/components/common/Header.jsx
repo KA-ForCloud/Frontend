@@ -78,7 +78,7 @@ function Header() {
                                 팀 모집
                             </a>
 
-                            <a href="/rooms/*" className="text-2xl font-bold text-gray-500 hover:text-gray-900">
+                            <a href="/rooms" className="text-2xl font-bold text-gray-500 hover:text-gray-900">
                                 채팅
                             </a>
 

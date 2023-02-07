@@ -137,7 +137,7 @@ function ChattingListItem(props) {
         }
         else if(newChat.msgType==="enter"){
             console.log("enter");
-            setParticipants(participants=>participants+1); // 참여자 나가기 메세지
+            setParticipants(participants=>participants+1); // 참여자 입장 메세지
 
         }
         if(newChat.roomId!==Number(location.slice(-1))){

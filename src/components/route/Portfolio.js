@@ -159,7 +159,7 @@ function Portfolio() {
       }
 
     function getPortInfo(){
-        axios.get(`/api/user/info/${users.id}`)
+        axios.get(`http://210.109.62.6:8080/api/user/info/${users.id}`)
 			.then((response) => {
                 console.log('get data.data.token', "-", response, "-");
                 console.log(filename);
@@ -192,7 +192,7 @@ function Portfolio() {
             })
         }
         function getCategoryInfo(){
-            axios.get(`/api/userCategory/${users.id}`)
+            axios.get(`http://210.109.62.6:8080/api/userCategory/${users.id}`)
                 .then((response) => {
                     console.log('get categorydata.data.token', "-", response, "-");
                     userCategoryDto.java = response.data.java;
@@ -259,10 +259,8 @@ function Portfolio() {
             
             
             if(filecheck){
-
-            console.log("ininiinin");
             setFilecheck(false);
-            axios.post(`/api/user/upload/${users.id}`,formData)
+            axios.post(`http://210.109.62.6:8080/api/user/upload/${users.id}`,formData)
 			.then((response) => {
                 console.log('response.data.token', "-", response, "-");
                 console.log(filename);
@@ -331,7 +329,7 @@ function Portfolio() {
 
             
             console.log("userCategoryDto",userJson);
-			axios.post(`/api/user/port/save/${users.id}?portname=${filename}`,userDto)
+			axios.post(`http://210.109.62.6:8080/api/user/port/save/${users.id}?portname=${filename}`,userDto)
 			.then((response) => {
                 console.log('response.data.token', "-", response, "-");
                 console.log(filename);
@@ -377,8 +375,8 @@ function Portfolio() {
             case 'download':
                 navigate('/portfolio');
                 console.log(users.portsave);    
-                if ( window.location == 'http://localhost:3000/portfolio' ) {
-                     window.location.href='http://localhost:8080/user/attached/'+users.portsave;
+                if ( window.location == 'http://210.109.61.179:3000/portfolioview' ) {
+                     window.location.href='http://210.109.62.6:8080/api/user/attached/'+users.portsave;
                 }
                 
                 navigate('/portfolio');

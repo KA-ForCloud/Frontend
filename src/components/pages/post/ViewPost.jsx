@@ -84,7 +84,7 @@ function ViewPost() {
     }, []);
 
     function getPortInfo(userId){
-        axios.get(`/api/user/info/${userId}`)
+        axios.get(`http://210.109.62.6:8080/api/user/info/${userId}`)
             .then((response) => {
                 userDto.name = response.data.user_name;
                 userDto.profileImg = response.data.user_image;

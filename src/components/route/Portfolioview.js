@@ -185,8 +185,8 @@ function Portfolioview() {
             case 'download':
                 navigate('/portfolioview');
                 console.log(users.portsave);    
-                if ( window.location == 'http://localhost:3000/portfolioview' ) {
-                     window.location.href='http://localhost:8080/api/user/attached/'+users.portsave;
+                if ( window.location == 'http://210.109.61.179:3000/portfolioview' ) {
+                     window.location.href='http://210.109.62.6:8080/api/user/attached/'+users.portsave;
                 }
                 
                 navigate('/portfolioview');
