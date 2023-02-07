@@ -86,7 +86,7 @@ function Header() {
                             </a> */}
                             <div className="text-2xl font-bold text-gray-500 hover:text-gray-900" onClick={()=>{
                                 navigate("/mainPage");
-                            }}>채팅</div>
+                            }}>팀 모집</div>
                             {/* <a href="/rooms" className="text-2xl font-bold text-gray-500 hover:text-gray-900">
                                 채팅
                             </a> */}
@@ -99,7 +99,7 @@ function Header() {
                             </a> */}
                             <div className="text-2xl font-bold text-gray-500 hover:text-gray-900" onClick={()=>{
                                 navigate("/mypage");
-                            }}>채팅</div>
+                            }}>마이 페이지</div>
                     </div>}
                     
 
