@@ -13,11 +13,11 @@ function ChattingListItem(props) {
     const dispatch=useDispatch();
 
 
-    const {item,selectedRoom,memberId,newMsg}=props;
+    const {item,selectedRoom,memberId,newMsg,socket}=props;
     // console.log("list item key: ",key);
     const navigate=useNavigate();
-    let socket=useSelector(state=>state.socket.socket);
-    console.log("[ChattingListItem] - socket redux",socket);
+    // let socket=useSelector(state=>state.socket.socket);
+	console.log('[ChattingListItem] - socket',socket);
     let destinations=useSelector(state=>state.socket.subscriptions);
     const [newChat,setNewChat]=useState(null); // 새로 도착한 채팅
     const [numberOfChattings,setNumberOfChattings]=useState();
@@ -116,8 +116,8 @@ function ChattingListItem(props) {
             // const testcallback=subscriptions[subId];
             // console.log("testcallback",testcallback);
             // setCallback(subscriptions[res.id]);
-            console.log("[ChattingListItem] client",client);
-            const res=client.subscribe(des,callback);
+           
+            const res=socket.subscribe(des,callback);
             destinations.push({id:res.id,des:"/sub/chat/"+item.chattingId});
             dispatch(saveSubscription(destinations));
         } 
