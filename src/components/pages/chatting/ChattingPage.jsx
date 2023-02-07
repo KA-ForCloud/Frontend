@@ -72,15 +72,15 @@ export default function ChattingPage() {
 
     // 채팅방 삭제에 대한 메세지 발행
     const remove= (roomId,msg) => {
-        publish(roomId,msg,users.id,users.name,getDate(),"remove");
+        publish(socket,roomId,msg,users.id,users.name,getDate(),"remove");
     }
     // 채팅방 나가기에 대한 메세지 발행
     const exit= (roomId,msg) => {
-        publish(roomId,msg,users.id,users.name,getDate(),"exit");
+        publish(socket,roomId,msg,users.id,users.name,getDate(),"exit");
     }
     // 채팅방 종료 대한 메세지 발행
     const end= (roomId,msg) => {
-        publish(roomId,msg,users.id,users.name,getDate(),"end");
+        publish(socket,roomId,msg,users.id,users.name,getDate(),"end");
     }
     // 채팅방 선택 시 우측 화면 상단에 채팅방 제목을 보여줌
     const selectRoom=(item,itemTitle)=>{
