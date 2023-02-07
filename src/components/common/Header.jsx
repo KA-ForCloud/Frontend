@@ -81,10 +81,12 @@ function Header() {
 
                     {users.login && 
                         <div className ="hidden justify-center md:flex md:space-x-10 md:ml-5">
-                            <a href="/mainPage" className="text-2xl font-bold text-gray-500 hover:text-gray-900">
+                            {/* <a href="/mainPage" className="text-2xl font-bold text-gray-500 hover:text-gray-900">
                                 팀 모집
-                            </a>
-
+                            </a> */}
+                            <div className="text-2xl font-bold text-gray-500 hover:text-gray-900" onClick={()=>{
+                                navigate("/mainPage");
+                            }}>채팅</div>
                             {/* <a href="/rooms" className="text-2xl font-bold text-gray-500 hover:text-gray-900">
                                 채팅
                             </a> */}
@@ -92,9 +94,12 @@ function Header() {
                                 navigate("/rooms");
                             }}>채팅</div>
 
-                            <a href="/mypage" className="text-2xl font-bold text-gray-500 hover:text-gray-900">
+                            {/* <a href="/mypage" className="text-2xl font-bold text-gray-500 hover:text-gray-900">
                                 마이 페이지
-                            </a>
+                            </a> */}
+                            <div className="text-2xl font-bold text-gray-500 hover:text-gray-900" onClick={()=>{
+                                navigate("/mypage");
+                            }}>채팅</div>
                     </div>}
                     
 
