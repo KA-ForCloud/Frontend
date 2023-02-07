@@ -54,14 +54,14 @@ function ChattingListItem(props) {
                 setMsgType(1);
             }
             else setMsgType(3);
-            console.log("msgType",msgType);
+            // console.log("msgType",msgType);
 
             setNewChat(response.data.result.last);
-            console.log("newChat",newChat);
+            // console.log("newChat",newChat);
             setCheck(true);
             setParticipants(item.participantList.length);
             if(numberOfChattings-1-item.last===0) {
-                console.log("It's ZERO");
+                // console.log("It's ZERO");
                 setUnRead(false);
             }
         })
@@ -70,7 +70,7 @@ function ChattingListItem(props) {
         // })
         const des="/sub/chat/"+item.chattingId;
         let exist=false;
-        let subscriptions=socket.subscriptions;
+        // let subscriptions=socket.subscriptions;
         let subId;
         const callback=function(message){
             if(message!==undefined&&message!=='undefined'){

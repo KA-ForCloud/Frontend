@@ -15,7 +15,7 @@ export default function ChattingPage() {
     const dispatch=useDispatch();
     const navigate=useNavigate();
     let socket=useSelector(state=>state.socket.socket);
-    let subscriptions=useSelector(state=>state.socket.subscriptions);
+    // let subscriptions=useSelector(state=>state.socket.subscriptions);
     const location=useLocation().pathname;
     const users = useRecoilValue(userState);
 
@@ -165,13 +165,13 @@ export default function ChattingPage() {
                                                 const des="/sub/chat/"+room.chattingId;
                                                 const removeMsg="remove";
                                                 remove(roomId,removeMsg);
-                                                subscriptions.map((sub)=>{
-                                                    if(sub.des===des) socket.unsubscribe(sub.id);
-                                                })
-                                                subscriptions=subscriptions.filter(
-                                                    subsrciption=>subsrciption.des!=des
-                                                )
-                                                dispatch(saveSubscription(subscriptions));
+                                                // subscriptions.map((sub)=>{
+                                                //     if(sub.des===des) socket.unsubscribe(sub.id);
+                                                // })
+                                                // subscriptions=subscriptions.filter(
+                                                //     subsrciption=>subsrciption.des!=des
+                                                // )
+                                                // dispatch(saveSubscription(subscriptions));
                                                 let newRooms=roomList.filter(
                                                     roomItem=>roomItem.chattingId!=room.chattingId
                                                 )
@@ -188,13 +188,13 @@ export default function ChattingPage() {
                                                     const des="/sub/chat/"+room.chattingId;
                                                     const endMsg="end";
                                                     end(roomId,endMsg);
-                                                    subscriptions.map((sub)=>{
-                                                        if(sub.des===des) socket.unsubscribe(sub.id);
-                                                    })
-                                                    subscriptions=subscriptions.filter(
-                                                        subsrciption=>subsrciption.des!=des
-                                                    )
-                                                    dispatch(saveSubscription(subscriptions));
+                                                    // subscriptions.map((sub)=>{
+                                                    //     if(sub.des===des) socket.unsubscribe(sub.id);
+                                                    // })
+                                                    // subscriptions=subscriptions.filter(
+                                                    //     subsrciption=>subsrciption.des!=des
+                                                    // )
+                                                    // dispatch(saveSubscription(subscriptions));
                                                     let newRooms=roomList.filter(
                                                         roomItem=>roomItem.chattingId!=room.chattingId
                                                     )
@@ -212,13 +212,13 @@ export default function ChattingPage() {
                                                 const des="/sub/chat/"+room.chattingId;
                                                 const existMsg="exit";
                                                 exit(roomId,existMsg);
-                                                subscriptions.map((sub)=>{
-                                                    if(sub.des===des) socket.unsubscribe(sub.id);
-                                                })
-                                                subscriptions=subscriptions.filter(
-                                                    subsrciption=>subsrciption.des!=des
-                                                )
-                                                dispatch(saveSubscription(subscriptions));
+                                                // subscriptions.map((sub)=>{
+                                                //     if(sub.des===des) socket.unsubscribe(sub.id);
+                                                // })
+                                                // subscriptions=subscriptions.filter(
+                                                //     subsrciption=>subsrciption.des!=des
+                                                // )
+                                                // dispatch(saveSubscription(subscriptions));
                                                 let newRoomList=roomList.filter(
                                                     roomItem=>roomItem.chattingId!=room.chattingId
                                                 )
