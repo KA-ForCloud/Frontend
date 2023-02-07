@@ -10,7 +10,7 @@ function ChattingList(props) {
   
     const {items,seletedRoomTitle,onClickItem,selectRoom,memberId,newMsg}=props;
     const socket=useSelector(state=>state.socket);
-    let subscriptions=useSelector(state=>state.socket.subscriptions);
+    // let subscriptions=useSelector(state=>state.socket.subscriptions);
     const [newChat,setNewChat]=useState(null); // 새로 도착한 채팅
     const [numberOfChattings,setNumberOfChattings]=useState();
     const [selected,setSelected]=useState();
