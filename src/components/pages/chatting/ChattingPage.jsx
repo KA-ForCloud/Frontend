@@ -14,8 +14,8 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 export default function ChattingPage() {
     const dispatch=useDispatch();
     const navigate=useNavigate();
-    const socket=useSelector(state=>state.socket.socket);
-    console.log('[ChattingPage] - socket',socket);
+    // const socket=useSelector(state=>state.socket.socket);
+    // console.log('[ChattingPage] - socket',socket);
     // let subscriptions=useSelector(state=>state.socket.subscriptions);
     const location=useLocation().pathname;
     const users = useRecoilValue(userState);
@@ -104,8 +104,8 @@ export default function ChattingPage() {
     }
     useEffect(()=>{
     //    connect();
-        // const client=connect();
-        // dispatch(connectSocket(client));
+        const client=connect();
+        dispatch(connectSocket(client));
         // console.log('chatting page socket',socket);
         getRooms(Number(users.id)).then((response)=>{
             if(response.data.code!==1000) console.log("SERVER ERROR");
@@ -148,7 +148,7 @@ export default function ChattingPage() {
             <div className="flex flex-row pt-5 md:h-full">
                 <div className='md:h-full md:w-1/3'>
                     <p className="text-2xl font-bold text-gray-900">채팅방 리스트</p>
-                    {roomList&&<ChattingList items={roomList} selectRoom={selectRoom} memberId={users.id} newMsg={newMsg} socket={socket}/>}
+                    {roomList&&<ChattingList items={roomList} selectRoom={selectRoom} memberId={users.id} newMsg={newMsg} socket={client}/>}
                 </div>
 
                 <div className='md:h-fit pl-10 md:w-full'>
