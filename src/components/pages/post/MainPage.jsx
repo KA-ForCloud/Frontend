@@ -24,12 +24,14 @@ function MainPage() {
 
   const [popularCategoryList, setPopularCategoryList] = useState([]);
   useEffect(() => {
-    let socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
-    client=stomp.over(socket);
-    client.connect({},function(){
-      console.log("client1 ",client);
-      dispatch(connectSocket(client));
-    });
+    client=connect();
+    dispatch(connectSocket(client));
+    // let socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
+    // client=stomp.over(socket);
+    // client.connect({},function(){
+    //   console.log("client1 ",client);
+    //   dispatch(connectSocket(client));
+    // });
     if(postList.length === 0){
       getPosts().then((response) => {
         setpostList(response);

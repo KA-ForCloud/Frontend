@@ -82,7 +82,7 @@ export async function connect(){ // 연결할 때
 };
 
 // 채팅방 참여 - send message TODO: memberId, nickname 수정 필요
-export function publish(roomId,message,memberId,nickname,now,msgType){
+export function publish(socket,roomId,message,memberId,nickname,now,msgType){
     console.log("publish msgType: ",msgType);
     client.send(`/pub/chat.message.${roomId}`,{}, JSON.stringify({
         msg: message,

@@ -26,6 +26,7 @@ const FileUpload=styled.label.attrs({type:"file"})`
 export default function ChattingRoom(props) {
     const dispatch=useDispatch();
     const socket=useSelector(state=>state.socket.socket);
+    console.log("[ChattingRoom]",socket);
     let destinations=useSelector(state=>state.socket.subscriptions);
     let beforeRoomId=useSelector(state=>state.socket.roomId);
 
