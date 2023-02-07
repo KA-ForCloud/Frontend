@@ -95,9 +95,9 @@ export function publish(socket,roomId,message,memberId,nickname,now,msgType){
 };
 
 // 채팅방 참여 - enter 
-export function enter(roomId,msg,memberId,nickname,now,msgType){
+export function enter(socket,roomId,msg,memberId,nickname,now,msgType){
     console.log("now",now);
-    client.send(`/pub/chat.enter.${roomId}`,{},JSON.stringify({
+    socket.send(`/pub/chat.enter.${roomId}`,{},JSON.stringify({
         msg:msg,
         nickName:nickname,
         roomId:roomId,

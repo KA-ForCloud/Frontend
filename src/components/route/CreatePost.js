@@ -89,7 +89,6 @@ function CreatePost() {
 	const [, updateState] = useState();
 	const forceUpdate = useCallback(() => updateState({}, []));
     let socket=useSelector(state=>state.socket.socket);
-	console.log('redux test - socket',socket);
 	let [savedQsList, setSavedQsList] = useState([]);
 	let [curQs, setCurQs] = useState('');
 	let [curQsItemList, setCurQsItemList] = useState([]);
@@ -416,7 +415,7 @@ function CreatePost() {
 				else{
 					const chattingId=response.data.result;
 					const msg=users.name+"님이 입장하셨습니다.";
-					enter(chattingId,msg,users.id,users.name,getDate(),"msg");
+					enter(socket,chattingId,msg,users.id,users.name,getDate(),"msg");
 					navigate('/mainPage');
 				}
 			})
