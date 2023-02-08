@@ -25,7 +25,7 @@ const FileUpload=styled.label.attrs({type:"file"})`
 `;
 export default function ChattingRoom(props) {
     const dispatch=useDispatch();
-    const socket=useSelector(state=>state.socket.socket);
+    let socket=useSelector(state=>state.socket.socket);
     console.log("[ChattingRoom]",socket);
     let destinations=useSelector(state=>state.socket.subscriptions);
     let beforeRoomId=useSelector(state=>state.socket.roomId);
@@ -76,7 +76,14 @@ export default function ChattingRoom(props) {
     }
 
     useEffect(() => {
-        
+        if(socket===null){
+            socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
+    		let client=stomp.over(socket);
+    		client.connect({},function(){
+      		    console.log("client1 ",client);
+      		    dispatch(connectSocket(client));
+            });
+        }
         // 채팅 내역 불러오기
         getChattings(roomId).then((response)=>{
             if(response.data.code!==1000) console.log("SERVER ERROR");

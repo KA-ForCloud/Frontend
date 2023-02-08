@@ -44,6 +44,14 @@ function ChattingListItem(props) {
     }
     
     useEffect(() => {
+        if(socket===null){
+            socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
+    		let client=stomp.over(socket);
+    		client.connect({},function(){
+      		    console.log("client1 ",client);
+      		    dispatch(connectSocket(client));
+            });
+        }
         getChattingListItemInfo(item.chattingId).then((response)=>{
             console.log("====response",response);
             // console.log("item.last",item.last);
