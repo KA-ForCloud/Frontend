@@ -120,7 +120,7 @@ function AboutProduct() {
 	};
 
 	return (
-		<div className="mx-auto max-w-7xl px-4 sm:px-6">
+		<div className="mx-auto max-w-screen-lg px-4 sm:px-6">
 				<Fade big>
 					<IntroBlock>
 					{/* <h2>사용자에게 편의를 주는 솔루션을</h2>

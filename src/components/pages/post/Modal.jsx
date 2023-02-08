@@ -17,9 +17,12 @@ function Modal(props) {
     const Register = () => {
         if(header ==="모집분야"){
             createApplicant(postId, category.toLowerCase(), users.id).then((response) => {
-                if(response === 1000){
+                if(response.data.code === 1000){
                     close();
                     navigate('/mainPage');
+                }else {
+                    close();
+                    alert(response.data.message);
                 }
             })
         }else if(header === "승인하기"){

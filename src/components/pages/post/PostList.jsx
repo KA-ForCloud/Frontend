@@ -120,23 +120,27 @@ function PostList(props) {
     
     return (
     <div className = {type === "main" ? "grid grid-cols-1 xl:grid-cols-3 gap-x-4 gap-y-4 md:grid-cols-2"
-        : type === "my" || type === "requested" ? "grid grid-cols-1 xl:grid-cols-3 md:grid-cols-2 gap-y-4"
-        : "w-full"}>
+        : type === "my" || type === "requested" || type === "ongoing" || type === "completed" ? "grid grid-cols-1 xl:grid-cols-3 md:grid-cols-2 gap-y-4"
+        : " w-full"} >
      {post && post.map((item, idx) => (
 
-      <div key={idx} className= {type === "main" ? "rounded-2xl border py-10 flex-column hover:scale-105 transition cursor-pointer"
-        : type === 'my' || type === 'requested' ? "rounded-2xl mx-3 border flex-column hover:bg-sky-50 transition cursor-pointer"
+      <div key={idx} className = {type === "main" ? "rounded-2xl border py-5 flex-column hover:scale-105 transition cursor-pointer text-2xl"
+        : type === 'my' || type === 'requested' || type === "ongoing" || type === "completed" ? "rounded-2xl mx-3 border flex-column hover:bg-sky-50 transition cursor-pointer text-2xl"
         : "text-left rounded-2xl border-4 border-white hover:border-black flex-column cursor-pointer text-2xl"}
-        onClick= {type === 'ongoing' || type === 'completed' ? () => { navigate(`/viewProject/${item.id}`, {state: item})} :
+        onClick={type === 'ongoing' || type === 'completed' ? () => { navigate(`/viewProject/c${item.id}`, {state: item})} :
         () => { navigate(`/viewPost/${item.id}`, {state: item})}}>
 
-        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">프로젝트 제목: {item.post_name}</h3>
-        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">모집기한: {item.end_time}</h3>
-        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold">진행기간: {item.duration}개월</h3>
-        <hr className="h-px mx-4 my-2 first-line:mt-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+     
+        <h3 className="mx-5 my-2 font-weight-bold">프로젝트 제목: {item.post_name}</h3>
+        <h3 className="mx-5 my-2 font-weight-bold">모집기한: {item.end_time}</h3>
+        <h3 className="mx-5 my-2 font-weight-bold">진행기간: {item.duration}개월</h3>
+        <hr className= {type ==="maxView" ? "h-px mx-4 my-2 first-line:mt-4 border border-white"
+        :"h-px mx-4 my-2 first-line:mt-4 bg-gray-200 border-0 dark:bg-gray-700"}></hr>
 
-        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold text-center">모집분야</h3>
-        <div className="mx-2 grid grid-rows-2 grid-cols-3 gap-x-2 gap-y-2">
+        <h3 className="mx-5 my-2 font-weight-bold text-center">모집분야</h3>
+        <div className= {type === 'my' || type === 'requested' || type === "ongoing" || type === "completed" ? "md:text-xl lg:text-lg xl:text-base mx-2 grid grid-rows-3 grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2" 
+          : type ==="maxView" ? "text-xl mx-2 grid grid-rows-2 grid-cols-3 lg:grid-cols-3 md:grid-cols-2 gap-2"
+          : "text-xl mx-2 grid grid-rows-2 grid-cols-3 lg:grid-cols-3 md:grid-cols-2 gap-2"}>
           {item.area.map((k, key) => {
             for(let i=0; i<tool.length; i++){
               if(tool[i].name.toLowerCase() === k.img.toLowerCase()){
@@ -146,19 +150,22 @@ function PostList(props) {
               }
             }
             return (
-              <div key={key} className="flex border rounded-2xl">
+              <div key={key} className={ type ==="maxView" ?" flex border-2 border-white rounded-2xl" 
+                : "flex border rounded-2xl"}>
                 <img className="rounded-2xl w-9 h-10" src={k.img} alt={k.name} />
                 <p className="m-auto">{k.name}</p>
               </div>
             );
           })}
         </div>
-        <hr className="h-px mx-4 my-4 first-line:mt-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
-        <div className="flex">
-          <h3 className="mx-auto text-dark text-2xl font-weight-bold">작성자: {item.name}</h3>
-          <h3 className="mx-auto text-dark text-2xl font-weight-bold">조회수: {item.views}회</h3>
+        <hr className= {type ==="maxView" ? "h-px mx-4 my-2 first-line:mt-4 border border-white"
+        :"h-px mx-4 my-2 first-line:mt-4 bg-gray-200 border-0 dark:bg-gray-700"}></hr>
+        <div className="flex my-2">
+          <h3 className="mx-auto font-weight-bold">작성자: {item.name}</h3>
+          <h3 className="mx-auto font-weight-bold">조회수: {item.views}회</h3>
         </div>
       </div>
+
     ))}
     </div>
   )
