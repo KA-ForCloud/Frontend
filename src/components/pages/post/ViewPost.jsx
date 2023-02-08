@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useRecoilValue} from 'recoil';
-import { getApplicant, deleteMyPost, updatePostView, updatePostStatus, getCurrentPostCategory } from "../../../services/PostService";
+import { getApplicant, deleteMyPost, updatePostView, updatePostStatus, getCurrentPostCategory, deleteAllApplicant } from "../../../services/PostService";
 import Modal from "./Modal";
 import { userState } from '../../../atom';
 import axios from 'axios';
@@ -15,7 +15,7 @@ function ViewPost() {
     const [applicant, setApplicant] = useState([]);
     const [currentCategory, setCurrentCategory] = useState({});
     const [clickedCategory, setClickedCategory] = useState([]);
-    
+    const [completedCategory, setCompletedCategory] = useState([]);
     //지금은 각각 모달 state를 만들었지만 전역 모달로 바꿔서 해도 될듯
     const [registerModalOpen, setRegisterModalOpen] = useState(false);
     const [approveModalOpen, setApproveModalOpen] = useState(false);
@@ -54,14 +54,16 @@ function ViewPost() {
 
     // 조회수 증가
     useEffect(() => {
-        updatePostView(postId);
+        if(state.name !== users.name){
+            updatePostView(postId);
+        }
     }, [])
 
     //자신이 쓴 글이면 수정하기 버튼 + 신청하기 x
     //다른 사람이 쓴 글이면 + 신청하기 버튼만 ㅇ
     useEffect(() => {
         // 자신이 쓴 글, 다른 사람이 쓴 글 구분
-        if (state.name === users.name) {
+        if (state.name === "aaa") {
             setMyPost(true);
             getApplicant(postId).then((response) => {
                 setApplicant(response);
@@ -83,8 +85,36 @@ function ViewPost() {
 
     }, []);
 
+    useEffect(()=> {
+        if(state.postType === "recruiting"){
+            checkFullRecruits();
+            // 자동으로 모집완료로 상태 업데이트
+            if(state.area.length === completedCategory.length){
+                updatePostStatus(postId).then(()=>{
+                    alert("해당 게시글의 모집이 완료되었습니다.")
+                    navigate('/mainPage')
+                })
+            }
+        }
+    }, [currentCategory, completedCategory])
+
+    // 모집현황이 가득찼을 경우 (신청자리스트에서 모두 제거)
+    const checkFullRecruits = () => {
+        state.area.map((item) => {
+            if(!completedCategory.includes(item.name) && Number(item.value) === currentCategory[item.name.toLowerCase()]){
+                setCompletedCategory([...completedCategory, item.name]);
+                deleteAllApplicant(postId, item.name.toLowerCase()).then((res)=>{
+                    alert(item.name + "모집이 마감되었습니다")
+                    getApplicant(postId).then((response) => {
+                        setApplicant(response);
+                    })
+                })
+            }
+        })
+    }
+
     function getPortInfo(userId){
-        axios.get(`http://210.109.62.6:8080/api/user/info/${userId}`)
+        axios.get(`/api/user/info/${userId}`)
             .then((response) => {
                 userDto.name = response.data.user_name;
                 userDto.profileImg = response.data.user_image;
@@ -95,12 +125,11 @@ function ViewPost() {
                 userDto.tech =  response.data.tech;
                 userDto.portname = response.data.port;
                 userDto.portsave = response.data.portsave_name;
-                console.log(userDto)
                 navigate(`/portfolioviewer/${userId}`, {state : userDto})
         })}
         
     return (
-        <div className="mx-auto w-9/12 px-4 mb-7 ">
+        <div className="mx-auto max-w-screen-lg px-4 mb-7 ">
             <div className='my-7 border-4 border-sky-200 rounded-2xl p-5 flex-column font-bold text-2xl'>
                 <div className ="flex ">
                     <p>프로젝트 제목: {state.post_name}</p>
@@ -151,7 +180,7 @@ function ViewPost() {
                                 </div>
                                 <div className = "hidden sm:flex ml-auto my-auto">
                                     <p> {cate} / {k.value} 명</p>
-                                    {state.postType === "recruiting" && !myPost && <button
+                                    {state.postType === "recruiting" && !myPost &&  cate !== Number(k.value) && <button
                                         key={key}
                                         onClick={openModal}
                                         value={k.name}

@@ -1,9 +1,8 @@
 import React,{ useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Card, Col, Form, InputGroup, Modal, Nav, Row } from 'react-bootstrap';
+import { Card,Form} from 'react-bootstrap';
 // import { Helmet } from 'react-helmet';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState} from 'recoil';
-import styled, { css } from 'styled-components';
+import { useRecoilValue} from 'recoil';
 import axios from 'axios';
 import { DateRange } from "react-date-range";
 import { format } from "date-fns";
@@ -11,16 +10,15 @@ import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { userState } from '../../atom';
 import './UpdatePost.css';
-
+/* eslint-disable */
 function UpdatePost() {
 
 	const [, updateState] = useState();
 	const forceUpdate = useCallback(() => updateState({}, []));
 
-	let [curQs, setCurQs] = useState('');
-	let [curQsItemList, setCurQsItemList] = useState([]);
-	let [curSelectedType, setCurSelectedType] = useState('Type');
-	let [makeQsSwitch, setMakeQsSwitch] = useState(false);
+
+	let [curSelectedType] = useState('Type');
+	let [makeQsSwitch] = useState(false);
 
 	//post에 사용
 	let [postName, setpostName] = useState(null);
@@ -36,8 +34,7 @@ function UpdatePost() {
 
 	let navigate = useNavigate();
 
-	// handleSurveySaveButton, handleSurveyCreateButton에서 사용 즉, PostSurvey, UpdateSurvey API에서 사용함
-	let postJson = new Object();
+
 	let postDto = new Object();
 	let postCatDto = new Object();
 
@@ -58,8 +55,6 @@ function UpdatePost() {
 		setTimeout(function () {
 			getPostInfo();
         }, 500);
-		setCurQs('');
-		setCurQsItemList([]);
 	}, [curSelectedType, makeQsSwitch, showCreate])
 
     const [selectedDateRange, setSelectedDateRange] = useState({
@@ -89,7 +84,7 @@ function UpdatePost() {
             endDate: new Date(),
             key: "selection"
         });
-    //    setShow(false);
+
     };
 
 	let today = new Date();
@@ -110,15 +105,13 @@ function UpdatePost() {
 
 	postDto.starTime = timeString;
 	postDto.endTime = timeString;
-	// 설문 공유때 사용되는 시작 시간 및 종료 시간
-	// start_time: 배포 시작 날짜 및 시간, 예시 "2022-12-11 12:00:00"
+
 	let start_time_temp = dateString + ' ' + timeString + ':00';
-	// 배포 마감 날짜 및 시간
 	let end_time_temp = nextDateString + ' ' + timeString + ':00';
 
-	const [startDate, setStartDate] = useState(dateString);
+	const [startDate] = useState(dateString);
 	const [startTime, setStartTime] = useState(timeString);
-	const [endDate, setEndDate] = useState(nextDateString);
+	const [endDate] = useState(nextDateString);
 	const [endTime, setEndTime] = useState(timeString);
 	
 	const [springbootCount, setspringbootCount] = useState(0);
@@ -129,9 +122,7 @@ function UpdatePost() {
 	const [javascriptCount, setjavascriptCount] = useState(0);
 
 	const [projectLengthCount, setprojectLengthCount] = useState(0);
-	// const [javascriptCount, setjavascriptCount] = useState(0);
-	// const [javascriptCount, setjavascriptCount] = useState(0);
-	
+
 	const onClick = (event) => {
 		const id = event.target.id;
 		switch(id){
@@ -246,7 +237,6 @@ function UpdatePost() {
         }
 	
 
-	// 설문 제작 완료 버튼을 누를때 (공유탭))
 	function handlePostCreateButton() {
 
 		postDto.status = null;
@@ -261,16 +251,13 @@ function UpdatePost() {
 		console.log('postdto의 시작시간', postDto.start_time);
 		postDto.end_time = end_time_temp;
 		
-		// 아래의 세가지 변수는 설문 state 판별을 위한 조건문에 사용
-		// 0: 진행중 1: 배포전 2: 종료
 		let start_time = new Date(start_time_temp);
 		let end_time = new Date(end_time_temp);
 		let current_time = new Date(current_time_temp);
-		
-		// console.log('현재', surveyState.current);
+
 
 		if (start_time > end_time) {
-			alert("설문 종료 시간은 설문 시작 시간 이전일 수 없습니다.");
+
 		} else {
 			if (start_time <= current_time && current_time <= end_time) {
 				postState.current = 0;
@@ -279,7 +266,6 @@ function UpdatePost() {
 				// 배포 전
 				postState.current = 1;
 			} else if (end_time < current_time) {
-				// 종료된 설문
 				postState.current = 2;
 			} else {
 			}
@@ -287,18 +273,14 @@ function UpdatePost() {
 
 		postDto.status = postState.current;
 
-		console.log('설문 저장 시작', postDto.status);
+	
 
 
 		if (postState.current != -1) {
 
 			
 
-				// //객관식이면 객관식 질문 문항들을 함께 전송해야함
-				// //객관식이면 객관식 질문 문항들을 함께 전송해야함
-				
-
-			// questionHandler(copy);
+			
 			postDto.post_name = postName;
 			postDto.contents = postContents;
 
@@ -320,7 +302,7 @@ function UpdatePost() {
 
 			console.log(users);
 			console.log("postDto",postDto)
-			axios.post(`/api/post/save/${users.id}`, postDto)
+			axios.post(`http://210.109.62.6:8080/api/post/save/${users.id}`, postDto)
 			.then((response) => {
 				console.log(response);
 			})
@@ -339,8 +321,8 @@ function UpdatePost() {
 		<>
 					
 					<>
-						<div className="mx-auto w-9/12 my-4 px-4">
-							<div className="my-5">
+						<div className="mx-auto max-w-screen-lg my-4 px-4">
+							<div className="mx-8 my-5">
 								<h6 className ="font-bold my-2 text-2xl">프로젝트 명</h6>
 								<Form.Control className="w-full border contents-area my-2" size="lg" as="textarea"
 									cols= "120"

@@ -33,7 +33,7 @@ function ViewOngoingProject(){
     },[])
 
     return (
-        <div className="mx-auto w-9/12 px-4 mb-7 ">  
+        <div className="mx-auto max-w-screen-lg px-4 mb-7 ">  
             <div className='my-7 border-4 border-sky-200 rounded-2xl p-5 flex-column font-bold text-2xl'>
                 <p>프로젝트 제목: {state.post_name}</p>
                 <div className="mt-5 grid md:grid-rows-2 grid-cols-1 md:grid-cols-2 gap-y-4">
@@ -55,7 +55,7 @@ function ViewOngoingProject(){
             <div className='my-7 flex-column border-4 border-sky-200  rounded-2xl p-5 font-bold text-2xl'>
                 <p>프로젝트 파일관리</p>
                 <hr className="h-px my-2 border-2 border-indigo-100 "></hr>
-                <div className="my-2 grid md:grid-rows-2 grid-cols-1 md:grid-cols-2 gap-x-10">
+                <div className="my-2 grid grid-cols-1 md:grid-cols-2 gap-x-10">
                     <div className="flex-column">
                         <p className="mx-2">데일리 회의록</p>
 
