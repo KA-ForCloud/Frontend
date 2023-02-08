@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { KAKAO_AUTH_URL, LOGOUT_REDIRECT_URI, REST_API_KEY } from '../../OAuth';
+import {LOGOUT_REDIRECT_URI, REST_API_KEY } from '../../OAuth';
 import { userState } from '../../atom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import axios from 'axios';
-import { GetTokenInfo } from "../../API/GetTokenInfo";
-import { RefreshToken } from "../../API/RefreshToken";
 function KakaoLogout() {
 
     const [show, setShow] = useState(false);
@@ -64,24 +61,7 @@ function KakaoLogout() {
     }
 
     const kakaoLogout = () => {
-        // 카카오계정과 함께 로그아웃
-        // fetch(`https://kauth.kakao.com/oauth/logout?client_id=${REST_API_KEY}&logout_redirect_uri=${LOGOUT_REDIRECT_URI}`, {
-        //     method: 'GET',
-        // })
-        //     .then(res => res.json())
-        //     .then(data => {
-        //         console.log('data:', data);
-        //         if (data.url.includes(ACCESS_TOKEN)) {
-        //             console.log(data.state);
-        //             //localStorage.removeItem('token');
-        //             resetUser();
-        //             navigate('/main');
-        //         } else {
-        //             //navigate('/mypage');
-        //             console.log("카카오 계정과 함께 로그아웃 실패");
-        //         }
-
-        //     });
+        
 
         const response = axios.get(`https://kauth.kakao.com/oauth/logout?client_id=${REST_API_KEY}&logout_redirect_uri=${LOGOUT_REDIRECT_URI}`)
             .then((response) => {
@@ -129,33 +109,7 @@ function KakaoLogout() {
         });
         return true;
 
-        // RefreshToken(users, userHandler)
-        //     .then(res => {
-        //         console.log('이게 res', res);
-        //         console.log('갱신 완료 후 다시 로그아웃')
-        //         if (res) {
-        //             console.log(users);
-        //             fetch('https://kapi.kakao.com/v1/user/logout', {
-        //                 method: 'POST',
-        //                 headers: { 'Authorization': `Bearer ${users.kakaoToken}` },
-        //             })
-        //                 .then(res => res.json())
-        //                 .then(data => {
-        //                     console.log(data);
-        //                     if (data.id) {
-        //                         console.log(data.id);
-        //                         console.log('다시 로그아웃 성공');
-        //                         resetUser();
-        //                         navigate('/');
-        //                         // kakaoLogout();
-        //                     }
-        //                 });
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         console.log('에러');
-        //         console.log(error)
-        //     })
+       
     }
 
 
