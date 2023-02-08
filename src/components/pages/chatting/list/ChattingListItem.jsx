@@ -12,8 +12,6 @@ export const stomp = require('stompjs');
 
 function ChattingListItem(props) {
     const dispatch=useDispatch();
-
-
     const {item,selectedRoom,memberId,newMsg}=props;
     // console.log("list item key: ",key);
     const navigate=useNavigate();
@@ -21,14 +19,14 @@ function ChattingListItem(props) {
 	// console.log('[ChattingListItem] - socket',socket);
     let destinations=useSelector(state=>state.socket.subscriptions);
     const [newChat,setNewChat]=useState(null); // 새로 도착한 채팅
-    const [numberOfChattings,setNumberOfChattings]=useState();
+    const [chatCnt,setChatCnt]=useState(0); // 해당 채팅방의 메세지 개수
+    const [numberOfChattings,setNumberOfChattings]=useState(); // 안읽은 메세지 개수 보이기 위한 state
     const [check,setCheck]=useState(false);
     const [numDiv,setNumDiv]=useState(true);
     const [unRead,setUnRead]=useState(true);
     const [lastRead,setLastRead]=useState();
     const location=useLocation().pathname;
     const [msgType,setMsgType]=useState(0);
-    
     const [participants,setParticipants]=useState();
     
     // 채팅방 리스트에서 클릭 시 채팅방으로 이동, 안읽은 메세지 개수 0으로 갱신(안읽은 메세지 개수 div 안보이게)
@@ -38,7 +36,7 @@ function ChattingListItem(props) {
         setNumDiv(false);
         // dispatch(saveRoomId(item.chattingId));
         setNumberOfChattings(0);
-        updateLastRead(memberId,item.chattingId,numberOfChattings+1+item.last);
+        updateLastRead(memberId,item.chattingId,chatCnt);
         selectedRoom(item,item.title);
         // setNumDiv(false);
         navigate(`/rooms/${item.chattingId}`);
@@ -57,6 +55,7 @@ function ChattingListItem(props) {
             console.log("====response",response);
             // console.log("item.last",item.last);
             setNumberOfChattings(response.data.result.number-1-item.last); // 안읽은 메세지 개수 = 전체 메세지 개수 - 1 - 참여자가 마지막으로 읽은 메세지 인덱스
+            setChatCnt(response.data.result.number);
             console.log("last",response.data.result.last);
             if(response.data.result.last.msg==="exit") {
                 console.log("exit roomId",response.data.result.last.roomId);
@@ -154,6 +153,7 @@ function ChattingListItem(props) {
             setNumDiv(true);
         }
         setNumberOfChattings(numberOfChattings=>numberOfChattings+1);
+        setChatCnt(chatCnt=>chatCnt+1);
         console.log("msgType",msgType);
        }
     }, [newChat]);
