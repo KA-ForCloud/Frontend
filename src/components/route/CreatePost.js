@@ -1,6 +1,7 @@
+/* eslint-disable */
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button, Card, Col, Form, InputGroup, Modal, Nav, Row } from 'react-bootstrap';
-// import { Helmet } from 'react-helmet';
+
 import { MdDelete } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -13,9 +14,7 @@ import { useDispatch,useSelector } from 'react-redux';
 import { KAKAO_AUTH_URL } from '../../OAuth';
 import { DateRangeSelector } from '../route/DateRangeSelector';
 import { userState } from '../../atom';
-// import { DropdownCmpt } from '../components/DropdownCmpt.js';
-// import { Preview } from '../components/Survey/Preview.js';
-// @css
+
 import './CreatePost.css';
 import { TextField } from '@mui/material';
 import { savePost } from '../../services/PostService';
@@ -24,19 +23,7 @@ import { getDate } from '../pages/chatting/Date';
 import SockJS from 'sockjs-client';
 import { connectSocket } from '../../modules/socket';
 export const stomp = require('stompjs');
-// @mui
-// import { styled } from '@mui/material/styles';
 
-// const Main = styled('div')(({ theme }) => ({
-// 	paddingLeft: theme.spacing(2),
-// 	paddingRight: theme.spacing(2),
-// 	paddingBottom: theme.spacing(3),
-//    // paddingRight: theme.spacing(3),
-//    [theme.breakpoints.up('lg')]: {
-//       paddingLeft: theme.spacing(6),
-//       paddingRight: theme.spacing(6),
-//    },
-// }));
 
 const Main = styled.div`
   paddingLeft: 10px;
@@ -102,7 +89,7 @@ function CreatePost() {
 	let [viewSwitch, setViewSwitch] = useState('create');
 	const [shareWay, setShareWay] = useState('null');
 	let count = window.localStorage.getItem("count");
-
+	console.warn = console.error = () => {};
 	//post에 사용
 	let [postName, setpostName] = useState(null);
 	let [postContents, setpostContents] = useState(null);
@@ -115,13 +102,11 @@ function CreatePost() {
 	const [showCreate, setShowCreate] = useState(false);
 
 	let navigate = useNavigate();
-
-	// handleSurveySaveButton, handleSurveyCreateButton에서 사용 즉, PostSurvey, UpdateSurvey API에서 사용함
 	let postJson = new Object();
 	let postDto = new Object();
 	let postCatDto = new Object();
 
-	// surveyDto
+
 	postDto.status = null;
 	postDto.end_time = '12:12:12 12:12:00';
 	postDto.end_time = '12:12:12 12:12:00';
@@ -129,28 +114,10 @@ function CreatePost() {
 	postDto.contents = null;
 	postDto.views = 0;
 
-	// surveyDto.survey_id = null;
-	// surveyDto.survey_url = null;
-
-
-	// const link = useRecoilValue(linkState);
 	const [link, setLink] = useState("");
 
 	const myRef = useRef({});
 	const users = useRecoilValue(userState);
-
-	// //질문 등록 버튼
-	// const [plusButton, setPlusButton] = useState("+");
-
-	// const setPlusBtn = () => {
-	// 	if (plusButton === "+") {
-	// 		setPlusButton("질문 등록");
-	// 	}
-	// 	else if (plusButton === "질문 등록") {
-	// 		myRef.current.createQuestion();
-	// 		setPlusButton("+");
-	// 	}
-	// }
 
 	useEffect(() => {
 		if (socket===null) {
@@ -185,7 +152,6 @@ function CreatePost() {
 		const linkCheckbox = document.getElementById('linkCheckBox');
 		const qrCheckBox = document.getElementById('qrCheckBox');
 
-		// const link_checked = linkCheckbox.checked;
 		const link_checked = true;
 		const qr_checked = qrCheckBox.checked;
 
@@ -194,13 +160,8 @@ function CreatePost() {
 		} else {
 			setShareWay("writer");
 		}
-		// else {
-		// 	setShareWay("null");
-		// }
 	}
 
-	//공유 시간 및 날짜
-	//렌더링되는 시점의 날짜 및 시간 가져오기
 	let today = new Date();
 	let year = today.getFullYear();
 	let month = ('0' + (today.getMonth() + 1)).slice(-2);
@@ -283,18 +244,6 @@ function CreatePost() {
 				setprojectLengthCount(projectLengthCount - 1)
 				break
 
-			// case 'javaPlus':
-			// 	setjavaCount(javaCount+1)
-			// 	break
-			// case 'javascriptPlus':
-			// 	setjavascriptCount(javascriptCount+1)
-			// 	break
-			// case 'javaMinus':
-			// 	setjavaCount(javaCount-1)
-			// 	break
-			// case 'javascriptMinus':
-			// 	setjavascriptCount(javascriptCount-1)
-			// 	break
 		}
 	}
 	const [inputs, setInputs] = useState({
@@ -355,13 +304,11 @@ function CreatePost() {
 		console.log('postdto의 시작시간', postDto.start_time);
 		postDto.end_time = end_time_temp;
 
-		// 아래의 세가지 변수는 설문 state 판별을 위한 조건문에 사용
-		// 0: 진행중 1: 배포전 2: 종료
+	
 		let start_time = new Date(start_time_temp);
 		let end_time = new Date(end_time_temp);
 		let current_time = new Date(current_time_temp);
 
-		// console.log('현재', surveyState.current);
 
 		if (start_time > end_time) {
 			alert("설문 종료 시간은 설문 시작 시간 이전일 수 없습니다.");
@@ -381,15 +328,10 @@ function CreatePost() {
 
 		postDto.status = postState.current;
 
-		console.log('설문 저장 시작', postDto.status);
 
 
 		if (postState.current != -1) {
 
-
-
-			// //객관식이면 객관식 질문 문항들을 함께 전송해야함
-			// //객관식이면 객관식 질문 문항들을 함께 전송해야함
 
 
 			// questionHandler(copy);
@@ -414,7 +356,6 @@ function CreatePost() {
 
 			console.log(users);
 
-			console.log("postDto",postDto)
 			
 			savePost(users.id,postDto).then((response)=>{
 				if(response.data.code!==1000){
@@ -511,12 +452,7 @@ function CreatePost() {
 						<h6 className="font-bold mb-5 text-xl text-center">날짜를 드래그하거나 클릭하세요! 😉</h6>
 						<div className="text-center p-4" >
 							<DateRangeSelector startDateHandler={setStartDate} endDateHandler={setEndDate} startTimeHandler={setStartTime} endTimeHandler={setEndTime} />
-							{/* <div style={{ marginTop: '10px' }}>
-										<input className="form-check-input" id="qrCheckBox" name="shareWay" type="checkbox" value="" onChange={(e) => {
-											checkOnlyOne(e.target)
-											is_checked()
-										}} /> QR코드 생성하기
-									</div> */}
+							
 							<h6 className="font-bold mb-5 text-2xl text-left">프로젝트 소개! 😉</h6>
 							<Form.Group>
 								<Form.Control className="border contents-area w-full" size="lg" as="textarea" placeholder="프로젝트 소개를 입력해주세요"
