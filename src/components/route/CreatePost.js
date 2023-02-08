@@ -21,6 +21,8 @@ import { TextField } from '@mui/material';
 import { savePost } from '../../services/PostService';
 import { publish, enter } from '../../services/ChattingService';
 import { getDate } from '../pages/chatting/Date';
+import SockJS from 'sockjs-client';
+export const stomp = require('stompjs');
 // @mui
 // import { styled } from '@mui/material/styles';
 

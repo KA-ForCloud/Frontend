@@ -7,7 +7,8 @@ import { useSelector,useDispatch } from 'react-redux';
 import { connectSocket,saveSubscription,saveRoomId } from "../../../../modules/socket";
 import {connect, getRooms, subscribe,getChattingListItemInfo,updateLastRead,getLastRead,client} from '../../../../services/ChattingService';
 import { set } from 'date-fns';
-
+import SockJS from 'sockjs-client';
+export const stomp = require('stompjs');
 
 function ChattingListItem(props) {
     const dispatch=useDispatch();

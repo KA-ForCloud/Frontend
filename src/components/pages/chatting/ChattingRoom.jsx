@@ -8,6 +8,8 @@ import { useDispatch,useSelector } from 'react-redux';
 import { connectSocket,saveSubscription,saveRoomId } from "../../../modules/socket";
 import { getDate } from "./Date";
 import styled from "styled-components";
+import SockJS from 'sockjs-client';
+export const stomp = require('stompjs');
 
 const FileUpload=styled.label.attrs({type:"file"})`
     width: 65px;
