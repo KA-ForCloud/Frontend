@@ -22,6 +22,7 @@ import { savePost } from '../../services/PostService';
 import { publish, enter } from '../../services/ChattingService';
 import { getDate } from '../pages/chatting/Date';
 import SockJS from 'sockjs-client';
+import { connectSocket } from '../../modules/socket';
 export const stomp = require('stompjs');
 // @mui
 // import { styled } from '@mui/material/styles';
@@ -86,7 +87,7 @@ const Text = styled.div`
 
 
 function CreatePost() {
-
+	const dispatch=useDispatch();
 	const childRef = useRef();
 	const [, updateState] = useState();
 	const forceUpdate = useCallback(() => updateState({}, []));
