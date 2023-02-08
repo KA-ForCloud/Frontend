@@ -7,6 +7,8 @@ import { useSelector,useDispatch } from 'react-redux';
 import { ms } from 'date-fns/locale';
 import { useRef } from 'react';
 import { saveBeforeMsg } from '../../../../modules/socket';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { userState } from '../../../../atom';
 
 function MessageListItem(props) {
     const {item,memberId,idx,beforeMsg}=props;
@@ -17,6 +19,7 @@ function MessageListItem(props) {
     const [msgType,setMsgType]=useState();
     const [my,setMy]=useState(true);
     const [base64,setBase64]=useState(null);
+    const users = useRecoilValue(userState);
 
     function downloadPDF(item) {
         let linkSource;
@@ -44,7 +47,7 @@ function MessageListItem(props) {
         else if(item.msg==="exit") setMsgType(1);
         else setMsgType(3);
         
-        if(Number(memberId)===item.memberId) setMy(true);
+        if(Number(users.id)===item.memberId) setMy(true);
         else setMy(false);
 
         if(item.msgType==="img"){
@@ -71,7 +74,7 @@ function MessageListItem(props) {
             }
             {/* 채팅 내용 메세지이며 발신자 닉네임 */}
             {(item.msgType==="msg"||item.msgType==="file"||item.msgType==="img")&&
-                <div className={"font-normal w-20 " + (Number(memberId)!==item.memberId ? "ml-2":"ml-auto text-end mr-2") }>
+                <div className={"font-normal w-20 " + (Number(users.id)!==item.memberId ? "ml-2":"ml-auto text-end mr-2") }>
                     {item.nickName}
                 </div>
             }
@@ -81,7 +84,7 @@ function MessageListItem(props) {
                     <div className={"text-xs font-thin text-gray-600 pt-4 ml-auto pr-1"}>
                         {time}
                     </div>
-                    <div className='rounded-sm w-fit h-full text-sm font-bold bg-sky-200 text-black mr-2 py-1 px-2'>
+                    <div className='rounded-sm w-fit h-full break-words text-sm font-bold bg-sky-200 text-black mr-2 py-1 px-2'>
                         {item.msg}
                     </div>
                 </div>
