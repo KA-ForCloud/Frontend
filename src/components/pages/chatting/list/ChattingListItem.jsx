@@ -152,6 +152,7 @@ function ChattingListItem(props) {
         }
         setNumberOfChattings(numberOfChattings=>numberOfChattings+1);
         setChatCnt(chatCnt=>chatCnt+1);
+        console.log("chatCnt",chatCnt);
         console.log("msgType",msgType);
        }
     }, [newChat]);
