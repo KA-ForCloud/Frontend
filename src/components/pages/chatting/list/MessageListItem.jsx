@@ -101,7 +101,7 @@ function MessageListItem(props) {
                 </div>
             }
             {/* 이미지이며 남이 보낸 메세지 */}
-            {item.msgType==="img"&&!my&&
+            {item.msgType==="img"&&Number(users.id)!==item.memberId&&
                 <div className='flex'>
                     <img className="ml-2 w-32 h-32" src={base64} onClick={()=>{downloadPDF(item)}}></img>
                     <div className={"text-xs font-thin text-gray-600 pt-28 pl-1"}>
@@ -110,7 +110,7 @@ function MessageListItem(props) {
                 </div>
             }
             {/* 이미지이며 내가 보낸 메세지 */}
-            {item.msgType==="img"&&my&&
+            {item.msgType==="img"&&Number(users.id)===item.memberId&&
                 <div className='flex ml-auto'>
                     <div className={"text-xs font-thin text-gray-600 pt-28 ml-auto pr-1"}>
                         {time}
@@ -119,7 +119,7 @@ function MessageListItem(props) {
                 </div>
             }
             {/* 이미지가 아닌 파일이며 남이 보낸 메세지 */}
-            {item.msgType==="file"&&!my&&
+            {item.msgType==="file"&&Number(users.id)!==item.memberId&&
                 <div className='flex'>
                     <div className='rounded-sm w-fit min-w-fit h-full text-sm font-bold bg-blue-300 text-black ml-2 py-1 px-2'  onClick={()=>{downloadPDF(item)}}>
                         {/* {item.nickName+"님이 파일을 업로드했습니다. 프로젝트 관리 페이지에서 확인해보세요!"} */}
@@ -131,7 +131,7 @@ function MessageListItem(props) {
                 </div>
             }
             {/* 이미지가 아닌 파일이며 내가 보낸 메세지 */}
-            {item.msgType==="file"&&my&&
+            {item.msgType==="file"&&Number(users.id)===item.memberId&&
                 <div className='flex ml-auto'>
                     <div className={"text-xs font-thin text-gray-600 pt-4 ml-auto pr-1"}>
                         {time}
