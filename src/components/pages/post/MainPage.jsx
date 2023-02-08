@@ -133,7 +133,7 @@ function MainPage() {
       return (
         <div key ={idx} className = "w-2/3 mx-auto my-5 flex">
           <p className="text-2xl font-bold my-auto mx-auto md:mr-4">{idx + 1}. </p>
-          <div className="mx-auto w-2/3 md:w-10/12 flex border-4 border-white rounded-2xl">
+          <div className="mx-auto w-2/3 md:w-10/12 flex border-2 border-white rounded-2xl">
             <img className="rounded-xl w-1/4 md:w-1/5" src={item.img} alt={item.name} />
             <p className="m-auto text-2xl lg:text-xl w-10/12 md:text-lg font-bold break-words">{item.name}</p>
           </div>
@@ -196,8 +196,8 @@ function MainPage() {
   }
 
   return (
-    <div className="mx-auto w-10/12 my-4 px-4">
-      <div className="my-7 grid-cols-1 grid md:grid-cols-2 gap-4">
+    <div className="mx-auto max-w-screen-xl my-6 px-4">
+      <div className="grid-cols-1 grid md:grid-cols-2 gap-4 xl:gap-8">
         <div className="rounded-2xl flex-column bg-sky-100" >
           <h3 className="m-2 text-dark text-2xl lg:text-2xl md:text-xl font-bold text-center">😍 최다 조회수 모집 게시글 😍</h3>
           {postList.length !==0 && <PostList postList = {postList} type ={"maxView"}/>}
@@ -212,12 +212,14 @@ function MainPage() {
       </div>
 
       <div>
-        <div className="flex mt-10 mr-4 text-2xl md:text-4xl font-bold">{makeCategories()}</div>
-      </div>
-      <hr className="h-px mt-4 mb-5 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+        <div className="flex mt-6 mr-4 text-2xl md:text-4xl font-bold">
+          {makeCategories()}
+        </div>
+        <hr className="h-px mt-4 mb-5 bg-gray-200 border-0 dark:bg-gray-700"></hr>
 
-      <div className="grid grid-cols-3 xl:grid-cols-6 lg:grid-cols-5 text-center gap-4 md:grid-cols-4">
-        {makeToolfilter()}
+        <div className="grid grid-cols-3 xl:grid-cols-6 lg:grid-cols-5 text-center gap-4 md:grid-cols-4">
+          {makeToolfilter()}
+        </div>
       </div>
 
       <div className="flex mt-40 mb-5 text-2xl md:text-4xl">

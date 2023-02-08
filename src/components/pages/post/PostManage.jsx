@@ -23,9 +23,9 @@ function PostManage() {
     }, [])
 
   return (
-    <>
+    <div className ="mx-auto my-4 px-4 max-w-screen-xl">
       <Sidebar />
-      <div className="mx-auto w-9/12 my-4 px-4 border-4 border-sky-200 rounded-2xl">
+      <div className="border-4 border-sky-200 rounded-2xl">
           <p className="text-2xl font-bold text-gray-900 m-4">내가 작성한 게시물</p>
           <div className="w-full overflow-auto"> {myPost && <PostList postList ={myPost} type = {"my"} /> } </div>
           <hr className="h-px my-4 border-2 border-indigo-100"></hr>
@@ -33,7 +33,7 @@ function PostManage() {
           <p className="text-2xl font-bold text-gray-900 m-4">신청한 게시물</p>
           <div className="w-full mb-4 overflow-auto"> {requestedPost && <PostList postList ={requestedPost} type = {"requested"}/> } </div>
       </div>
-    </>
+    </div>
   )
 }
 

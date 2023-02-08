@@ -302,7 +302,7 @@ function UpdatePost() {
 
 			console.log(users);
 			console.log("postDto",postDto)
-			axios.post(`/api/post/save/${users.id}`, postDto)
+			axios.post(`http://210.109.62.6:8080/api/post/save/${users.id}`, postDto)
 			.then((response) => {
 				console.log(response);
 			})
@@ -321,8 +321,8 @@ function UpdatePost() {
 		<>
 					
 					<>
-						<div className="mx-auto w-9/12 my-4 px-4">
-							<div className="my-5">
+						<div className="mx-auto max-w-screen-lg my-4 px-4">
+							<div className="mx-8 my-5">
 								<h6 className ="font-bold my-2 text-2xl">프로젝트 명</h6>
 								<Form.Control className="w-full border contents-area my-2" size="lg" as="textarea"
 									cols= "120"

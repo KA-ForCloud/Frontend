@@ -382,10 +382,10 @@ function CreatePost() {
 
 
 	return (
-		<>
+		
 
-			<>
-				<div className="mx-auto w-9/12 my-4 px-4">
+			
+				<div className="mx-auto max-w-screen-lg my-4 px-4">
 					<div className="mx-8 my-5">
 						<h6 className="font-bold my-2 text-2xl">프로젝트 명</h6>
 						<Form.Control className="w-full border contents-area my-2" size="lg" as="textarea" placeholder="프로젝트 명을 입력해주세요"
@@ -487,8 +487,7 @@ function CreatePost() {
 				</div>
 
 
-			</>
-		</>
+			
 
 	);
 }

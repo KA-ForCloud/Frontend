@@ -46,7 +46,7 @@ export async function createApplicant(postId,request,userId){
         request: request,
         userId: userId
     })
-    return response.data.code;
+    return response;
 }
 
 
@@ -65,6 +65,11 @@ export async function createParticipant(postId,userId){
 export async function deleteApplicant(postId,userId){
     const response = await axios.delete(`${BACKEND_API_BASE_URL}/api/applicant/${postId}/${userId}`)
     return response.data.code;
+}
+
+export async function deleteAllApplicant(postId,category){
+    const response = await axios.delete(`${BACKEND_API_BASE_URL}/api/allApplicant/${postId}/${category}`)
+    return response;
 }
 
 export async function getParticipant(postId,category){
