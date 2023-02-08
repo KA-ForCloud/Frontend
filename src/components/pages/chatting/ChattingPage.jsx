@@ -18,7 +18,6 @@ export default function ChattingPage() {
     const navigate=useNavigate();
     let client;
     let socket=useSelector(state=>state.socket.socket);
-    console.log('[ChattingPage] - socket',socket);
     let subscriptions=useSelector(state=>state.socket.subscriptions);
     const location=useLocation().pathname;
     const users = useRecoilValue(userState);
