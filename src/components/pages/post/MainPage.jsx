@@ -13,18 +13,25 @@ import PostList from "./PostList";
 import { connect } from "../../../services/ChattingService";
 import { useDispatch} from 'react-redux';
 import { connectSocket } from "../../../modules/socket";
+import SockJS from 'sockjs-client';
+export const stomp = require('stompjs');
 
 function MainPage() {
   const navigate = useNavigate();
   const dispatch=useDispatch();
   const [postList, setpostList] = useState([]);
+  let client;
 
   const [popularCategoryList, setPopularCategoryList] = useState([]);
   useEffect(() => {
-
-    const client=connect();
-    dispatch(connectSocket(client));
-    
+    // client=connect();
+    // dispatch(connectSocket(client));
+    let socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
+    client=stomp.over(socket);
+    client.connect({},function(){
+      console.log("client1 ",client);
+      dispatch(connectSocket(client));
+    });
     if(postList.length === 0){
       getPosts().then((response) => {
         setpostList(response);

@@ -8,6 +8,8 @@ import { useDispatch,useSelector } from 'react-redux';
 import { connectSocket,saveSubscription,saveRoomId } from "../../../modules/socket";
 import { getDate } from "./Date";
 import styled from "styled-components";
+import SockJS from 'sockjs-client';
+export const stomp = require('stompjs');
 
 const FileUpload=styled.label.attrs({type:"file"})`
     width: 65px;
@@ -25,7 +27,8 @@ const FileUpload=styled.label.attrs({type:"file"})`
 `;
 export default function ChattingRoom(props) {
     const dispatch=useDispatch();
-    const socket=useSelector(state=>state.socket.socket);
+    let socket=useSelector(state=>state.socket.socket);
+    console.log("[ChattingRoom]",socket);
     let destinations=useSelector(state=>state.socket.subscriptions);
     let beforeRoomId=useSelector(state=>state.socket.roomId);
 
@@ -44,7 +47,7 @@ export default function ChattingRoom(props) {
     };
     const handleSubmit = async (e) => {
         const now=getDate();
-        publish(roomId,msg,memberId,nickname,now,"msg"); // TODO 수정해야해애애애애ㅐㅇ애
+        publish(socket,roomId,msg,memberId,nickname,now,"msg"); // TODO 수정해야해애애애애ㅐㅇ애
         setMsg("");
     };
 
@@ -69,13 +72,20 @@ export default function ChattingRoom(props) {
             const msg=response.data.result.fileId;
             console.log("msg",msg);
             const sendTime=response.data.result.timestamp;
-            publish(roomId,msg,memberId,nickname,sendTime,"file");
+            publish(socket,roomId,msg,memberId,nickname,sendTime,"file");
         })
         setFile(null);
     }
 
     useEffect(() => {
-        
+        if(socket===null){
+            socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
+    		let client=stomp.over(socket);
+    		client.connect({},function(){
+      		    console.log("client1 ",client);
+      		    dispatch(connectSocket(client));
+            });
+        }
         // 채팅 내역 불러오기
         getChattings(roomId).then((response)=>{
             if(response.data.code!==1000) console.log("SERVER ERROR");

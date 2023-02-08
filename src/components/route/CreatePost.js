@@ -21,6 +21,9 @@ import { TextField } from '@mui/material';
 import { savePost } from '../../services/PostService';
 import { publish, enter } from '../../services/ChattingService';
 import { getDate } from '../pages/chatting/Date';
+import SockJS from 'sockjs-client';
+import { connectSocket } from '../../modules/socket';
+export const stomp = require('stompjs');
 // @mui
 // import { styled } from '@mui/material/styles';
 
@@ -84,12 +87,11 @@ const Text = styled.div`
 
 
 function CreatePost() {
-
+	const dispatch=useDispatch();
 	const childRef = useRef();
 	const [, updateState] = useState();
 	const forceUpdate = useCallback(() => updateState({}, []));
     let socket=useSelector(state=>state.socket.socket);
-
 	let [savedQsList, setSavedQsList] = useState([]);
 	let [curQs, setCurQs] = useState('');
 	let [curQsItemList, setCurQsItemList] = useState([]);
@@ -151,9 +153,14 @@ function CreatePost() {
 	// }
 
 	useEffect(() => {
-		// if (!users.login) {
-		// 	window.location.href = KAKAO_AUTH_URL;
-		// }
+		if (socket===null) {
+			socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
+    		let client=stomp.over(socket);
+    		client.connect({},function(){
+      			console.log("client1 ",client);
+      			dispatch(connectSocket(client));
+    		});
+		}
 	}, [])
 
 	useEffect(() => {
@@ -416,7 +423,7 @@ function CreatePost() {
 				else{
 					const chattingId=response.data.result;
 					const msg=users.name+"님이 입장하셨습니다.";
-					enter(chattingId,msg,users.id,users.name,getDate(),"msg");
+					enter(socket,chattingId,msg,users.id,users.name,getDate(),"msg");
 					navigate('/mainPage');
 				}
 			})

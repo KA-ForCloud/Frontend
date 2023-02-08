@@ -4,6 +4,7 @@ import { enter } from '../../../services/ChattingService';
 import { createApplicant, createParticipant, deleteApplicant, getApplicant, getCurrentPostCategory, updateCurrentCategory } from '../../../services/PostService';
 
 import { getDate } from '../chatting/Date';
+import { useDispatch,useSelector } from 'react-redux';
 
 
 import { useRecoilValue } from 'recoil';
@@ -12,6 +13,7 @@ import { userState } from '../../../atom';
 function Modal(props) {
     const navigate = useNavigate();
     const users = useRecoilValue(userState);
+    const socket=useSelector(state=>state.socket.socket);
     const {open, close, header, postId, category, updateApplicant, getCurrentCategory} = props;
 
     const Register = () => {
@@ -58,7 +60,7 @@ function Modal(props) {
                     console.log("response",response);
                     // TODO : 입장 메세지 발송
                     const enterMsg=response.data.result.name+"님이 입장하셨습니다.";
-                    enter(response.data.result.roomId,enterMsg,response.data.result.memberId,response.data.result.name,getDate(),"enter");
+                    enter(socket,response.data.result.roomId,enterMsg,response.data.result.memberId,response.data.result.name,getDate(),"enter");
                 }
 
             })

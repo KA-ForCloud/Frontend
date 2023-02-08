@@ -63,12 +63,13 @@ export async function getLastRead(roomId,memberId){
 export const stomp = require('stompjs');
 export let client;
 // 소켓 연결
-export function connect(){ // 연결할 때
+export async function connect(){ // 연결할 때
     
     let socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
     client=stomp.over(socket);
-    console.log("client ",client);
+    
     client.connect({},function(){
+        console.log("client1 ",client);
         // var rooms=[];
         // rooms=getRooms().result;
         // for(let i=0;i<rooms.length;i++){
@@ -76,14 +77,14 @@ export function connect(){ // 연결할 때
         // }
         // subscribe();
     });
-    // client.current.activate(); // 클라이언트 활성화
+    console.log("client2 ",client);
     return client;
 };
 
 // 채팅방 참여 - send message TODO: memberId, nickname 수정 필요
-export function publish(roomId,message,memberId,nickname,now,msgType){
+export function publish(socket,roomId,message,memberId,nickname,now,msgType){
     console.log("publish msgType: ",msgType);
-    client.send(`/pub/chat.message.${roomId}`,{}, JSON.stringify({
+    socket.send(`/pub/chat.message.${roomId}`,{}, JSON.stringify({
         msg: message,
         nickName: nickname,
         roomId: roomId,
@@ -94,9 +95,9 @@ export function publish(roomId,message,memberId,nickname,now,msgType){
 };
 
 // 채팅방 참여 - enter 
-export function enter(roomId,msg,memberId,nickname,now,msgType){
+export function enter(socket,roomId,msg,memberId,nickname,now,msgType){
     console.log("now",now);
-    client.send(`/pub/chat.enter.${roomId}`,{},JSON.stringify({
+    socket.send(`/pub/chat.enter.${roomId}`,{},JSON.stringify({
         msg:msg,
         nickName:nickname,
         roomId:roomId,

@@ -58,11 +58,14 @@ const initialState = {
 export default function socket(state=initialState,action){
     switch(action.type){
         case CONNECT_SOCKET:
+            console.log("[CONNECT_SOCKET] - client(socket)",action.payload.socket);
             return{
                 ...state,
                 socket: action.payload.socket
             }
+
         case SAVE_SUBSCRIPTION:
+            console.log('socket: ',state.socket);
             return{
                 ...state,
                 subscriptions: action.payload.subscriptions

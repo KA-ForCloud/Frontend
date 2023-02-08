@@ -10,11 +10,15 @@ import {BrowserRouter, Link, Route, Routes,Router} from "react-router-dom";
 import { getDate } from "./Date";
 import { userState } from '../../../atom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import SockJS from 'sockjs-client';
+export const stomp = require('stompjs');
 
 export default function ChattingPage() {
     const dispatch=useDispatch();
     const navigate=useNavigate();
+    let client;
     let socket=useSelector(state=>state.socket.socket);
+    console.log('[ChattingPage] - socket',socket);
     let subscriptions=useSelector(state=>state.socket.subscriptions);
     const location=useLocation().pathname;
     const users = useRecoilValue(userState);
@@ -68,15 +72,15 @@ export default function ChattingPage() {
 
     // 채팅방 삭제에 대한 메세지 발행
     const remove= (roomId,msg) => {
-        publish(roomId,msg,users.id,users.name,getDate(),"remove");
+        publish(socket,roomId,msg,users.id,users.name,getDate(),"remove");
     }
     // 채팅방 나가기에 대한 메세지 발행
     const exit= (roomId,msg) => {
-        publish(roomId,msg,users.id,users.name,getDate(),"exit");
+        publish(socket,roomId,msg,users.id,users.name,getDate(),"exit");
     }
     // 채팅방 종료 대한 메세지 발행
     const end= (roomId,msg) => {
-        publish(roomId,msg,users.id,users.name,getDate(),"end");
+        publish(socket,roomId,msg,users.id,users.name,getDate(),"end");
     }
     // 채팅방 선택 시 우측 화면 상단에 채팅방 제목을 보여줌
     const selectRoom=(item,itemTitle)=>{
@@ -102,10 +106,14 @@ export default function ChattingPage() {
         setMsgType(msgType);
     }
     useEffect(()=>{
-    //    connect();
-        // const client=connect();
-        // dispatch(connectSocket(client));
-        // console.log('chatting page socket',socket);
+        if(socket===null){
+            socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
+    		let client=stomp.over(socket);
+    		client.connect({},function(){
+      		    console.log("client1 ",client);
+      		    dispatch(connectSocket(client));
+            });
+        }
         getRooms(Number(users.id)).then((response)=>{
             if(response.data.code!==1000) console.log("SERVER ERROR");
             else{

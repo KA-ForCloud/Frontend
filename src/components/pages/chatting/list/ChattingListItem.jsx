@@ -5,28 +5,28 @@ import { Dialog, Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon, ForwardIcon, TrashIcon,ClipboardDocumentIcon } from '@heroicons/react/20/solid'
 import { useSelector,useDispatch } from 'react-redux';
 import { connectSocket,saveSubscription,saveRoomId } from "../../../../modules/socket";
-import {connect, getRooms, subscribe,getChattingListItemInfo,updateLastRead,getLastRead} from '../../../../services/ChattingService';
+import {connect, getRooms, subscribe,getChattingListItemInfo,updateLastRead,getLastRead,client} from '../../../../services/ChattingService';
 import { set } from 'date-fns';
-
+import SockJS from 'sockjs-client';
+export const stomp = require('stompjs');
 
 function ChattingListItem(props) {
     const dispatch=useDispatch();
-
-
     const {item,selectedRoom,memberId,newMsg}=props;
     // console.log("list item key: ",key);
     const navigate=useNavigate();
-    const socket=useSelector(state=>state.socket.socket);
+    let socket=useSelector(state=>state.socket.socket);
+	// console.log('[ChattingListItem] - socket',socket);
     let destinations=useSelector(state=>state.socket.subscriptions);
     const [newChat,setNewChat]=useState(null); // 새로 도착한 채팅
-    const [numberOfChattings,setNumberOfChattings]=useState();
+    const [chatCnt,setChatCnt]=useState(0); // 해당 채팅방의 메세지 개수
+    const [numberOfChattings,setNumberOfChattings]=useState(); // 안읽은 메세지 개수 보이기 위한 state
     const [check,setCheck]=useState(false);
     const [numDiv,setNumDiv]=useState(true);
     const [unRead,setUnRead]=useState(true);
     const [lastRead,setLastRead]=useState();
     const location=useLocation().pathname;
     const [msgType,setMsgType]=useState(0);
-    
     const [participants,setParticipants]=useState();
     
     // 채팅방 리스트에서 클릭 시 채팅방으로 이동, 안읽은 메세지 개수 0으로 갱신(안읽은 메세지 개수 div 안보이게)
@@ -36,32 +36,40 @@ function ChattingListItem(props) {
         setNumDiv(false);
         // dispatch(saveRoomId(item.chattingId));
         setNumberOfChattings(0);
-        updateLastRead(memberId,item.chattingId,numberOfChattings+1+item.last);
+        updateLastRead(memberId,item.chattingId,chatCnt);
         selectedRoom(item,item.title);
         // setNumDiv(false);
         navigate(`/rooms/${item.chattingId}`);
     }
     
     useEffect(() => {
-        console.log("memberId",memberId);
+        if(socket===null){
+            socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
+    		let client=stomp.over(socket);
+    		client.connect({},function(){
+      		    console.log("client1 ",client);
+      		    dispatch(connectSocket(client));
+            });
+        }
         getChattingListItemInfo(item.chattingId).then((response)=>{
             console.log("====response",response);
             // console.log("item.last",item.last);
             setNumberOfChattings(response.data.result.number-1-item.last); // 안읽은 메세지 개수 = 전체 메세지 개수 - 1 - 참여자가 마지막으로 읽은 메세지 인덱스
+            setChatCnt(response.data.result.number);
             console.log("last",response.data.result.last);
             if(response.data.result.last.msg==="exit") {
                 console.log("exit roomId",response.data.result.last.roomId);
                 setMsgType(1);
             }
             else setMsgType(3);
-            console.log("msgType",msgType);
+            // console.log("msgType",msgType);
 
             setNewChat(response.data.result.last);
-            console.log("newChat",newChat);
+            // console.log("newChat",newChat);
             setCheck(true);
             setParticipants(item.participantList.length);
             if(numberOfChattings-1-item.last===0) {
-                console.log("It's ZERO");
+                // console.log("It's ZERO");
                 setUnRead(false);
             }
         })
@@ -70,7 +78,7 @@ function ChattingListItem(props) {
         // })
         const des="/sub/chat/"+item.chattingId;
         let exist=false;
-        let subscriptions=socket.subscriptions;
+        // let subscriptions=socket.subscriptions;
         let subId;
         const callback=function(message){
             if(message!==undefined&&message!=='undefined'){
@@ -94,7 +102,7 @@ function ChattingListItem(props) {
                 newMsg(data,msgType);      
             }
         }
-        console.log("subscriptions",subscriptions);
+        // console.log("subscriptions",subscriptions);
         for(let i=0;i<destinations.length;i++){
             if(destinations[i].des===des){
                 subId=destinations.id;
@@ -115,6 +123,7 @@ function ChattingListItem(props) {
             // const testcallback=subscriptions[subId];
             // console.log("testcallback",testcallback);
             // setCallback(subscriptions[res.id]);
+           
             const res=socket.subscribe(des,callback);
             destinations.push({id:res.id,des:"/sub/chat/"+item.chattingId});
             dispatch(saveSubscription(destinations));
@@ -124,7 +133,7 @@ function ChattingListItem(props) {
     useEffect(() => {
        if(newChat!==null&&newChat.memberId!==Number(memberId)){
         console.log("newChat",newChat);
-        console.log("path",location.slice(-1));
+        // console.log("path",location.slice(-1));
         
         // console.log("numberOfChattings-1",numberOfChattings-1);
         // console.log("item.last",item.last);
@@ -144,6 +153,7 @@ function ChattingListItem(props) {
             setNumDiv(true);
         }
         setNumberOfChattings(numberOfChattings=>numberOfChattings+1);
+        setChatCnt(chatCnt=>chatCnt+1);
         console.log("msgType",msgType);
        }
     }, [newChat]);

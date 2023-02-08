@@ -5,6 +5,7 @@ import { styled } from '@mui/material/styles';
 import React, { useCallback,useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import useResponsive from '../../hooks/useResponsive';
+import { useDispatch,useSelector } from 'react-redux';
 import Carousel from 'react-bootstrap/Carousel'
 // components
 import { Button, Modal } from 'react-bootstrap';
@@ -96,7 +97,8 @@ function MyPage() {
     let [tech, setTech] = useState(null);
     const [show, setShow] = useState(false);
     const users = useRecoilValue(userState);
-
+    let socket=useSelector(state=>state.socket.socket);
+	console.log('redux test - socket',socket);
     let userDto = new Object();
     let userCategoryDto = new Object();
 

@@ -57,7 +57,7 @@ function UpdatePost() {
 	useEffect(() => {
 		setTimeout(function () {
 			getPostInfo();
-        }, 1000);
+        }, 500);
 		setCurQs('');
 		setCurQsItemList([]);
 	}, [curSelectedType, makeQsSwitch, showCreate])
@@ -199,9 +199,7 @@ function UpdatePost() {
 	function getPostInfo(){
 		console.log("stateId"+location.state.id);
 		post_id = location.state.id;
-
-		console.log(post_id);
-        axios.get(`/api/post/info/${post_id}`)
+       		axios.get(`http://210.109.62.6:8080/api/post/info/${post_id}`)
 			.then((response) => {
                 console.log('get data.data.token', "-", response, "-");
 				postDto.post_name = response.data.post_name;
