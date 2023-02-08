@@ -19,10 +19,11 @@ function MessageList(props) {
     useEffect(() => {
         // console.log("MessageList - chats",items);
         setChats(items);
+        document.getElementById("msgList").scrollTop=document.getElementById("msgList").scrollHeight;
     }, [items]);
     
     return (
-      <div class="mt-6 flex-row-reverse h-96 overflow-y-auto md:w-full">
+      <div className="mt-6 flex-row-reverse h-96 overflow-y-auto md:w-full" id="msgList">
         {items && items.map((item,idx)=>{
            if(idx===0) beforeMsg=item;
            else beforeMsg=items[idx-1];
