@@ -63,7 +63,7 @@ function ViewPost() {
     //다른 사람이 쓴 글이면 + 신청하기 버튼만 ㅇ
     useEffect(() => {
         // 자신이 쓴 글, 다른 사람이 쓴 글 구분
-        if (state.name === "aaa") {
+        if (state.name === users.name) {
             setMyPost(true);
             getApplicant(postId).then((response) => {
                 setApplicant(response);
