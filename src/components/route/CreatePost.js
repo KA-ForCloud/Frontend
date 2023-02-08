@@ -1,22 +1,17 @@
 /* eslint-disable */
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Card, Col, Form, InputGroup, Modal, Nav, Row } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 
-import { MdDelete } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue} from 'recoil';
 import styled, { css } from 'styled-components';
-import axios from 'axios';
 
-import {useImperativeHandle } from "react";
 import { useDispatch,useSelector } from 'react-redux';
 
-import { KAKAO_AUTH_URL } from '../../OAuth';
 import { DateRangeSelector } from '../route/DateRangeSelector';
 import { userState } from '../../atom';
 
 import './CreatePost.css';
-import { TextField } from '@mui/material';
 import { savePost } from '../../services/PostService';
 import { publish, enter } from '../../services/ChattingService';
 import { getDate } from '../pages/chatting/Date';
@@ -114,7 +109,6 @@ function CreatePost() {
 	postDto.contents = null;
 	postDto.views = 0;
 
-	const [link, setLink] = useState("");
 
 	const myRef = useRef({});
 	const users = useRecoilValue(userState);

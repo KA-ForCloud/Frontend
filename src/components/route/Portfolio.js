@@ -3,17 +3,13 @@ import { Container, Stack, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // hooks
 import React, { useCallback,useEffect, useState } from "react";
-import { useNavigate, Navigate} from 'react-router-dom';
-import useResponsive from '../../hooks/useResponsive';
-import Carousel from 'react-bootstrap/Carousel'
+import { useNavigate} from 'react-router-dom';
 // components
-import { Button, Modal } from 'react-bootstrap';
+import { Button} from 'react-bootstrap';
 import { useRecoilValue, useSetRecoilState  } from 'recoil';
-import { KAKAO_AUTH_URL } from '../../OAuth';
 import { userState } from '../../atom';
 import "./Portfolio.css";
-import { sizeWidth } from '@mui/system';
-import { upload } from '@testing-library/user-event/dist/upload';
+
 // @mui
 import { FileUploader } from "react-drag-drop-files";
 import {FormControlLabel,Checkbox} from '@material-ui/core';
@@ -21,25 +17,11 @@ import {FormControlLabel,Checkbox} from '@material-ui/core';
 import Sidebar  from './Sidebar';
 import { Outlet } from "react-router-dom";
 import axios from 'axios';
-import { MdNavigateNext, MdSystemSecurityUpdate } from 'react-icons/md';
-import SelectInput from '@mui/material/Select/SelectInput';
-const StyledRoot = styled('div')(({ theme }) => ({
-    [theme.breakpoints.up('md')]: {
-        display: 'flex',
-    },
-}));
+
+
 const fileTypes = ["PDF", "PPTX"];
 
-const StyledSection = styled('div')(({ theme }) => ({
-    width: '100%',
-    maxWidth: 480,
-    marginRight:'20px',
-    display: 'flex',
-    marginTop:'20px',
-    flexDirection: 'column',
-    boxShadow: theme.customShadows,
-    backgroundColor: theme.palette.background.default,
-}));
+
 
 const StyledContent = styled('div')(({ theme }) => ({
     maxWidth: 480,
@@ -59,7 +41,6 @@ function Portfolio() {
     const [, updateState] = useState();
 	let [school, setSchool] = useState(null);
     let [tech, setTech] = useState(null);
-    const [show, setShow] = useState(false);
     const users = useRecoilValue(userState);
     const [filecheck, setFilecheck] = useState(false);
     let userDto = new Object();
@@ -76,22 +57,7 @@ function Portfolio() {
     const forceUpdate = useCallback(() => updateState({}, []));
     const userHandler = useSetRecoilState(userState);
     let navigate = useNavigate();
-
-
-    
-    
-    const mdUp = useResponsive('up', 'md');
-    let history = useNavigate(); 
-    const [imgBase64, setImgBase64] = useState([]); // 파일 base64
-    const [imgFile, setImgFile] = useState(null);	//파일	
-    const [tag, setTag] = useState([]);
-    const [comment,setComment] = useState();
-    var images = []
     var filename = "";
-
-
-
-    
     const data = [
         {id: 0, title: 'Spring'},
         {id: 1, title: 'Springboot'},
@@ -147,16 +113,11 @@ function Portfolio() {
             getPortInfo();
             getCategoryInfo();
         }, 1000);
-        // getPortInfo();
-        // if (!users.login) {
-        //     window.location.href = KAKAO_AUTH_URL;
-        // }
+      
 
     }, [])
 
-    const sleep = (ms) => {
-        return new Promise((resolve) => setTimeout(resolve, ms))
-      }
+    
 
     function getPortInfo(){
         axios.get(`http://210.109.62.6:8080/api/user/info/${users.id}`)
@@ -388,37 +349,14 @@ function Portfolio() {
     
     }
   
-    // function getUserInfo(){
-
-    //     axios.get('https://localhost:8080/user/get', headers)
-    //     .then((response) => {
-    //         console.log('get all survey ok');
-    //         console.log(response.data)
-    //         Surveys = JSON.stringify(response.data);
-    //     })
-    //     .catch((error) => {
-    //         console.log(error)
-    //     })
-    // }
-    // useEffect(() => {
-    //     handleShow();
-    //     setTimeout(function () {
-    //         getKakaoToken();
-    //     }, 1000);
-    // }, []);
+    
 
     return (
         
         <>
             
             <div className="my-5 flex mx-auto max-w-4xl sm:px-6 mr-72">
-                {/* <img src={logo}
-                    sx={{
-                        position: 'fixed',
-                        top: { xs: 16, sm: 24, md: 40 },
-                        left: { xs: 16, sm: 24, md: 40 },
-                    }}
-                /> */}
+               
                 <Sidebar />
                 <Outlet />
 
@@ -475,10 +413,7 @@ function Portfolio() {
                                 ))}
                             </tbody>
                         </table>
-                        {/* <Stack direction="row" alignItems="center" sx={{ my: 2 }}>
-                            <Typography variant="h6">알림 수신</Typography>
-                            <Checkbox name="push" />
-                        </Stack> */}
+                        
                     <Typography variant="h6" gutterBottom style={{ marginTop: 50}}>
                             포트폴리오 파일 첨부
                         </Typography>

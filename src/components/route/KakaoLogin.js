@@ -1,10 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
-import { Modal } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userState } from '../../atom'
-import { KAKAO_AUTH_URL, REDIRECT_URI, REST_API_KEY } from '../../OAuth';
+import { REDIRECT_URI, REST_API_KEY } from '../../OAuth';
 
 function KakaoLogin() {
 
