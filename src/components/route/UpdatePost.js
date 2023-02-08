@@ -320,7 +320,7 @@ function UpdatePost() {
 
 			console.log(users);
 			console.log("postDto",postDto)
-			axios.post(`/api/post/save/${users.id}`, postDto)
+			axios.post(`http://210.109.62.6:8080/api/post/save/${users.id}`, postDto)
 			.then((response) => {
 				console.log(response);
 			})
