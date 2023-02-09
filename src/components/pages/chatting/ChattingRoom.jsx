@@ -79,7 +79,9 @@ export default function ChattingRoom(props) {
 
     useEffect(() => {
         if(socket===null){
-            socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
+            // socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
+            socket=new SockJS('http://210.109.63.198:8081/stomp/chat');
+
     		let client=stomp.over(socket);
     		client.connect({},function(){
       		    console.log("client1 ",client);
