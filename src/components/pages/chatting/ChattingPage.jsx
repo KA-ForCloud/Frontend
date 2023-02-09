@@ -166,7 +166,7 @@ export default function ChattingPage() {
                         <div className="md:w-full md:h-full">
                             <div className="flex">
                                     <p className="text-2xl font-bold text-gray-900">{roomTitle}</p>
-                                    {btnType===1&&
+                                    {btnType===1&&location.slice(-1)!=="s"&&
                                         <button className="ml-auto" onClick={()=>{
                                             deleteRoom(room.chattingId,users.id).then((response)=>{
                                                 const des="/sub/chat/"+room.chattingId;
@@ -188,7 +188,7 @@ export default function ChattingPage() {
                                             setRoomTitle("원하는 채팅방을 선택하세요!");
                                         }}>삭제</button>
                                     }
-                                    {btnType===1&&
+                                    {btnType===1&&location.slice(-1)!=="s"&&
                                         <button className="ml-3" onClick={()=>{
                                             endRoom(room.chattingId,users.id).then((response)=>{
                                                 if(response.data.code===1000){
@@ -212,7 +212,7 @@ export default function ChattingPage() {
                                             setRoomTitle("원하는 채팅방을 선택하세요!");
                                         }}>종료</button>
                                     }
-                                     {btnType===2&&
+                                     {btnType===2&&location.slice(-1)!=="s"&&
                                         <button className="ml-auto" onClick={()=>{
                                             
                                             exitRoom(room.chattingId,users.id).then((response)=>{

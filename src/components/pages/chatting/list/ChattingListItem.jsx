@@ -171,7 +171,7 @@ function ChattingListItem(props) {
                     {check&&<p className='mr-4 pt-2 text-sm text-gray-500'>{newChat.timestamp.substr(0,4)+"/"+newChat.timestamp.substr(4,2)+"/"+newChat.timestamp.substr(6,2)+" "+newChat.timestamp.substr(8,2)+":"+newChat.timestamp.substr(10,2)}</p>}
                 </div>
                 <div className='flex'>
-                    {newChat!==null&&newChat.msgType==="msg"&&check&&<p className="text-sm font-extralight pl-6 grow mt-4 mb-2"> {newChat.msg} </p>}
+                    {newChat!==null&&newChat.msgType==="msg"&&check&&<p className="text-sm font-extralight pl-6 grow mt-4 mb-2 truncate"> {newChat.msg} </p>}
                     {newChat!==null&&newChat.msgType==="enter"&&check&&<p className="text-sm font-extralight pl-6 grow mt-4 mb-2"> {newChat.msg} </p>}
                     {newChat!==null&&(newChat.msgType==="file"||newChat.msgType==="img")&&check&&<p className="text-sm font-extralight pl-6 grow mt-4 mb-2"> {newChat.nickName+"님이 파일을 업로드했습니다."} </p>}
                     {newChat!==null&&newChat.msgType==="exit"&&check&&<p className="text-sm font-extralight pl-6 grow mt-4 mb-2"> {newChat.nickName+"님이 퇴장하셨습니다."} </p>}
