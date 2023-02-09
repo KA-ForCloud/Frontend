@@ -149,9 +149,10 @@ function ChattingListItem(props) {
             setParticipants(participants=>participants+1); // 참여자 입장 메세지
 
         }
-        if(newChat.roomId!==Number(location.slice(-1))){
-            setNumDiv(true);
-        }
+        // if(newChat.roomId!==Number(location.slice(-1))){
+        //     setNumDiv(true);
+        // }
+        setNumDiv(true);
         setNumberOfChattings(numberOfChattings=>numberOfChattings+1);
         setChatCnt(chatCnt=>chatCnt+1);
         console.log("chatCnt",chatCnt);
@@ -165,7 +166,7 @@ function ChattingListItem(props) {
             }}>
                 <div className='flex'>
                     <div className='flex grow'>
-                        <p className={"text-lg pl-4 pt-2 font-black "+((numDiv&&setNumberOfChattings>0)? "text-rose-500":"text-black")}>{item.title}</p>
+                        <p className={"text-lg pl-4 pt-2 font-black "+(numDiv? "text-rose-500":"text-black")}>{item.title}</p>
                         <p className="text-lg text-gray-700 font-thin pl-2 pt-2">{participants}</p>
                     </div>
                     {check&&<p className='mr-4 pt-2 text-sm text-gray-500'>{newChat.timestamp.substr(0,4)+"/"+newChat.timestamp.substr(4,2)+"/"+newChat.timestamp.substr(6,2)+" "+newChat.timestamp.substr(8,2)+":"+newChat.timestamp.substr(10,2)}</p>}
