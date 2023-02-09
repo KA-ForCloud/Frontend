@@ -17,7 +17,7 @@ function MessageList(props) {
     let beforeMsg;
   
     useEffect(() => {
-        // console.log("MessageList - chats",items);
+        console.log("MessageList - chats",items);
         setChats(items);
         document.getElementById("msgList").scrollTop=document.getElementById("msgList").scrollHeight;
     }, [items]);
