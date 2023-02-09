@@ -89,7 +89,7 @@ function Modal(props) {
                 </div>
                 <div className ="p-4 border-y border-y-fuchsia-300">{props.children}</div>
                 <div className ="p-3 text-right">
-                    <button className='p-2 bg-sky-100 border rounded-md text-sm' onClick={() => {Register();}}>
+                    <button className='p-2 bg-sky-100 border rounded-md text-sm' onClick={() => {Register();}} style={header ===  "필수항목 미입력" ? {display : 'none'} : {display : true}}>
                         예
                     </button>
                 </div>
