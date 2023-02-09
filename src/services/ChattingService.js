@@ -12,6 +12,7 @@ export async function getRooms(memberId){
     // console.log('getRooms response: ',response);
     return response;
 }
+
 // 채팅 내역 가져오기
 export async function getChattings(roomId){
     const response=await axios.get(`${CHATTING}/chat/${roomId}`);

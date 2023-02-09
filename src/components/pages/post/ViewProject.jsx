@@ -20,8 +20,6 @@ function ViewOngoingProject(){
         downloadLink.click();
     }
 
-    
-    //프로젝트 진행중일 때는 데일리 회고록/파일 저장 칸 만들면 될듯?
     useEffect(()=>{
         getAllFiles(postId).then((response)=>{
             if(response.data.code!==1000) console.log("ERROR");

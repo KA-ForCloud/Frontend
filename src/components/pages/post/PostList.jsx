@@ -127,7 +127,7 @@ function PostList(props) {
       <div key={idx} className = {type === "main" ? "rounded-2xl border py-5 flex-column hover:scale-105 transition cursor-pointer text-2xl"
         : type === 'my' || type === 'requested' || type === "ongoing" || type === "completed" ? "rounded-2xl mx-3 border flex-column hover:bg-sky-50 transition cursor-pointer text-2xl"
         : "text-left rounded-2xl border-4 border-white hover:border-black flex-column cursor-pointer text-2xl"}
-        onClick={type === 'ongoing' || type === 'completed' ? () => { navigate(`/viewProject/c${item.id}`, {state: item})} :
+        onClick={type === 'ongoing' || type === 'completed' ? () => { navigate(`/viewProject/${item.id}`, {state: item})} :
         () => { navigate(`/viewPost/${item.id}`, {state: item})}}>
 
      
