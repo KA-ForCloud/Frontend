@@ -165,7 +165,7 @@ function ChattingListItem(props) {
             }}>
                 <div className='flex'>
                     <div className='flex grow'>
-                        <p className="text-lg text-black font-black pl-4 pt-2">{item.title}</p>
+                        <p className={"text-lg pl-4 pt-2"+((numDiv&&setNumberOfChattings>0)? "text-rose-500":"text-black")}>{item.title}</p>
                         <p className="text-lg text-gray-700 font-thin pl-2 pt-2">{participants}</p>
                     </div>
                     {check&&<p className='mr-4 pt-2 text-sm text-gray-500'>{newChat.timestamp.substr(0,4)+"/"+newChat.timestamp.substr(4,2)+"/"+newChat.timestamp.substr(6,2)+" "+newChat.timestamp.substr(8,2)+":"+newChat.timestamp.substr(10,2)}</p>}
@@ -175,13 +175,13 @@ function ChattingListItem(props) {
                     {newChat!==null&&newChat.msgType==="enter"&&check&&<p className="text-sm font-extralight pl-6 grow mt-4 mb-2"> {newChat.msg} </p>}
                     {newChat!==null&&(newChat.msgType==="file"||newChat.msgType==="img")&&check&&<p className="text-sm font-extralight pl-6 grow mt-4 mb-2"> {newChat.nickName+"님이 파일을 업로드했습니다."} </p>}
                     {newChat!==null&&newChat.msgType==="exit"&&check&&<p className="text-sm font-extralight pl-6 grow mt-4 mb-2"> {newChat.nickName+"님이 퇴장하셨습니다."} </p>}
-                    {numDiv&&numberOfChattings>0?
+                    {/* {numDiv&&numberOfChattings>0?
                         <div className='flex justify-center content-center text-sm font-bold rounded-full md:w-6 md:h-6 mr-4 mt-4 text-center bg-indigo-300 text-white'>
                             <div className='m-auto'>{numberOfChattings}</div>
                         </div>
                         :
                         <div></div>
-                    }
+                    } */}
                 </div>
             </div>
        
