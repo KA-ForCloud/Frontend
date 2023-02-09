@@ -11,7 +11,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userState } from '../../../../atom';
 
 function MessageListItem(props) {
-    const {item,memberId,idx,beforeMsg}=props;
+    const {item,memberId,idx,beforeMsg,roomId}=props;
 
     const time=item.timestamp.substr(8,2)+":"+item.timestamp.substr(10,2);
     const [checkType,setCheckType]=useState(false);
@@ -57,7 +57,7 @@ function MessageListItem(props) {
         if(item.msgType==="file"){
             console.log("file name",item.originalFileName);
         }
-    }, [])
+    }, [roomId])
    
     
     // TODO: memberId number로 형변환한거 삭제

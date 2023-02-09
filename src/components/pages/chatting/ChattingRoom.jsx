@@ -128,7 +128,7 @@ export default function ChattingRoom(props) {
 
     return (
         <div className="md:w-full max-w-full rounded-lg bg-blue-100 mt-6 pb-0">
-            {checkChatList&&<MessageList items={chatList} firstMsg={firstMsg} memberId={memberId}/>}
+            {checkChatList&&<MessageList items={chatList} firstMsg={firstMsg} memberId={memberId} roomId={roomId}/>}
             
             <div className="md:w-full flex-row">
                 <input type="text" id="default-input" className="md:w-11/12 ml-auto bg-white w-full border-2 rounded-lg py-1 pl-2" value={msg} onChange={handleOnChange}

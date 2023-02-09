@@ -10,7 +10,7 @@ import { saveBeforeMsg } from "../../../../modules/socket";
 
 function MessageList(props) {
     const dispatch=useDispatch();
-    const {items,memberId}=props;
+    const {items,memberId,roomId}=props;
     const [chats,setChats]=useState([]);
     // const [msg,setMsg]=useState();
     // const [beforeMsg,setBeforeMsg]=useState();
@@ -31,6 +31,7 @@ function MessageList(props) {
                 <MessageListItem
                     key={idx}
                     idx={idx}
+                    roomId={roomId}
                     memberId={memberId}
                     beforeMsg={beforeMsg}
                     item={item}/>
