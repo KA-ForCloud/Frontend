@@ -165,7 +165,7 @@ function ChattingListItem(props) {
             }}>
                 <div className='flex'>
                     <div className='flex grow'>
-                        <p className={"text-lg pl-4 pt-5"+((numDiv&&setNumberOfChattings>0)? "text-rose-500":"text-black")}>{item.title}</p>
+                        <p className={"text-lg pl-4 pt-2 font-black"+((numDiv&&setNumberOfChattings>0)? "text-rose-500":"text-black")}>{item.title}</p>
                         <p className="text-lg text-gray-700 font-thin pl-2 pt-2">{participants}</p>
                     </div>
                     {check&&<p className='mr-4 pt-2 text-sm text-gray-500'>{newChat.timestamp.substr(0,4)+"/"+newChat.timestamp.substr(4,2)+"/"+newChat.timestamp.substr(6,2)+" "+newChat.timestamp.substr(8,2)+":"+newChat.timestamp.substr(10,2)}</p>}
