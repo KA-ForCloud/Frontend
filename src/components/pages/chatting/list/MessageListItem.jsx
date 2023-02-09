@@ -36,6 +36,7 @@ function MessageListItem(props) {
 
     useEffect(() => {
         console.log("message item",item);
+        console.log("MessageListItem roomId",roomId);
         if(idx===0) {
             setDateChanged(true);
         }
