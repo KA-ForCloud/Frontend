@@ -58,10 +58,8 @@ function MessageListItem(props) {
         if(item.msgType==="file"){
             console.log("file name",item.originalFileName);
         }
-    }, [])
+    }, [roomId])
    
-    
-    // TODO: memberId number로 형변환한거 삭제
     return (
         <div>
             {dateChanged&&<div className="rounded-lg text-center bg-slate-500 text-white text-sm font-medium">{item.timestamp.substr(0,4)+"년 "+item.timestamp.substr(4,2)+"월 "+item.timestamp.substr(6,2)+"일"}</div>}
