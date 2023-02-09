@@ -17,6 +17,7 @@ import { publish, enter } from '../../services/ChattingService';
 import { getDate } from '../pages/chatting/Date';
 import SockJS from 'sockjs-client';
 import { connectSocket } from '../../modules/socket';
+import Modal from "../pages/post/Modal";
 export const stomp = require('stompjs');
 
 
@@ -82,12 +83,13 @@ function CreatePost() {
 	let [qsType, setQsType] = useState('');
 	let [survey, setSurvey] = useState([]);
 	let [viewSwitch, setViewSwitch] = useState('create');
+
 	const [shareWay, setShareWay] = useState('null');
 	let count = window.localStorage.getItem("count");
 	console.warn = console.error = () => {};
 	//post에 사용
-	let [postName, setpostName] = useState(null);
-	let [postContents, setpostContents] = useState(null);
+	let [postName, setpostName] = useState("");
+	let [postContents, setpostContents] = useState("");
 	let [postId, setPostId] = useState(0);
 	let postState = useRef(-1);
 	window.localStorage.setItem("count", 1);
@@ -182,7 +184,7 @@ function CreatePost() {
 	const [startTime, setStartTime] = useState(timeString);
 	const [endDate, setEndDate] = useState(nextDateString);
 	const [endTime, setEndTime] = useState(timeString);
-
+	let [modalname, setModalname] = useState("");
 	const [springbootCount, setspringbootCount] = useState(0);
 	const [pythonCount, setpythonCount] = useState(0);
 	const [springCount, setspringCount] = useState(0);
@@ -193,6 +195,17 @@ function CreatePost() {
 	const [projectLengthCount, setprojectLengthCount] = useState(0);
 	// const [javascriptCount, setjavascriptCount] = useState(0);
 	// const [javascriptCount, setjavascriptCount] = useState(0);
+
+	const [ModalOpen, setModalOpen] = useState(false);
+
+	const openModal = () => {
+		console.log("dddd");
+        setModalOpen(true);
+    };
+
+	const closeModal = () => {
+        setModalOpen(false);
+    };
 
 	const onClick = (event) => {
 		const id = event.target.id;
@@ -456,18 +469,43 @@ function CreatePost() {
 									cols="120"
 									onChange={(e) => {
 										setpostContents(e.target.value);
-									}}>{postContents}</Form.Control>
+									}}
+									maxLength = "300"
+									>{postContents}</Form.Control>
 
-								<div className="auth__contentCount">
-									<span>{`${inputs.content.length} / 300`}</span>
+								<div className="auth__contentCount" style={postContents.length == 300 ? {color: 'red'} : {color : 'black'}}>
+									<span>{`${postContents.length} / 300`}</span>
 								</div>
 							</Form.Group>
 							<div className='text-right'>
 								<button className="font-bold my-5 text-2xl border-2 border-sky-200 hover:bg-sky-100 rounded-md p-1"
 									onClick={() => {
-										handlePostCreateButton()
-									}}>게시글 게시</button>
+										let flag = false;
+										let tmp = ""
+										if (postName == ""){
+											console.log("왔다");
+											tmp += "제목, "
+											flag = true
+										}
 
+										if (postContents == ""){
+											console.log("왔다");
+											tmp += "프로젝트 소개, "
+											flag = true
+										}
+										if (flag){
+											console.log(tmp)
+											setModalname(tmp.substring(0,tmp.length-2))
+											openModal();
+										}
+										else{
+											handlePostCreateButton()
+										}
+									}}>게시글 게시</button>
+								{ModalOpen && <Modal open={ModalOpen} close={closeModal}  header = "필수항목 미입력">
+                                        {modalname} 을(를) 입력해주세요
+                                    </Modal>
+									}
 								<button className="ml-2 font-bold my-5 text-2xl border-2 border-red-200 hover:bg-red-100 rounded-md p-1"
 									onClick={() => {
 										navigate('/mainPage')
