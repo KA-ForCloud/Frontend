@@ -12,7 +12,7 @@ import { userState } from '../../../../atom';
 
 function MessageListItem(props) {
     const {item,memberId,idx,beforeMsg,roomId}=props;
-
+    console.log("MessageListItem",item);
     const time=item.timestamp.substr(8,2)+":"+item.timestamp.substr(10,2);
     const [checkType,setCheckType]=useState(false);
     const [dateChanged,setDateChanged]=useState(false);
@@ -35,8 +35,8 @@ function MessageListItem(props) {
     }
 
     useEffect(() => {
-        console.log("message item",item);
-        console.log("MessageListItem roomId",roomId);
+        // console.log("message item",item);
+        // console.log("MessageListItem roomId",roomId);
         if(idx===0) {
             setDateChanged(true);
         }
