@@ -100,6 +100,7 @@ export default function ChattingRoom(props) {
                 const data=response.data.result;
                 if(data.length===0) console.log("no chats");
                 else{
+                    console.log("채팅 내역",data);
                     setChatList(data);
                     setCheckChatList(true);
                     setFirstMsg(data[0]);
