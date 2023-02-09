@@ -84,7 +84,7 @@ function MessageListItem(props) {
                     <div className={"text-xs font-thin text-gray-600 pt-4 ml-auto pr-1 mt-auto"}>
                         {time}
                     </div>
-                    <div className='rounded-sm w-1/2 h-full break-all text-sm font-bold bg-sky-200 text-black mr-2 py-1 px-2'>
+                    <div className='rounded-sm w-fit h-full break-all text-sm font-bold bg-sky-200 text-black mr-2 py-1 px-2'>
                         {item.msg}
                     </div>
                 </div>
@@ -92,7 +92,7 @@ function MessageListItem(props) {
             {/* 채팅 내용 메세지이며 남이 보낸 메세지 */}
             {item.msgType==="msg"&&Number(users.id)!==item.memberId&&
                 <div className='flex'>
-                    <div className='rounded-sm w-1/2 min-w-fit break-all h-full text-sm font-bold bg-blue-300 text-black ml-2 py-1 px-2'>
+                    <div className='rounded-sm w-fit min-w-fit break-all h-full text-sm font-bold bg-blue-300 text-black ml-2 py-1 px-2'>
                         {item.msg}
                     </div>
                     <div className={"text-xs font-thin text-gray-600 pt-4 pl-1 mt-auto"}>
