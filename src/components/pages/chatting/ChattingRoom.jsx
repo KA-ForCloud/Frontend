@@ -47,7 +47,12 @@ export default function ChattingRoom(props) {
     };
     const handleSubmit = async (e) => {
         const now=getDate();
-        publish(socket,roomId,msg,memberId,nickname,now,"msg"); // TODO 수정해야해애애애애ㅐㅇ애
+        if(msg==="") {
+            alert("메세지를 입력해주세요.");
+        }
+        else {
+            publish(socket,roomId,msg,memberId,nickname,now,"msg");
+        }
         setMsg("");
     };
 
