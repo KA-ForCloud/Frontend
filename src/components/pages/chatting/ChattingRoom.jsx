@@ -28,7 +28,7 @@ const FileUpload=styled.label.attrs({type:"file"})`
 export default function ChattingRoom(props) {
     const dispatch=useDispatch();
     let socket=useSelector(state=>state.socket.socket);
-    console.log("[ChattingRoom]",socket);
+    // console.log("[ChattingRoom]",socket);
     let destinations=useSelector(state=>state.socket.subscriptions);
     let beforeRoomId=useSelector(state=>state.socket.roomId);
 
@@ -83,6 +83,7 @@ export default function ChattingRoom(props) {
     }
 
     useEffect(() => {
+        console.log("roomId",roomId);
         if(socket===null){
             socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
             // socket=new SockJS('http://210.109.63.198:8081/stomp/chat');
