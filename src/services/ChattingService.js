@@ -1,8 +1,8 @@
 import axios from 'axios';
 import SockJS from 'sockjs-client';
 const BACKEND_API_BASE_URL="http://210.109.62.6:8080";
-// const CHATTING = "http://210.109.62.6:8081";
-const CHATTING = "http://210.109.63.198:8081"; // nfs 테스트용 ip(bastion ip)
+const CHATTING = "http://210.109.62.6:8081";
+// const CHATTING = "http://210.109.63.198:8081"; // nfs 테스트용 ip(bastion ip)
 
 // 채팅방 리스트 조회
 export async function getRooms(memberId){
@@ -66,8 +66,8 @@ export let client;
 // 소켓 연결
 export async function connect(){ // 연결할 때
     
-    // let socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
-    let socket=new SockJS('http://210.109.63.198:8081/stomp/chat');
+    let socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
+    // let socket=new SockJS('http://210.109.63.198:8081/stomp/chat');
 
     client=stomp.over(socket);
     

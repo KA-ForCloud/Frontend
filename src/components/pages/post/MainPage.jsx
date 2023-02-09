@@ -26,8 +26,8 @@ function MainPage() {
   useEffect(() => {
     // client=connect();
     // dispatch(connectSocket(client));
-    // let socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
-    let socket=new SockJS('http://210.109.63.198:8081/stomp/chat');
+    let socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
+    // let socket=new SockJS('http://210.109.63.198:8081/stomp/chat');
 
     client=stomp.over(socket);
     client.connect({},function(){
