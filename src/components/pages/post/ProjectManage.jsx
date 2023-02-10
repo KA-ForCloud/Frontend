@@ -17,6 +17,8 @@ function ProjectManage() {
     }, [])
 
   return (
+
+    
     <div className ="mx-auto my-4 px-4 max-w-screen-xl">
       <Sidebar />
       <div className="border-4 border-sky-200 rounded-2xl">
@@ -28,6 +30,7 @@ function ProjectManage() {
           <div className="mb-4 w-full overflow-auto"> {myProjectList && <PostList postList = {myProjectList} type={"completed"}/>}  </div>
       </div>
     </div>
+  
   )
 }
 
