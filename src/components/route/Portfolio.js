@@ -120,7 +120,7 @@ function Portfolio() {
     
 
     function getPortInfo(){
-        axios.get(`http://210.109.62.6:8080/api/user/info/${users.id}`)
+        axios.get(`http://172.16.48.118:8080/api/user/info/${users.id}`)
 			.then((response) => {
                 console.log('get data.data.token', "-", response, "-");
                 console.log(filename);

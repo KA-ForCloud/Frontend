@@ -106,7 +106,7 @@ function KakaoLogin() {
 
                     console.log('ACCESS_TOKEN', ACCESS_TOKEN);
                     console.log("in");
-                    axios.post(`http://210.109.62.6:8080/api/user/register/${ACCESS_TOKEN}`)
+                    axios.post(`http://172.16.48.118:8080/api/user/register/${ACCESS_TOKEN}`)
                         .then((response) => {
                             console.log("response:"+response);
                             console.log('response.data.token', "-", response.data.id, "-");
