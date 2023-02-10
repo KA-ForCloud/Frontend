@@ -353,16 +353,16 @@ function Portfolio() {
 
     return (
         
-        <>
-            
-            <div className="my-5 flex mx-auto max-w-4xl sm:px-6 mr-72">
+        <div className ="mx-auto my-4 px-4 max-w-screen-xl">
+             <Sidebar />
+             <div className="my-5 flex mx-auto max-w-7xl sm:px-6" style={{marginRight : 40}}>
                
-                <Sidebar />
+               
                 <Outlet />
 
-                <Container maxWidth="sm" style={{marginLeft: 50}}>
+                <Container maxWidth="sm" >
                     <StyledContent>
-                        <Typography variant="h4" gutterBottom style={{ marginTop: 30}}>
+                        <Typography variant="h4" gutterBottom >
                             안녕하세요. <strong>{users.name}</strong>님
                         </Typography>
                         <Typography variant="h6" gutterBottom>
@@ -448,7 +448,7 @@ function Portfolio() {
         
 
            
-        </>
+            </div>
     );
 }
 

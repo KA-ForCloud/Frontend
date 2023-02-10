@@ -58,7 +58,7 @@ function MyPage() {
     const mdUp = useResponsive('up', 'md');
 
     return (
-        <>
+        <div className ="mx-auto my-4 px-4 max-w-screen-xl">
             <Sidebar />
             <div className="my-5 flex mx-auto max-w-7xl sm:px-6" style={{marginRight : 40}}>
 
@@ -67,7 +67,7 @@ function MyPage() {
                 {mdUp && (
                     <StyledSection>
                        
-                        <div className="box" style={{ background: "#BDBDBD" ,marginTop: 152 }}>
+                        <div className="box" style={{ background: "#BDBDBD" ,marginTop: 40 }}>
                             {/* <img className="profile" src='https://d2u3dcdbebyaiu.cloudfront.net/uploads/atch_img/944/eabb97e854d5e5927a69d311701cc211_res.jpeg' /> */}
                             <img className="profile" src={users.profileImg} />
                         </div>
@@ -102,7 +102,7 @@ function MyPage() {
         
 
            
-        </>
+            </div>
     );
 }
 
