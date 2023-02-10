@@ -58,7 +58,7 @@ function MessageListItem(props) {
         if(item.msgType==="file"){
             console.log("file name",item.originalFileName);
         }
-    }, [roomId])
+    }, [item])
    
     return (
         <div>
