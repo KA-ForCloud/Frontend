@@ -23,17 +23,17 @@ node {
                     echo "sshagent start"
                     sh '''
                         ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10001 uptime
-                        ssh -t centos@210.109.60.60 -p 10001 ./please.sh
+                        ssh -t -t centos@210.109.60.60 -p 10001 ./please.sh
                         scp -r -P 10001 /var/jenkins_home/workspace/forCloud_Frontend_Pipeline/build centos@210.109.60.60:/home/centos/Frontend
-                        ssh -t centos@210.109.60.60 -p 10001 ./deploy.sh
+                        ssh -t -t centos@210.109.60.60 -p 10001 ./deploy.sh
                     '''
                     slackSend (channel: '#jenkins-alert', color: '#FFFF00', message: "WEB-1-Frontend Deploy Complete: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                     echo "Web_1_Success"
                     sh ''' 
                         ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10002 uptime
-                        ssh -t centos@210.109.60.60 -p 10002 ./please.sh
+                        ssh -t -t centos@210.109.60.60 -p 10002 ./please.sh
                         scp -r -P 10002 /var/jenkins_home/workspace/forCloud_Frontend_Pipeline/build centos@210.109.60.60:/home/centos/Frontend
-                        ssh -t centos@210.109.60.60 -p 10002 ./deploy.sh
+                        ssh -t -t centos@210.109.60.60 -p 10002 ./deploy.sh
                     '''
                     slackSend (channel: '#jenkins-alert', color: '#FFFF00', message: "WEB-2-Frontend Deploy Complete: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                     echo "Web_2_Success"
