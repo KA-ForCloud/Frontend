@@ -190,7 +190,7 @@ function UpdatePost() {
 	function getPostInfo(){
 		console.log("stateId"+location.state.id);
 		post_id = location.state.id;
-       		axios.get(`http://210.109.62.6:8080/api/post/info/${post_id}`)
+       		axios.get(`http://172.16.48.118:8080/api/post/info/${post_id}`)
 			.then((response) => {
                 console.log('get data.data.token', "-", response, "-");
 				postDto.post_name = response.data.post_name;
@@ -302,7 +302,7 @@ function UpdatePost() {
 
 			console.log(users);
 			console.log("postDto",postDto)
-			axios.post(`http://210.109.62.6:8080/api/post/save/${users.id}`, postDto)
+			axios.post(`http://172.16.48.118:8080/api/post/save/${users.id}`, postDto)
 			.then((response) => {
 				console.log(response);
 			})
