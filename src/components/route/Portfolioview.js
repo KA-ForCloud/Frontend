@@ -156,7 +156,7 @@ function Portfolioview() {
 
 
     return (
-        <>
+        <div className ="mx-auto my-4 px-4 max-w-screen-xl">
             <Sidebar />
             <div className="my-5 flex mx-auto max-w-7xl sm:px-6" style={{marginRight : 40}}>
             
@@ -164,7 +164,7 @@ function Portfolioview() {
                 {mdUp && (
                     <StyledSection>
                     
-                        <div className="box" style={{ background: "#BDBDBD" }}>
+                        <div className="box" style={{ background: "#BDBDBD" ,marginBottom: 250 }}>
                             <img className="profile" src={users.profileImg} />
                         </div>
                     </StyledSection>
@@ -221,7 +221,7 @@ function Portfolioview() {
         
 
            
-        </>
+        </div>
     );
 }
 
