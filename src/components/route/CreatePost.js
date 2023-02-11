@@ -13,7 +13,7 @@ import { userState } from '../../atom';
 
 import './CreatePost.css';
 import { savePost } from '../../services/PostService';
-import { publish, enter } from '../../services/ChattingService';
+import { publish, enter, CHATTING } from '../../services/ChattingService';
 import { getDate } from '../pages/chatting/Date';
 import SockJS from 'sockjs-client';
 import { connectSocket } from '../../modules/socket';
@@ -118,7 +118,7 @@ function CreatePost() {
 	useEffect(() => {
 		if (socket===null) {
 			// socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
-            socket=new SockJS('http://172.16.48.118:8081/stomp/chat');
+            socket=new SockJS(`${CHATTING}/stomp/chat`);
 
     		let client=stomp.over(socket);
     		client.connect({},function(){

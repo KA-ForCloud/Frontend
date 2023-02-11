@@ -5,7 +5,7 @@ import { Dialog, Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon, ForwardIcon, TrashIcon,ClipboardDocumentIcon } from '@heroicons/react/20/solid'
 import { useSelector,useDispatch } from 'react-redux';
 import { connectSocket,saveSubscription,saveRoomId } from "../../../../modules/socket";
-import {connect, getRooms, subscribe,getChattingListItemInfo,updateLastRead,getLastRead,client} from '../../../../services/ChattingService';
+import {connect, getRooms, subscribe,getChattingListItemInfo,updateLastRead,getLastRead,client, CHATTING} from '../../../../services/ChattingService';
 import { set } from 'date-fns';
 import SockJS from 'sockjs-client';
 export const stomp = require('stompjs');
@@ -42,7 +42,7 @@ function ChattingListItem(props) {
     
     useEffect(() => {
         if(socket===null){
-            socket=new SockJS('http://172.16.48.118:8081/stomp/chat');
+            socket=new SockJS(`${CHATTING}/stomp/chat`);
             // socket=new SockJS('http://210.109.63.198:8081/stomp/chat');
 
     		let client=stomp.over(socket);

@@ -14,6 +14,7 @@ import "./Portfolio.css";
 
 // ----------------------------------------------------------------------
 import Sidebar  from './Sidebar';
+import { BACKEND_API_BASE_URL } from '../../services/PostService';
 const StyledRoot = styled('div')(({ theme }) => ({
     [theme.breakpoints.up('md')]: {
         display: 'flex',
@@ -142,7 +143,7 @@ function Portfolioview() {
                 navigate('/portfolioview');
                 console.log(users.portsave);    
                 if ( window.location == 'http://210.109.61.179:3000/portfolioview' ) {
-                     window.location.href='http://172.16.48.118:8080/api/user/attached/'+users.portsave;
+                     window.location.href=`${BACKEND_API_BASE_URL}/api/user/attached/`+users.portsave;
                 }
                 
                 navigate('/portfolioview');

@@ -10,6 +10,7 @@ import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { userState } from '../../atom';
 import './UpdatePost.css';
+import { BACKEND_API_BASE_URL } from '../../services/PostService';
 /* eslint-disable */
 function UpdatePost() {
 
@@ -190,7 +191,7 @@ function UpdatePost() {
 	function getPostInfo(){
 		console.log("stateId"+location.state.id);
 		post_id = location.state.id;
-       		axios.get(`http://172.16.48.118:8080/api/post/info/${post_id}`)
+       		axios.get(`${BACKEND_API_BASE_URL}/api/post/info/${post_id}`)
 			.then((response) => {
                 console.log('get data.data.token', "-", response, "-");
 				postDto.post_name = response.data.post_name;
@@ -302,7 +303,7 @@ function UpdatePost() {
 
 			console.log(users);
 			console.log("postDto",postDto)
-			axios.post(`http://172.16.48.118:8080/api/post/save/${users.id}`, postDto)
+			axios.post(`${BACKEND_API_BASE_URL}/api/post/save/${users.id}`, postDto)
 			.then((response) => {
 				console.log(response);
 			})
