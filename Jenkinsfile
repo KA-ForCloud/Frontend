@@ -112,17 +112,17 @@ pipeline {
                     echo "sshagent start"
 
                     sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10001 uptime"
-                    sh "ssh -t StrictHostKeyChecking=no centos@210.109.60.60 -p 10001 'docker ps -q --filter name=front | grep -q . && docker stop front && docker rm front || true'"
-                    sh "ssh -t StrictHostKeyChecking=no centos@210.109.60.60 -p 10001 'docker rmi -f lmslmsms0616/teamchat_front:latest'"
-                    sh "ssh -t StrictHostKeyChecking=no centos@210.109.60.60 -p 10001 'docker run -d --name front -p 3000:3000 lmslmsms0616/teamchat_front:${currentBuild.number}'"
+                    sh "sudo ssh -t -t StrictHostKeyChecking=no centos@210.109.60.60 -p 10001 'docker ps -q --filter name=front | grep -q . && docker stop front && docker rm front || true'"
+                    sh "sudo ssh -t -t StrictHostKeyChecking=no centos@210.109.60.60 -p 10001 'docker rmi -f lmslmsms0616/teamchat_front:latest'"
+                    sh "sudo ssh -t -t StrictHostKeyChecking=no centos@210.109.60.60 -p 10001 'docker run -d --name front -p 3000:3000 lmslmsms0616/teamchat_front:${currentBuild.number}'"
                     
                     slackSend (channel: '#jenkins-alert', color: '#FFFF00', message: "WEB-1-Frontend Deploy Complete: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                     echo "Web_1_Success"
 
                     sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10002 uptime"
-                    sh "ssh -t StrictHostKeyChecking=no centos@210.109.60.60 -p 10002 'docker ps -q --filter name=front | grep -q . && docker stop front && docker rm front || true'"
-                    sh "ssh -t StrictHostKeyChecking=no centos@210.109.60.60 -p 10002 'docker rmi -f lmslmsms0616/teamchat_front:latest'"
-                    sh "ssh -t StrictHostKeyChecking=no centos@210.109.60.60 -p 10002 'docker run -d --name front -p 3000:3000 lmslmsms0616/teamchat_front:${currentBuild.number}'"
+                    sh "sudo ssh -t -t StrictHostKeyChecking=no centos@210.109.60.60 -p 10002 'docker ps -q --filter name=front | grep -q . && docker stop front && docker rm front || true'"
+                    sh "sudo ssh -t -t StrictHostKeyChecking=no centos@210.109.60.60 -p 10002 'docker rmi -f lmslmsms0616/teamchat_front:latest'"
+                    sh "sudo ssh -t -t StrictHostKeyChecking=no centos@210.109.60.60 -p 10002 'docker run -d --name front -p 3000:3000 lmslmsms0616/teamchat_front:${currentBuild.number}'"
 
                     slackSend (channel: '#jenkins-alert', color: '#FFFF00', message: "WEB-2-Frontend Deploy Complete: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                     echo "Web_2_Success"
