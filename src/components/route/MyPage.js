@@ -1,33 +1,29 @@
+/* eslint-disable */
 // @mui
 import { Container, Stack, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // hooks
-import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import React, { useCallback,useEffect, useState } from "react";
 import useResponsive from '../../hooks/useResponsive';
-// components
+import { useSelector } from 'react-redux';
 
-import { Button, Modal } from 'react-bootstrap';
-import { useRecoilValue } from 'recoil';
-import { KAKAO_AUTH_URL } from '../../OAuth';
+import { useRecoilValue, useSetRecoilState  } from 'recoil';
 import { userState } from '../../atom';
 import "./MyPage.css";
-import Sidebar  from './Sidebar';
-import { Outlet } from "react-router-dom";
-// @mui
 
 // ----------------------------------------------------------------------
+import Sidebar  from './Sidebar';
 
-const StyledRoot = styled('div')(({ theme }) => ({
-    [theme.breakpoints.up('md')]: {
-        display: 'flex',
-    },
-}));
+
 
 const StyledSection = styled('div')(({ theme }) => ({
     width: '100%',
-    marginRight: 30,
+    maxWidth: 480,
+    marginLeft: 'auto',
     display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    textAlign: 'center',
     boxShadow: theme.customShadows,
     backgroundColor: theme.palette.background.default,
 }));
@@ -35,6 +31,7 @@ const StyledSection = styled('div')(({ theme }) => ({
 const StyledContent = styled('div')(({ theme }) => ({
     maxWidth: 480,
     margin: 'auto',
+    // minHeight: '85vh',
     display: 'flex',
     justifyContent: 'center',
     textAlign: 'center',
@@ -42,94 +39,76 @@ const StyledContent = styled('div')(({ theme }) => ({
     padding: theme.spacing(5, 0),
 }));
 
-// ----------------------------------------------------------------------
+
 function MyPage() {
-
-    const [show, setShow] = useState(false);
     const users = useRecoilValue(userState);
+    let socket=useSelector(state=>state.socket.socket);
+	console.log('redux test - socket',socket);
+    let userDto = new Object();
+    let userCategoryDto = new Object();
 
-    let navigate = useNavigate();
+    userCategoryDto.spring = 0;
+    userCategoryDto.java = 0;
+    userCategoryDto.springboot = 0;
+    userCategoryDto.javascript = 0;
+    userCategoryDto.python = 0;
+    userCategoryDto.react = 0;
+    userCategoryDto.user_id = null;
 
     const mdUp = useResponsive('up', 'md');
 
-    useEffect(() => {
-        // if (!users.login) {
-        //     window.location.href = KAKAO_AUTH_URL;
-        // }
-
-    }, [])
-
     return (
-        <>
+        <div className ="mx-auto my-4 px-4 max-w-screen-xl">
+            <Sidebar />
+            <div className="my-5 flex mx-auto max-w-7xl sm:px-6" style={{marginRight : 40}}>
 
-            <div className='flex mx-auto max-w-5xl mr-72'>
-                {/* <img src={logo}
-                    sx={{
-                        position: 'fixed',
-                        top: { xs: 16, sm: 24, md: 40 },
-                        left: { xs: 16, sm: 24, md: 40 },
-                    }}
-                /> */}
+                
 
-        
-                <Sidebar />
-                <Outlet />
                 {mdUp && (
                     <StyledSection>
-                        {/* <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-                            {users.name}님
-                        </Typography> */}
-                        <div className="box" style={{ background: "#BDBDBD", marginTop: 50}}>
+                       
+                        <div className="box" style={{ background: "#BDBDBD" ,marginTop: 40 }}>
                             {/* <img className="profile" src='https://d2u3dcdbebyaiu.cloudfront.net/uploads/atch_img/944/eabb97e854d5e5927a69d311701cc211_res.jpeg' /> */}
                             <img className="profile" src={users.profileImg} />
                         </div>
                     </StyledSection>
                 )}
 
-                <Container>
+                <Container maxWidth="sm" >
                     <StyledContent>
-                        <Typography variant="h4" gutterBottom style={{ marginTop: 30 }}>
+                        <Typography variant="h4" gutterBottom style={{ marginTop: 30}}>
                             안녕하세요. <strong>{users.name}</strong>님
                         </Typography>
                         <Typography variant="h6" gutterBottom>
-                            오늘도 좋은 하루 되세요 🤗
+                            마이페이지🤗
                         </Typography>
 
                         <hr style={{ marginBottom: 50 }}></hr>
 
                         <Stack spacing={3}>
-                            <TextField label="이메일" defaultValue={users.email} inputProps={{ readOnly: true }} />
-                            <TextField label="성별" defaultValue={users.gender} inputProps={{ readOnly: true }} />
-                            <TextField label="연령대" defaultValue={users.age} inputProps={{ readOnly: true }} />
+                            <TextField label="이메일" defaultValue={users.email} inputProps={{ }} />
+                            <TextField label="성별" defaultValue={users.gender} inputProps={{ }} />
+                            <TextField label="연령대" defaultValue={users.age} inputProps={{ }} />
+                            
                         </Stack>
-
-                        {/* <Stack direction="row" alignItems="center" sx={{ my: 2 }}>
-                            <Typography variant="h6">알림 수신</Typography>
-                            <Checkbox name="push" />
-                        </Stack> */}
-
-                        <button className="mx-auto mt-10 border-2 rounded-md p-1 border-sky-200 my-4 text-2xl font-bold hover:bg-sky-200" onClick={() => { setShow(true); navigate('/kakaologout')}}>
-                            로그아웃
-                        </button>
+                        
+                   
                     </StyledContent>
+					
                 </Container>
             </div>
+            
+         
+        
 
-            {/* <Modal show={show} onHide={() => { setShow(false) }}  >
-                <Modal.Header closeButton>
-                    <Modal.Title>Logout</Modal.Title>
-                </Modal.Header>
-                <Modal.Body style={{ textAlign: "center" }}>
-                    <h3>로그아웃 하시겠습니까? 😢<br /></h3>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={() => { setShow(false); navigate('/kakaologout') }}>확인</Button>
-                    <Button variant="light" onClick={() => { setShow(false) }}>취소</Button>
-                </Modal.Footer>
-            </Modal> */}
-        </>
+           
+            </div>
     );
 }
 
 export { MyPage };
+
+
+
+
 

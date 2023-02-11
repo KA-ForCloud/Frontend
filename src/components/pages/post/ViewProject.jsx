@@ -4,8 +4,8 @@ import { getAllFiles } from "../../../services/ProjectService";
 import FileList
  from "./FileList";
 function ViewOngoingProject(){
-    const navigate = useNavigate();
     const { state } = useLocation();
+
     const { postId } = useParams();
     const [minutes,setMinutes]=useState([]); // 회의록
     const [files,setFiles]=useState([]); // 파일
@@ -20,8 +20,6 @@ function ViewOngoingProject(){
         downloadLink.click();
     }
 
-    
-    //프로젝트 진행중일 때는 데일리 회고록/파일 저장 칸 만들면 될듯?
     useEffect(()=>{
         getAllFiles(postId).then((response)=>{
             if(response.data.code!==1000) console.log("ERROR");
@@ -31,62 +29,41 @@ function ViewOngoingProject(){
             }
         })
     },[])
+
     return (
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 min-w-min ">  
-            <div className='mx-40 my-7 border-4 border-sky-200 rounded-2xl p-5 flex-column font-bold text-2xl'>
+        <div className="mx-auto max-w-screen-lg px-4 mb-7 ">  
+            <div className='my-7 border-4 border-sky-200 rounded-2xl p-5 flex-column font-bold text-2xl'>
                 <p>프로젝트 제목: {state.post_name}</p>
-                <div className="mt-5 grid grid-cols-2">
+                <div className="mt-5 grid md:grid-rows-2 grid-cols-1 md:grid-cols-2 gap-y-4">
                     <p>작성자: {state.name}</p>
                     <p>작성일자: {state.start_time}</p>
-                </div>
-                <div className="mt-5 grid grid-cols-2">
-                    <p>모집기한: {state.end_time}</p>
                     <p>진행기간: {state.duration}개월</p>
+                    <p>모집기한: {state.end_time}</p>
                 </div>
             </div>
 
-            <div className='mx-40 mt-7 border-4 border-sky-200 rounded-2xl p-5 flex-column font-bold text-2xl h-auto'>
+            <div className='mt-7 border-4 border-sky-200 rounded-2xl p-5 flex-column font-bold text-2xl'>
                 <p>프로젝트 세부내용</p>
                 <hr className="h-px my-4 border-2 border-indigo-100"></hr>
-                <div className="flex-column">
+                <div className="break-words">
                     <p>{state.contents}</p>
                 </div>
             </div>
 
-            <div className='mx-40 my-7 flex-column border-4 border-sky-200  rounded-2xl p-5 font-bold text-2xl min-h-max'>
+            <div className='my-7 flex-column border-4 border-sky-200  rounded-2xl p-5 font-bold text-2xl'>
                 <p>프로젝트 파일관리</p>
                 <hr className="h-px my-2 border-2 border-indigo-100 "></hr>
-                <div className="my-2 grid grid-cols-2 gap-x-10">
+                <div className="my-2 grid grid-cols-1 md:grid-cols-2 gap-x-10">
                     <div className="flex-column">
                         <p className="mx-2">데일리 회의록</p>
+
                         {minutes&&<FileList items={minutes}/>}
-                        {/* <div className ="my-2 text-xl min-w-max grid grid-cols-2 text-center h-36 overflow-y-auto border-4 border-indigo-100 rounded-md">
-                            <p> 2023-01-01 회의록</p>
-                            <p> 2023-01-02 회의록</p>
-                            <p> 2023-01-03 회의록</p>
-                            <p> 2023-01-04 회의록</p>
-                            <p> 2023-01-05 회의록</p>
-                            <p> 2023-01-06 회의록</p>
-                            <p> 2023-01-07 회의록</p>
-                            <p> 2023-01-06 회의록</p>
-                            {minutes&&minutes.map((minute,idx)=>{
-                                // downloadPDF(minute.base64);
-                                console.log("minute",minute);
-                                <p>{minute.name}</p>
-                            })}
-                            
-                        </div> */}
+
                     </div>
                     <div className="flex-column">
                         <p className="mx-2">업로드된 파일</p>
                         {files&&<FileList items={files}/>}
-                        {/* <div className ="my-2 px-2 text-xl grid grid-cols-1 h-36 overflow-y-auto border-4 border-indigo-100 rounded-md">
-                            {files&&files.map((file,idx)=>{
-                                // downloadPDF(file.base64);
-                                console.log("file",file.name);
-                                <p className="text-black">aaa</p>
-                            })}
-                        </div> */}
+                       
                     </div>
                 </div>
             </div>

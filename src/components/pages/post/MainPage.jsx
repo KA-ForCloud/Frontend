@@ -1,42 +1,59 @@
 import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
-import { getPosts, getTemperatures } from "../../../services/PostService";
+import { getPopularCategorys, getPosts} from "../../../services/PostService";
 import java from "../../../category_img/java.png";
 import javascript from "../../../category_img/javascript.png";
 import python from "../../../category_img/python.jpg";
 import react from "../../../category_img/react.png";
 import spring from "../../../category_img/spring.png";
 import springboot from "../../../category_img/springBoot.png";
-import { postState, categoryState, postStatusState, checkedItemsState } from "../../../atom";
-import { useCallback } from "react";
+import {categoryState, postStatusState, checkedItemsState} from "../../../atom";
 import PostList from "./PostList";
-import { connect } from "../../../services/ChattingService";
-import { useDispatch,useSelector } from 'react-redux';
+import { CHATTING, connect } from "../../../services/ChattingService";
+import { useDispatch} from 'react-redux';
 import { connectSocket } from "../../../modules/socket";
-function MainPage(props) {
+import SockJS from 'sockjs-client';
+export const stomp = require('stompjs');
+
+function MainPage() {
   const navigate = useNavigate();
   const dispatch=useDispatch();
-  const [postList, setpostList] = useRecoilState(postState);
-  const [temperatureList, setTemperatureList] = useState([]);
-  useEffect(() => {
-    // 소켓 연결
-    const client=connect();
-    dispatch(connectSocket(client));
-    getPosts().then((response) => {
-      setpostList(response);
+  const [postList, setpostList] = useState([]);
+  let client;
 
-      getTemperatures().then((response) => {
-        setTemperatureList(response);
+  const [popularCategoryList, setPopularCategoryList] = useState([]);
+  useEffect(() => {
+    // client=connect();
+    // dispatch(connectSocket(client));
+    let socket=new SockJS(`${CHATTING}/stomp/chat`);
+    // let socket=new SockJS('http://210.109.63.198:8081/stomp/chat');
+
+    client=stomp.over(socket);
+    client.connect({},function(){
+      console.log("client1 ",client);
+      dispatch(connectSocket(client));
+    });
+    if(postList.length === 0){
+      getPosts().then((response) => {
+        setpostList(response);
+
       })
       .catch(()=>{
-        console.log("사용자 없음");
-      })
-    })
-    .catch(()=>{
-      console.log("게시글 없음");
-    });
+        console.log("게시글 없음");
+      });
+    }
   }, []);
+
+  useEffect(() => {
+    if(postList.length !== 0){
+      getPopularCategorys().then((response) => {
+        setPopularCategoryList(response);
+      }).catch(()=>{
+        console.log("인기있는 카테고리 없음");
+      });
+    }
+  }, [postList]);
 
   const [category, setCatecory] = useRecoilState(categoryState);
   const [postStatus, setPostStatus] = useRecoilState(postStatusState);
@@ -105,97 +122,27 @@ function MainPage(props) {
     }
   ];
 
-  const makeTemperatures = () => {
-    if (temperatureList.length === 0) return;
-    return temperatureList.map((item, idx) => (
-      <div key={idx} className="flex justify-center">
-        <h3 className="m-2 text-dark text-3xl">이름: {item.name}</h3>
-        <h3 className="m-2 ml-7 text-dark text-3xl">온도: {item.temperature}</h3>
-      </div>
-    ))
+  const makePopularCategorys = () => {
+    if (popularCategoryList.length === 0) return;
+    return popularCategoryList.map((item, idx) => {
+      for(let i=0; i<tool.length; i++){
+        if(tool[i].name.toLowerCase() === item.category_name){
+          item.img = tool[i].img;
+          item.name = tool[i].name;
+          break;
+        }
+      }
+      return (
+        <div key ={idx} className = "w-2/3 mx-auto my-5 flex">
+          <p className="text-2xl font-bold my-auto mx-auto md:mr-4">{idx + 1}. </p>
+          <div className="mx-auto w-2/3 md:w-10/12 flex border-2 border-white rounded-2xl">
+            <img className="rounded-xl w-1/4 md:w-1/5" src={item.img} alt={item.name} />
+            <p className="m-auto text-2xl lg:text-xl w-10/12 md:text-lg font-bold break-words">{item.name}</p>
+          </div>
+        </div>
+      );
+    });
   }
-
-  const makeMaxViewPost = useCallback(() => {
-    if (postList.length === 0) return;
-    const area = postList.map(data => {
-      if (!data.area) {
-        return {
-          ...data, area: [
-
-          ]
-        }
-      }
-    })
-
-    const modifiedPostList = area.map((data) => {
-      let tempCate;
-      for(let i=0; i<2; i++){
-        if(data.post_category[i].type.includes("recruits")){
-            tempCate = data.post_category[i];
-            break;
-        }
-      }
-        const abc = [];
-        for (const [key, value] of Object.entries(tempCate).filter(([, count]) => count > 0)) {
-          if(key !== 'id'){
-            const area_detail = {
-              img: `${key}`,
-              name: `${key}`,
-              value: `${value}`,
-            };
-            abc.push(area_detail);
-          }
-        }
-        delete data.post_category;
-        return {
-          ...data,
-          area: data.area.concat(abc)
-        };
-    })
-
-    let maxView = modifiedPostList[0].views;
-    let maxViewPost;
-    modifiedPostList.map(item => {
-      if(item.views > maxView){
-        maxView = item.views;
-        maxViewPost = item;
-      }
-    },[postList])
-
-    return (
-      <div className=" min-w-max text-left rounded-2xl border-4 border-white hover:border-black flex-column cursor-pointer text-2xl"
-        onClick={() => { navigate(`/viewPost/${maxViewPost.id}`, {state: maxViewPost}) }}>
-        <h3 className="mx-5 my-2 text-dark font-weight-bold">프로젝트 제목: {maxViewPost.post_name}</h3>
-        <h3 className="mx-5 my-2 text-dark font-weight-bold">모집기한: {maxViewPost.end_time}</h3>
-        <h3 className="mx-5 my-2 text-dark font-weight-bold">진행기간: {maxViewPost.duration}개월</h3>
-        <hr className="h-px mx-4 my-2 first-line:mt-4 border-white"></hr>
-
-        <h3 className="mx-5 my-2 text-dark text-2xl font-weight-bold text-center">모집분야</h3>
-        <div className="min-w-max mx-2 grid grid-rows-2 grid-cols-3 gap-x-2 gap-y-2">
-        {maxViewPost.area.map((k, key) => {
-            for(let i=0; i<tool.length; i++){
-              if(tool[i].name.toLowerCase() === k.img.toLowerCase()){
-                k.img = tool[i].img;
-                k.name = tool[i].name;
-                break;
-              }
-            }
-            return (
-              <div key={key} className="flex border rounded-2xl">
-                <img className="rounded-2xl w-9 h-10" src={k.img} alt={k.name} />
-                <p className="m-auto">{k.name}</p>
-              </div>
-            );
-          })}
-        </div>
-        <hr className="h-px mx-4 my-4 first-line:mt-4 border-white"></hr>
-        <div className="flex mb-4">
-          <h3 className="mx-auto text-dark text-2xl font-weight-bold">작성자: {maxViewPost.name}</h3>
-          <h3 className="mx-auto text-dark text-2xl font-weight-bold">조회수: {maxViewPost.views}회</h3>
-        </div>
-      </div>
-    )
-  })
 
   const makeCategories = () => {
     if (categories.length === 0) return;
@@ -244,47 +191,48 @@ function MainPage(props) {
         onClick={() => checkedItemHandler(item.name.toLowerCase())}
         className={`${checkedItems.includes(item.name.toLowerCase()) ? "ring ring-sky-300" : "bg-white"} min-w-max pt-4 pb-4 rounded-2xl border flex hover:scale-105 transition `}
       >
-        <img className="m-auto w-12 h-12 " src={item.img} alt={item.name} />
-        <span className="m-auto text-2xl font-weight-bold">{item.name}</span>
+        <img className="m-auto w-10 h-10 md:w-12 md:h-12 " src={item.img} alt={item.name} />
+        <span className="m-auto text-xl md:text-2xl font-weight-bold">{item.name}</span>
       </button>
     ))
   }
 
   return (
-    <div className="mx-auto 2xl:max-w-screen-2xl xl:max-w-screen-xl lg:max-w-screen-lg 
-    md:max-w-screen-md w-auto my-4 px-4 min-h-screen">
-      <div className="min-w-max mx-8 my-7 grid-cols-1 grid lg:grid-cols-2 gap-4 text-center ">
+    <div className="mx-auto max-w-screen-xl my-6 px-4">
+      <div className="grid-cols-1 grid md:grid-cols-2 gap-4 xl:gap-8">
         <div className="rounded-2xl flex-column bg-sky-100" >
-          <h3 className="m-2 text-dark text-3xl font-bold ">😍 최다 조회수 모집 게시글 😍</h3>
-          {makeMaxViewPost()}
+          <h3 className="m-2 text-dark text-2xl lg:text-2xl md:text-xl font-bold text-center">😍 최다 조회수 모집 게시글 😍</h3>
+          {postList.length !==0 && <PostList postList = {postList} type ={"maxView"}/>}
         </div>
 
-        <div className="rounded-2xl flex-column bg-purple-100 ">
-          <h3 className="m-2 text-dark text-3xl font-bold ">😍 마음의 온도 랭킹 게시판 😍</h3>
-          <div className="mt-10">
-            {makeTemperatures()}
+        <div className="rounded-2xl flex-column bg-pink-100 ">
+          <h3 className="m-2 text-dark text-2xl lg:text-2xl md:text-xl font-bold text-center">😍 인기있는 카테고리 😍</h3>
+          <div className="my-10 text-center">
+            {popularCategoryList.length !==0 && makePopularCategorys()}
           </div>
         </div>
       </div>
 
-      <div className ="mx-8">
-        <div className="flex mt-10 mr-4 text-4xl font-bold">{makeCategories()}</div>
-      </div>
-      <hr className="h-px mx-8 mt-4 mb-5 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+      <div>
+        <div className="flex mt-6 mr-4 text-2xl md:text-4xl font-bold">
+          {makeCategories()}
+        </div>
+        <hr className="h-px mt-4 mb-5 bg-gray-200 border-0 dark:bg-gray-700"></hr>
 
-      <div className="min-w-max mx-8 grid grid-cols-3 xl:grid-cols-6 lg:grid-cols-5 text-center gap-4 md:grid-cols-4">
-        {makeToolfilter()}
+        <div className="grid grid-cols-3 xl:grid-cols-6 lg:grid-cols-5 text-center gap-4 md:grid-cols-4">
+          {makeToolfilter()}
+        </div>
       </div>
 
-      <div className="flex min-w-max mt-40 mb-5 mx-8">
-        <div className="flex text-4xl font-bold">{makePostStatus()}</div>
+      <div className="flex mt-40 mb-5 text-2xl md:text-4xl">
+        <div className="font-bold flex">{makePostStatus()}</div>
         <button 
           onClick = {() => {navigate('/createpost')}}
-          className="ml-auto mr-4 text-4xl font-bold tracking-tight">새 글 쓰기</button>
+          className="ml-auto mr-4 font-bold tracking-tight">새 글 쓰기</button>
       </div>
-      <hr className="h-px mt-4 mb-5 mx-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+      <hr className="h-px mt-4 mb-5 bg-gray-200 border-0 dark:bg-gray-700"></hr>
 
-      <div className="min-w-max mx-8 grid grid-cols-1 xl:grid-cols-3 gap-x-4 gap-y-10 md:grid-cols-2"> 
+      <div> 
           {postList && <PostList postList = {postList} type ={"main"}/>} 
       </div>
     </div>

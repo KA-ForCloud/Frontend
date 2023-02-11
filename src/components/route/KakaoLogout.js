@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { KAKAO_AUTH_URL, LOGOUT_REDIRECT_URI, REST_API_KEY } from '../../OAuth';
+import {LOGOUT_REDIRECT_URI, REST_API_KEY } from '../../OAuth';
 import { userState } from '../../atom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import axios from 'axios';
-import { GetTokenInfo } from "../../API/GetTokenInfo";
-import { RefreshToken } from "../../API/RefreshToken";
 function KakaoLogout() {
 
     const [show, setShow] = useState(false);
@@ -64,24 +61,7 @@ function KakaoLogout() {
     }
 
     const kakaoLogout = () => {
-        // 카카오계정과 함께 로그아웃
-        // fetch(`https://kauth.kakao.com/oauth/logout?client_id=${REST_API_KEY}&logout_redirect_uri=${LOGOUT_REDIRECT_URI}`, {
-        //     method: 'GET',
-        // })
-        //     .then(res => res.json())
-        //     .then(data => {
-        //         console.log('data:', data);
-        //         if (data.url.includes(ACCESS_TOKEN)) {
-        //             console.log(data.state);
-        //             //localStorage.removeItem('token');
-        //             resetUser();
-        //             navigate('/main');
-        //         } else {
-        //             //navigate('/mypage');
-        //             console.log("카카오 계정과 함께 로그아웃 실패");
-        //         }
-
-        //     });
+        
 
         const response = axios.get(`https://kauth.kakao.com/oauth/logout?client_id=${REST_API_KEY}&logout_redirect_uri=${LOGOUT_REDIRECT_URI}`)
             .then((response) => {
@@ -129,33 +109,7 @@ function KakaoLogout() {
         });
         return true;
 
-        // RefreshToken(users, userHandler)
-        //     .then(res => {
-        //         console.log('이게 res', res);
-        //         console.log('갱신 완료 후 다시 로그아웃')
-        //         if (res) {
-        //             console.log(users);
-        //             fetch('https://kapi.kakao.com/v1/user/logout', {
-        //                 method: 'POST',
-        //                 headers: { 'Authorization': `Bearer ${users.kakaoToken}` },
-        //             })
-        //                 .then(res => res.json())
-        //                 .then(data => {
-        //                     console.log(data);
-        //                     if (data.id) {
-        //                         console.log(data.id);
-        //                         console.log('다시 로그아웃 성공');
-        //                         resetUser();
-        //                         navigate('/');
-        //                         // kakaoLogout();
-        //                     }
-        //                 });
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         console.log('에러');
-        //         console.log(error)
-        //     })
+       
     }
 
 
@@ -170,7 +124,7 @@ function KakaoLogout() {
     }, []);
 
     return (
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="mx-auto w-10/12 my-4 px-4">
         {/* Illustration behind hero content */}
         <div className="absolute left-1/2 transform -translate-x-1/2 bottom-0 pointer-events-none" aria-hidden="true">
           <svg width="1360" height="578" viewBox="0 0 1360 578" xmlns="http://www.w3.org/2000/svg">
@@ -191,18 +145,13 @@ function KakaoLogout() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="pt-32 pb-12 md:pt-40 md:pb-20">
             <div className="text-center pb-12 md:pb-16">
-            <h1 className="text-5xl md:text-6xl font-extrabold leading-tighter pr-1tracking-tighter mb-4" data-aos="zoom-y-out"> 편안한 설문조사 서비스 <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400"> COMFY  </span></h1> 
-              <div className="max-w-3xl mx-auto">
-                <p className="text-xl text-gray-600 mb-8" data-aos="zoom-y-out" data-aos-delay="150"> COMFY에서 설문지를 제작하고 관리하고 다른 사람들에게 공유할 수 있습니다.</p>
-               <div className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center" data-aos="zoom-y-out" data-aos-delay="300">
-                  {<h5>로그아웃하는중</h5>
-                  }
+               <div className="text-3xl mx-auto sm:max-w-none sm:flex sm:justify-center" data-aos="zoom-y-out" data-aos-delay="300">
+                  {<h1>😂 로그아웃하는중 😂</h1>}
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
     )
 
 }

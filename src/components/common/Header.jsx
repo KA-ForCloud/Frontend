@@ -3,6 +3,7 @@ import { Popover, Transition, Dialog } from '@headlessui/react'
 import { KAKAO_AUTH_URL } from '../../OAuth'
 import { useNavigate } from 'react-router-dom';
 import { alpha } from '@mui/material/styles';
+import { useDispatch} from 'react-redux';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton} from '@mui/material';
 import {
     Bars3Icon, 
@@ -17,9 +18,13 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userState } from '../../atom'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import logo from '../../img/forCloud_logo.png'
+import menu from '../../menu.png';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {MyPage} from '../route/MyPage'
 // import GoogleLoginB from '../GoogleLoginB'
+import SockJS from 'sockjs-client';
+import { connectSocket } from '../../modules/socket';
+export const stomp = require('stompjs');
 
 
 const handleLogin = () => {
@@ -32,6 +37,9 @@ function Header() {
     let [isLogin, setIsLogin] = useState([false]);
     const [logoutAlert,setLogoutAlert]=useState([false]);
     let navigate = useNavigate();
+    const dispatch=useDispatch();
+
+    let client;
     // localStorage.setItem("memberId", 2);
     // localStorage.setItem("name", "bbb")
 
@@ -57,9 +65,8 @@ function Header() {
     const [open, setOpen] = useState(null);
 
     return (
-            <div className="mx-auto 2xl:max-w-screen-2xl xl:max-w-screen-xl lg:max-w-screen-lg 
-            md:max-w-screen-md px-4 ">
-                <div className="p-2 flex items-center justify-between border-b-4 border-sky-200">
+            <div className="mx-auto max-w-screen-xl px-4 ">
+                <div className=" p-2 flex items-center justify-between border-b-4 border-sky-200">
                     <div className="md:flex-1 justify-start">
                         {/* 로고 */}
                         <a href="/">
@@ -74,19 +81,27 @@ function Header() {
 
                     {users.login && 
                         <div className ="hidden justify-center md:flex md:space-x-10 md:ml-5">
-                            <a href="/mainPage" className="text-2xl font-bold text-gray-500 hover:text-gray-900">
+                            {/* <a href="/mainPage" className="text-2xl font-bold text-gray-500 hover:text-gray-900">
                                 팀 모집
-                            </a>
-
-                            <a href="/rooms/*" className="text-2xl font-bold text-gray-500 hover:text-gray-900">
+                            </a> */}
+                            <div className="text-2xl font-bold text-gray-500 hover:text-gray-900" onClick={()=>{
+                                navigate("/mainPage");
+                            }}>팀 모집</div>
+                            {/* <a href="/rooms" className="text-2xl font-bold text-gray-500 hover:text-gray-900">
                                 채팅
-                            </a>
+                            </a> */}
+                            <div className="text-2xl font-bold text-gray-500 hover:text-gray-900" onClick={()=>{
+                                navigate("/rooms");
+                            }}>채팅</div>
 
-                            <a href="/mypage" className="text-2xl font-bold text-gray-500 hover:text-gray-900">
+                            {/* <a href="/mypage" className="text-2xl font-bold text-gray-500 hover:text-gray-900">
                                 마이 페이지
-                            </a>
+                            </a> */}
+                            <div className="text-2xl font-bold text-gray-500 hover:text-gray-900" onClick={()=>{
+                                navigate("/mypage");
+                            }}>마이 페이지</div>
                     </div>}
-
+                    
 
                     {/* 로그인 */}
                     {/* 로그인 상태에 따라서 버튼 내용 바뀜 */}
@@ -94,6 +109,7 @@ function Header() {
                     <>
                     
                     </>
+                    
                     <>
                     
                         {users.login ?
@@ -120,6 +136,10 @@ function Header() {
                             </div>
                         }
                     </>
+                    <div>
+        
+        
+    </div>
                     {users.login &&
                         <IconButton
                         onClick={() => {navigate('/mypage')}}
