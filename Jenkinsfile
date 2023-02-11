@@ -23,7 +23,6 @@ node {
 
     // docker build
     stage('Bulid Docker') {
-      agent any
       steps {
         echo 'Bulid Docker'
         script {
