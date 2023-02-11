@@ -1,8 +1,10 @@
 import axios from 'axios';
 import SockJS from 'sockjs-client';
-const BACKEND_API_BASE_URL="http://172.16.48.118:8080";
-const CHATTING = "http://172.16.48.118:8081";
+
+import { BACKEND_API_BASE_URL } from './PostService';
+export const CHATTING = "http://210.109.62.241:8081";
 // const CHATTING = "http://210.109.63.198:8081"; // nfs 테스트용 ip(bastion ip)
+
 
 // 채팅방 리스트 조회
 export async function getRooms(memberId){

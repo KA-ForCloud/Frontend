@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const BACKEND_API_BASE_URL="http://172.16.48.118:8080";
+
+export const BACKEND_API_BASE_URL="http://210.109.62.241:8080";
+
 
 
 

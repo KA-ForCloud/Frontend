@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import {connect, getRooms, subscribe,getClient,deleteRoom,exitRoom, publish, endRoom} from '../../../services/ChattingService';
+import {connect, getRooms, subscribe,getClient,deleteRoom,exitRoom, publish, endRoom, CHATTING} from '../../../services/ChattingService';
 import ChattingRoom from "./ChattingRoom";
 import ChattingList from "./list/ChattingList";
 import { useRef } from "react";
@@ -105,8 +105,9 @@ export default function ChattingPage() {
         setMsgType(msgType);
     }
     useEffect(()=>{
+
         if(socket===null){
-            socket=new SockJS('http://172.16.48.118:8081/stomp/chat');
+            socket=new SockJS(`${CHATTING}/stomp/chat`);
     		let client=stomp.over(socket);
     		client.connect({},function(){
       		    console.log("client1 ",client);
@@ -114,6 +115,7 @@ export default function ChattingPage() {
             });
         }
         getRooms(Number(users.id)).then((response)=>{
+
             if(response.data.code!==1000) console.log("SERVER ERROR");
             else{
                 const data=response.data.result;

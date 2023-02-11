@@ -17,6 +17,7 @@ import {FormControlLabel,Checkbox} from '@material-ui/core';
 import Sidebar  from './Sidebar';
 import { Outlet } from "react-router-dom";
 import axios from 'axios';
+import { BACKEND_API_BASE_URL } from '../../services/PostService';
 
 
 const fileTypes = ["PDF", "PPTX"];
@@ -120,7 +121,7 @@ function Portfolio() {
     
 
     function getPortInfo(){
-        axios.get(`http://172.16.48.118:8080/api/user/info/${users.id}`)
+        axios.get(`${BACKEND_API_BASE_URL}/api/user/info/${users.id}`)
 			.then((response) => {
                 console.log('get data.data.token', "-", response, "-");
                 console.log(filename);
@@ -153,7 +154,7 @@ function Portfolio() {
             })
         }
         function getCategoryInfo(){
-            axios.get(`http://172.16.48.118:8080/api/userCategory/${users.id}`)
+            axios.get(`${BACKEND_API_BASE_URL}/api/userCategory/${users.id}`)
                 .then((response) => {
                     console.log('get categorydata.data.token', "-", response, "-");
                     userCategoryDto.java = response.data.java;
@@ -221,7 +222,7 @@ function Portfolio() {
             
             if(filecheck){
             setFilecheck(false);
-            axios.post(`http://172.16.48.118:8080/api/user/upload/${users.id}`,formData)
+            axios.post(`${BACKEND_API_BASE_URL}/api/user/upload/${users.id}`,formData)
 			.then((response) => {
                 console.log('response.data.token', "-", response, "-");
                 console.log(filename);
@@ -290,7 +291,7 @@ function Portfolio() {
 
             
             console.log("userCategoryDto",userJson);
-			axios.post(`http://172.16.48.118:8080/api/user/port/save/${users.id}?portname=${filename}`,userDto)
+			axios.post(`${BACKEND_API_BASE_URL}api/user/port/save/${users.id}?portname=${filename}`,userDto)
 			.then((response) => {
                 console.log('response.data.token', "-", response, "-");
                 console.log(filename);
@@ -337,7 +338,7 @@ function Portfolio() {
                 navigate('/portfolio');
                 console.log(users.portsave);    
                 if ( window.location == 'http://210.109.61.179:3000/portfolioview' ) {
-                     window.location.href='http://172.16.48.118:8080/api/user/attached/'+users.portsave;
+                     window.location.href=`${BACKEND_API_BASE_URL}/api/user/attached/`+users.portsave;
                 }
                 
                 navigate('/portfolio');

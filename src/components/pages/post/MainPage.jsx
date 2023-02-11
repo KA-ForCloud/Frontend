@@ -10,7 +10,7 @@ import spring from "../../../category_img/spring.png";
 import springboot from "../../../category_img/springBoot.png";
 import {categoryState, postStatusState, checkedItemsState} from "../../../atom";
 import PostList from "./PostList";
-import { connect } from "../../../services/ChattingService";
+import { CHATTING, connect } from "../../../services/ChattingService";
 import { useDispatch} from 'react-redux';
 import { connectSocket } from "../../../modules/socket";
 import SockJS from 'sockjs-client';
@@ -26,7 +26,7 @@ function MainPage() {
   useEffect(() => {
     // client=connect();
     // dispatch(connectSocket(client));
-    let socket=new SockJS('http://172.16.48.118:8081/stomp/chat');
+    let socket=new SockJS(`${CHATTING}/stomp/chat`);
     // let socket=new SockJS('http://210.109.63.198:8081/stomp/chat');
 
     client=stomp.over(socket);

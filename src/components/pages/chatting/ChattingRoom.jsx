@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from "react";
 import { useLocation } from 'react-router-dom';
 import { useRef } from "react";
-import {connect, getRooms, subscribe,publish,getChattings,client,updateLastRead,submitFile} from '../../../services/ChattingService';
+import {connect, getRooms, subscribe,publish,getChattings,client,updateLastRead,submitFile, CHATTING} from '../../../services/ChattingService';
 import { useParams } from 'react-router-dom';
 import MessageList from "./list/MsgList";
 import { useDispatch,useSelector } from 'react-redux';
@@ -85,7 +85,7 @@ export default function ChattingRoom(props) {
     useEffect(() => {
         console.log("roomId",roomId);
         if(socket===null){
-            socket=new SockJS('http://172.16.48.118:8081/stomp/chat');
+            socket=new SockJS(`${CHATTING}/stomp/chat`);
             // socket=new SockJS('http://210.109.63.198:8081/stomp/chat');
 
     		let client=stomp.over(socket);

@@ -8,6 +8,7 @@ import useResponsive from '../../hooks/useResponsive';
 // components
 import { Button} from 'react-bootstrap';
 import "./Portfolio.css";
+import { BACKEND_API_BASE_URL } from '../../services/PostService';
 
 
 const StyledSection = styled('div')(({ theme }) => ({
@@ -48,7 +49,7 @@ function Portfolioviewer() {
 
                 navigate('/portfolioview');  
                 if ( window.location == 'http://210.109.61.179:3000/portfolioview' ) {
-                     window.location.href='http://172.16.48.118:8080/api/user/attached/'+state.portsave;
+                     window.location.href=`${BACKEND_API_BASE_URL}/api/user/attached/`+state.portsave;
                 }
                 
                 navigate('/portfolioview');
