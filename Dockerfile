@@ -1,6 +1,7 @@
 FROM node:alpine as builder
+RUN mkdir /app
 WORKDIR /app
-ENV PATH /app/node_moduels/.bin:$PATH
+ENV PATH /app/node_modules/.bin:$PATH
 
 COPY . /app/
 RUN npm install --legacy-peer-deps
