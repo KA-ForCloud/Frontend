@@ -76,7 +76,7 @@ function App() {
                       <Route path="/projectManage" element={<ProjectManage />} />
                       <Route path="/postManage" element={<PostManage />} />
                       <Route path="/viewProject/:postId" element={<ViewProject />} />
-                      <Route path="*" element={<NotFound />}></Route>
+                      {/* <Route path="*" element={<NotFound />}></Route> */}
                   </Routes>
             
         </BrowserRouter>
