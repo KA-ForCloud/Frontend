@@ -25,7 +25,7 @@ function MessageList(props) {
     return (
       <div className="mt-6 flex-row-reverse h-96 overflow-y-auto md:w-full" id="msgList">
         {items && items.map((item,idx)=>{
-            console.log("MsgList item",item);
+            // console.log("MsgList item",item);
            if(idx===0) beforeMsg=item;
            else beforeMsg=items[idx-1];
             return(
