@@ -105,6 +105,7 @@ export default function ChattingPage() {
         setMsgType(msgType);
     }
     useEffect(()=>{
+
         if(socket===null){
             socket=new SockJS(`${CHATTING}/stomp/chat`);
     		let client=stomp.over(socket);
@@ -114,6 +115,7 @@ export default function ChattingPage() {
             });
         }
         getRooms(Number(users.id)).then((response)=>{
+
             if(response.data.code!==1000) console.log("SERVER ERROR");
             else{
                 const data=response.data.result;
