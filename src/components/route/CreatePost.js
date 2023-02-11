@@ -116,16 +116,16 @@ function CreatePost() {
 	const users = useRecoilValue(userState);
 
 	useEffect(() => {
-		if (socket===null) {
-			// socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
-            socket=new SockJS('http://172.16.48.118:8081/stomp/chat');
+		// if (socket===null) {
+		// 	// socket=new SockJS('http://210.109.62.6:8081/stomp/chat');
+        //     socket=new SockJS('http://172.16.48.118:8081/stomp/chat');
 
-    		let client=stomp.over(socket);
-    		client.connect({},function(){
-      			console.log("client1 ",client);
-      			dispatch(connectSocket(client));
-    		});
-		}
+    	// 	let client=stomp.over(socket);
+    	// 	client.connect({},function(){
+      	// 		console.log("client1 ",client);
+      	// 		dispatch(connectSocket(client));
+    	// 	});
+		// }
 	}, [])
 
 	useEffect(() => {
@@ -373,7 +373,7 @@ function CreatePost() {
 				else{
 					const chattingId=response.data.result;
 					const msg=users.name+"님이 입장하셨습니다.";
-					enter(socket,chattingId,msg,users.id,users.name,getDate(),"msg");
+					// enter(socket,chattingId,msg,users.id,users.name,getDate(),"msg");
 					navigate('/mainPage');
 				}
 			})
