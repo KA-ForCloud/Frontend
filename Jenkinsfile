@@ -106,7 +106,6 @@ pipeline {
             }
           }
         }
-
         stage('Deploy to dev') {
           steps {
                 sshagent(credentials: ['kic_key']) {
