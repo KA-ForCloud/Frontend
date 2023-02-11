@@ -1,37 +1,38 @@
-.sidebar {
-    position: fixed;
+
+
+
+@media (max-width: 2000px) {
+    
+    .sidebar{
+    position: initial;
+    position: static;
     top: 35vh;
-    left: 15%;
+    left: 10%;
     height: max-content;
     margin: 4px;
     padding: 4px;
-    width: 15%;
+    width: 100%;
     background-color: #fff;
-
-    &__logo {
-        display: grid;
-        place-items: center;
-        height: 120px;
-        font-size: 1.5rem;
-        font-weight: 700;
-        font-family: 'Mochiy Pop P one', sans-serif;
-    }
+    display: flex;
 
     &__menu {
-        position: relative;
+        position:initial;
+        position: static;
 
         &__item {
-            display: flex;
+            position:initial;
+            float: left;
             align-items: center;
             place-content: flex-start;
-            padding: 1rem 3rem;
+            margin-left: 100px;
+            padding: 1rem 2rem;
             font-size: 1.25rem;
             font-weight: 500;
             color: #555555;
             transition: color 0.3s ease-in-out;
 
             &.active {
-                color: #fff;
+                color: #555555;
             }
 
             &__icon {
@@ -44,15 +45,11 @@
         }
 
         &__indicator {
-            position: absolute;
-            top: 25%;
-            left: 50%;
-            width: calc(100% - 40px);
-            border-radius: 10px;
-            background-color: #308efe;
-            z-index: -1;
-            transform: translateX(-50%);
-            transition: 0.3s ease-in-out;
+            display: none;
         }
+        
     }
+    }
+    
 }
+

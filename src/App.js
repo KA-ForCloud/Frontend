@@ -17,6 +17,7 @@ import ProjectManage from "../src/components/pages/post/ProjectManage";
 import PostManage from "../src/components/pages/post/PostManage";
 import ViewProject from "../src/components/pages/post/ViewProject";
 import {UpdatePost} from "../src/components/route/UpdatePost";
+import { Portfolioviewer } from './components/route/Portfolioviewer';
 import React from 'react';
 import { styled } from '@mui/material/styles';
 
@@ -62,19 +63,20 @@ function App() {
                       <Route path="/portfolio" element = {<Portfolio/>}/>
                       <Route path="/createpost" element= {<CreatePost/>}/>
                       <Route path="/portfolioview" element = {<Portfolioview/>}/>
+                      <Route path="/portfolioviewer/:userId" element = {<Portfolioviewer/>}/>
                       <Route path="/postUpdate" element = {<UpdatePost/>}/>
                     
-                      <Route path="/user/attached" />
+                      <Route path="/user/attached/*" />
                       
                     
-                      <Route path="rooms/*" element={<ChattingPage/>}/>
+                      <Route path="/rooms/*" element={<ChattingPage/>}/>
                       <Route path="member/:memberId/rooms/:roomId" element={<ChattingRoom />} />
                       <Route path="/mainPage" element={<MainPage />} />
                       <Route path="/viewPost/:postId" element={<ViewPost />} />
                       <Route path="/projectManage" element={<ProjectManage />} />
                       <Route path="/postManage" element={<PostManage />} />
                       <Route path="/viewProject/:postId" element={<ViewProject />} />
-                      <Route path="*" element={<NotFound />}></Route>
+                      {/* <Route path="*" element={<NotFound />}></Route> */}
                   </Routes>
             
         </BrowserRouter>

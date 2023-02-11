@@ -8,9 +8,11 @@ export function getDate(){
     let hour = date.getHours()
     hour = hour >= 10 ? hour : '0' + hour
     let min = date.getMinutes()
+    min=min>=10?min:'0'+min
     let sec = date.getSeconds()
     sec = sec >= 10 ? sec : '0' + sec
     
     let now = year + month + day + hour + min + sec;
+    console.log("now",now);
     return now;
 }
