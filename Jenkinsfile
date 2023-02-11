@@ -1,4 +1,4 @@
-pipeline {
+node {
     checkout scm
     environment{
         imagename = "lmslmsms0616/teamchat_front"
