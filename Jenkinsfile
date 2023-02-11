@@ -120,10 +120,10 @@ pipeline {
 
                     sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10001 uptime"
                     echo "uptime end"
-                    sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10001 'docker stop front'"
-                    sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10001 'docker rm front'"
+                    sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10001 'docker stop front | true'"
+                    sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10001 'docker rm front | true'"
                     echo "docker remove"
-                    sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10001 'docker rmi -f lmslmsms0616/teamchat_front:latest'"
+                    sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10001 'docker rmi -f lmslmsms0616/teamchat_front:latest |true'"
                     echo "docker remove image"
                     sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10001 'docker run -d --name front -p 3000:3000 lmslmsms0616/teamchat_front:${currentBuild.number}'"
                     echo "docker run"
