@@ -106,6 +106,13 @@ pipeline {
             }
           }
         }
+
+        stage('Remove image in Jenkins'){
+            steps{
+                sh "docker rmi lmslmsms0616/teamchat_front:${currentBuild.number}"
+            }
+        }
+
         stage('Deploy to dev') {
           steps {
                 sshagent(credentials: ['kic_key']) {
