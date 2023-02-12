@@ -79,7 +79,7 @@ pipeline {
                     echo "docker remove"
                     sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10001 'docker rmi -f lmslmsms0616/teamchat_front:latest | true'"
                     echo "docker remove image"
-                    sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10001 'docker run -d --name front -p 80:80 -p 443:443 lmslmsms0616/teamchat_front:${currentBuild.number}'"
+                    sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10001 'docker run -d --name front -p 80:80 -p 443:443 -p 3000:3000 lmslmsms0616/teamchat_front:${currentBuild.number}'"
                     echo "docker run"
                     
                     slackSend (channel: '#jenkins-alert', color: '#FFFF00', message: "WEB-1-Frontend Deploy Complete: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
@@ -90,7 +90,7 @@ pipeline {
                     sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10002 'docker stop front | true'"
                     sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10002 'docker rm front | true'"
                     sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10002 'docker rmi -f lmslmsms0616/teamchat_front:latest | true'"
-                    sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10002 'docker run -d --name front -p 80:80 -p 443:443 lmslmsms0616/teamchat_front:${currentBuild.number}'"
+                    sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10002 'docker run -d --name front -p 80:80 -p 443:443 -p 3000:3000 lmslmsms0616/teamchat_front:${currentBuild.number}'"
 
                     slackSend (channel: '#jenkins-alert', color: '#FFFF00', message: "WEB-2-Frontend Deploy Complete: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                     echo "Web_2_Success"
