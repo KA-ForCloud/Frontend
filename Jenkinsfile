@@ -139,6 +139,7 @@ node {
                     sh "scp -r -P 10001 /var/jenkins_home/workspace/forCloud_Frontend_Pipeline/build centos@210.109.60.60:/home/centos/Frontend"
                     echo "here"
                     sh "ssh -T centos@210.109.60.60 -p 10001 'cd /home/centos/Frontent'"
+                    echo "here"
                     sh "ssh -T centos@210.109.60.60 -p 10001 'npm start'"
                    
                     slackSend (channel: '#jenkins-alert', color: '#FFFF00', message: "WEB-1-Frontend Deploy Complete: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
