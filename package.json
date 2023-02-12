@@ -46,7 +46,6 @@
     "redux": "^4.2.0",
     "redux-promise": "^0.6.0",
     "redux-thunk": "^2.4.1",
-    "sentry": "^0.1.2",
     "sockjs": "^0.3.24",
     "sockjs-client": "^1.6.1",
     "stompjs": "^2.3.3",
