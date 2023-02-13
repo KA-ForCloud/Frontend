@@ -117,7 +117,7 @@ function CreatePost() {
 
 	useEffect(() => {
 		if (socket===null) {
-    		socket=new SockJS(`https://172.16.48.118:8081/stomp/chat`);
+    		socket=new SockJS(`https://teamchat.shop:8081/stomp/chat`);
     		let client=stomp.over(socket);
     		client.connect({},function(){
       			console.log("client1 ",client);
