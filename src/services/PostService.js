@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-export const BACKEND_API_BASE_URL="http://172.16.48.118:8080";
+export const BACKEND_API_BASE_URL="https://teamchat.shop";
 
 
 

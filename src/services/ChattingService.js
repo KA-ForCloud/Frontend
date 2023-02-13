@@ -69,7 +69,7 @@ export let client;
 // 소켓 연결
 export async function connect(){ // 연결할 때
     
-    let socket=new SockJS('stomp/chat');
+    let socket=new SockJS('/stomp/chat');
     // let socket=new SockJS('http://210.109.63.198:8081/stomp/chat');
 
     client=stomp.over(socket);
