@@ -73,7 +73,7 @@ pipeline {
 
                     sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10001 uptime"
                     echo "uptime end"
-                    // sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10001 'sudo chmod 666 /var/run/docker.sock'"
+                    sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10001 'sudo chmod 666 /var/run/docker.sock'"
                     sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10001 'docker stop front | true'"
                     sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10001 'docker rm front | true'"
                     echo "docker remove"
@@ -86,7 +86,7 @@ pipeline {
                     echo "Web_1_Success"
 
                     sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10002 uptime"
-                    // sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10002 'sudo chmod 666 /var/run/docker.sock'"
+                    sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10002 'sudo chmod 666 /var/run/docker.sock'"
                     sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10002 'docker stop front | true'"
                     sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10002 'docker rm front | true'"
                     sh "ssh -o StrictHostKeyChecking=no centos@210.109.60.60 -p 10002 'docker rmi -f lmslmsms0616/teamchat_front:latest | true'"
