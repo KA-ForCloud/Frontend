@@ -24,17 +24,19 @@ function MainPage() {
 
   const [popularCategoryList, setPopularCategoryList] = useState([]);
   useEffect(() => {
-    let socket=new SockJS(`/stomp/chat`);
-    client=stomp.over(socket);
-    client.connect({},function(){
-      console.log("client1 ",client);
-      dispatch(connectSocket(client));
-    });
+    // let socket=new SockJS(`/stomp/chat`);
+    // client=stomp.over(socket);
+    // client.connect({},function(){
+    //   console.log("client1 ",client);
+    //   dispatch(connectSocket(client));
+    // });
 
     if(postList.length === 0){
       getPosts().then((response) => {
-        console.log(response);
+        if(response.length ===0){console.log("아무것도 없으니 하지마라")
+        }else{
         setpostList(response);
+        }
 
       })
       .catch(()=>{
