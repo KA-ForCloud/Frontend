@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-// export const BACKEND_API_BASE_URL="https://210.109.60.112:8080";
+export const BACKEND_API_BASE_URL="http://172.16.48.118:8080";
 
 
 
@@ -95,7 +95,7 @@ export async function updateCurrentCategory(postId, userId){
 }
 
 export async function updatePostStatus(postId){
-    const response = await axios.patch(`$/api/postStatus/${postId}`)
+    const response = await axios.patch(`/api/postStatus/${postId}`)
     return response.data.result;
 }
 
