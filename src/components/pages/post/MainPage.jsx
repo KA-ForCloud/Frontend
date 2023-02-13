@@ -24,7 +24,6 @@ function MainPage() {
 
   const [popularCategoryList, setPopularCategoryList] = useState([]);
   useEffect(() => {
-  
     let socket=new SockJS(`/stomp/chat`);
     client=stomp.over(socket);
     client.connect({},function(){
@@ -34,6 +33,7 @@ function MainPage() {
 
     if(postList.length === 0){
       getPosts().then((response) => {
+        console.log(response);
         setpostList(response);
 
       })
