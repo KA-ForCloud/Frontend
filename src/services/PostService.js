@@ -7,7 +7,7 @@ export const BACKEND_API_BASE_URL="https://teamchat.shop";
 
 
 export async function getPosts(){
-    const response=await axios.get(`${BACKEND_API_BASE_URL}/api/post`);
+    const response=await axios.get(`/api/post`);
     return response.data.result;
 }
 
