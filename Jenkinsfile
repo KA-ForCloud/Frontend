@@ -34,7 +34,7 @@ pipeline {
             // script {
             //     dockerImage = docker.build imagename
             // }
-            sh "docker build --no-cache -t lmslmsms0616/teamchat_front:${currentBuild.number}"
+            sh "docker build --no-cache -t lmslmsms0616/teamchat_front:${currentBuild.number} ."
           }
           post {
             failure {
