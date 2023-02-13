@@ -107,7 +107,7 @@ function KakaoLogin() {
 
                     console.log('ACCESS_TOKEN', ACCESS_TOKEN);
                     console.log("in");
-                    axios.post(`${BACKEND_API_BASE_URL}/api/user/register/${ACCESS_TOKEN}`)
+                    axios.post(`https://teamchat.shop/api/user/register/${ACCESS_TOKEN}`)
                         .then((response) => {
                             console.log("response:"+response);
                             console.log('response.data.token', "-", response.data.id, "-");
