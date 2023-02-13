@@ -7,6 +7,7 @@ export const BACKEND_API_BASE_URL="https://teamchat.shop";
 
 
 export async function getPosts(){
+    console.log("getPosts");
     const response=await axios.get(`/api/post`);
     return response.data.result;
 }
@@ -100,6 +101,7 @@ export async function updatePostStatus(postId){
 }
 
 export async function savePost(userId,postDto){
+    console.log("savePost");
     const response=await axios.post(`/api/post/save/${userId}`,postDto);
     console.log("response: ",response);
     return response;
