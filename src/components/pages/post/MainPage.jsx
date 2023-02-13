@@ -25,7 +25,7 @@ function MainPage() {
   const [popularCategoryList, setPopularCategoryList] = useState([]);
   useEffect(() => {
   
-    let socket=new SockJS(`https://teamchat.shop:8081/stomp/chat`);
+    let socket=new SockJS(`/stomp/chat`);
     client=stomp.over(socket);
     client.connect({},function(){
       console.log("client1 ",client);

@@ -85,7 +85,7 @@ export default function ChattingRoom(props) {
     useEffect(() => {
         console.log("roomId",roomId);
         if(socket===null){
-            socket=new SockJS(`https://teamchat.shop:8081/stomp/chat`);
+            socket=new SockJS(`/stomp/chat`);
     		let client=stomp.over(socket);
     		client.connect({},function(){
       		    console.log("client1 ",client);
