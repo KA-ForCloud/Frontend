@@ -3,12 +3,7 @@ import Fade from "react-reveal/Fade"; // Import reasct-reveal(Fade)
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from "styled-components";
-import category from '../../promo_category.png';
-import mobile from '../../promo_mobile.png';
-import multi from '../../promo_multi.png';
 import main from '../../promo_main.png';
-import preview from '../../promo_preview.png';
-import share from '../../promo_share.png';
 import { KAKAO_AUTH_URL } from '../../OAuth';
 import { userState } from '../../atom';
 
