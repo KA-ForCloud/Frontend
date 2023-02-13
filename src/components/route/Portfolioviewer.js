@@ -48,8 +48,8 @@ function Portfolioviewer() {
             case 'download':
 
                 navigate('/portfolioview');  
-                if ( window.location == 'http://210.109.61.179:3000/portfolioview' ) {
-                     window.location.href=`${BACKEND_API_BASE_URL}/api/user/attached/`+state.portsave;
+                if ( window.location == 'https://teamchat.shop/portfolioview' ) {
+                     window.location.href=`/api/user/attached/`+state.portsave;
                 }
                 
                 navigate('/portfolioview');

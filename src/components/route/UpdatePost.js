@@ -191,7 +191,7 @@ function UpdatePost() {
 	function getPostInfo(){
 		console.log("stateId"+location.state.id);
 		post_id = location.state.id;
-       		axios.get(`${BACKEND_API_BASE_URL}/api/post/info/${post_id}`)
+       		axios.get(`/api/post/info/${post_id}`)
 			.then((response) => {
                 console.log('get data.data.token', "-", response, "-");
 				postDto.post_name = response.data.post_name;
@@ -303,7 +303,7 @@ function UpdatePost() {
 
 			console.log(users);
 			console.log("postDto",postDto)
-			axios.post(`${BACKEND_API_BASE_URL}/api/post/save/${users.id}`, postDto)
+			axios.post(`/api/post/save/${users.id}`, postDto)
 			.then((response) => {
 				console.log(response);
 			})

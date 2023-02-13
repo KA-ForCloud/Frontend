@@ -121,7 +121,7 @@ function Portfolio() {
     
 
     function getPortInfo(){
-        axios.get(`${BACKEND_API_BASE_URL}/api/user/info/${users.id}`)
+        axios.get(`/api/user/info/${users.id}`)
 			.then((response) => {
                 console.log('get data.data.token', "-", response, "-");
                 console.log(filename);
@@ -154,7 +154,7 @@ function Portfolio() {
             })
         }
         function getCategoryInfo(){
-            axios.get(`${BACKEND_API_BASE_URL}/api/userCategory/${users.id}`)
+            axios.get(`/api/userCategory/${users.id}`)
                 .then((response) => {
                     console.log('get categorydata.data.token', "-", response, "-");
                     userCategoryDto.java = response.data.java;
@@ -222,7 +222,7 @@ function Portfolio() {
             
             if(filecheck){
             setFilecheck(false);
-            axios.post(`${BACKEND_API_BASE_URL}/api/user/upload/${users.id}`,formData)
+            axios.post(`/api/user/upload/${users.id}`,formData)
 			.then((response) => {
                 console.log('response.data.token', "-", response, "-");
                 console.log(filename);
@@ -337,8 +337,8 @@ function Portfolio() {
             case 'download':
                 navigate('/portfolio');
                 console.log(users.portsave);    
-                if ( window.location == 'http://210.109.61.179:3000/portfolioview' ) {
-                     window.location.href=`${BACKEND_API_BASE_URL}/api/user/attached/`+users.portsave;
+                if ( window.location == 'https://teamchat.shop/portfolioview' ) {
+                     window.location.href=`/api/user/attached/`+users.portsave;
                 }
                 
                 navigate('/portfolio');

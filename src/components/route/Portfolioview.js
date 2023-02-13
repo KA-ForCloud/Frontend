@@ -142,8 +142,8 @@ function Portfolioview() {
             case 'download':
                 navigate('/portfolioview');
                 console.log(users.portsave);    
-                if ( window.location == 'http://210.109.61.179:3000/portfolioview' ) {
-                     window.location.href=`${BACKEND_API_BASE_URL}/api/user/attached/`+users.portsave;
+                if ( window.location == 'https://teamchat.shop/portfolioview' ) {
+                     window.location.href=`/api/user/attached/`+users.portsave;
                 }
                 
                 navigate('/portfolioview');

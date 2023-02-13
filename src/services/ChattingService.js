@@ -10,21 +10,21 @@ export const CHATTING = "http://172.16.48.118:8081";
 export async function getRooms(memberId){
     // var memberId=localStorage.getItem('memberId');
    
-    const response=await axios.get(`${BACKEND_API_BASE_URL}/api/member/${memberId}/rooms`);
+    const response=await axios.get(`/api/member/${memberId}/rooms`);
     // console.log('getRooms response: ',response);
     return response;
 }
 
 // 채팅 내역 가져오기
 export async function getChattings(roomId){
-    const response=await axios.get(`${CHATTING}/chat/${roomId}`);
+    const response=await axios.get(`/chat/${roomId}`);
     // console.log("[getChattings] ",response);
     return response;
 }
 
 // 참여자의 채팅방 나가기
 export async function exitRoom(roomId,memberId){
-    const response=await axios.delete(`${BACKEND_API_BASE_URL}/api/member/${memberId}/rooms/${roomId}/participant`);
+    const response=await axios.delete(`/api/member/${memberId}/rooms/${roomId}/participant`);
     // console.log("[exitRoom]",response);
     return response;
 }
@@ -32,34 +32,34 @@ export async function exitRoom(roomId,memberId){
 // 개설자의 채팅방 삭제
 export async function deleteRoom(roomId,memberId){
     // console.log("try to delete room");
-    const response=await axios.delete(`${BACKEND_API_BASE_URL}/api/member/${memberId}/rooms/${roomId}`);
+    const response=await axios.delete(`/api/member/${memberId}/rooms/${roomId}`);
     // console.log("[deleteRoom]",response);
     return response;
 }
 
 // 개설자의 채팅방 종료
 export async function endRoom(roomId,memberId){
-    const response=await axios.patch(`${BACKEND_API_BASE_URL}/api/member/${memberId}/rooms/${roomId}`);
+    const response=await axios.patch(`/api/member/${memberId}/rooms/${roomId}`);
 
     return response;
 }
 // ChattingListItem에 넣기 위한 데이터 가져오기 - 채팅 이력에 의한 채팅 개수, 마지막 채팅
 export async function getChattingListItemInfo(roomId){
-    const response=await axios.get(`${CHATTING}/chat/chatting/${roomId}`);
+    const response=await axios.get(`/chat/chatting/${roomId}`);
     // const lastReadNum=await axios.get(`/api/member/${memberId}/`)
     return response;
 }
 
 // 제일 최근 읽은 채팅 메세지 idx 갱신
 export async function updateLastRead(memberId,roomId,chattingIdx){
-    const response=await axios.patch(`${BACKEND_API_BASE_URL}/api/member/${memberId}/rooms/${roomId}/${chattingIdx}`);
+    const response=await axios.patch(`/api/member/${memberId}/rooms/${roomId}/${chattingIdx}`);
     // console.log("-------resposne",response);
     return response;
 }
 
 // 가장 최근에 읽은 메세지 인덱스 가져오기
 export async function getLastRead(roomId,memberId){
-    const response=await axios.get(`${BACKEND_API_BASE_URL}/api/member/${memberId}/rooms/${roomId}`);
+    const response=await axios.get(`/api/member/${memberId}/rooms/${roomId}`);
     return response;
 }
 
