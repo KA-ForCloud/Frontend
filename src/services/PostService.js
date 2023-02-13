@@ -7,7 +7,7 @@ export const BACKEND_API_BASE_URL="https://teamchat.shop";
 
 
 export async function getPosts(){
-    const response=await axios.get(`https://172.16.48.118:8080/api/post`);
+    const response=await axios.get(`/api/post`);
     return response.data.result;
 }
 
@@ -95,12 +95,12 @@ export async function updateCurrentCategory(postId, userId){
 }
 
 export async function updatePostStatus(postId){
-    const response = await axios.patch(`https://172.16.48.118:8080/api/postStatus/${postId}`)
+    const response = await axios.patch(`/api/postStatus/${postId}`)
     return response.data.result;
 }
 
 export async function savePost(userId,postDto){
-    const response=await axios.post(`https://172.16.48.118:8080/api/post/save/${userId}`,postDto);
+    const response=await axios.post(`/api/post/save/${userId}`,postDto);
     console.log("response: ",response);
     return response;
 }
