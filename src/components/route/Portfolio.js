@@ -291,7 +291,7 @@ function Portfolio() {
 
             
             console.log("userCategoryDto",userJson);
-			axios.post(`${BACKEND_API_BASE_URL}api/user/port/save/${users.id}?portname=${filename}`,userDto)
+			axios.post(`/api/user/port/save/${users.id}?portname=${filename}`,userDto)
 			.then((response) => {
                 console.log('response.data.token', "-", response, "-");
                 console.log(filename);
