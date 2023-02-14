@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-export const BACKEND_API_BASE_URL="http://172.16.51.145:8080";
+export const BACKEND_API_BASE_URL="http://210.109.63.198:8080";
 
 
 export async function getPosts(){
@@ -94,13 +94,13 @@ export async function updateCurrentCategory(postId, userId){
 }
 
 export async function updatePostStatus(postId){
-    const response = await axios.patch(`/api/postStatus/${postId}`)
+    const response = await axios.patch(`${BACKEND_API_BASE_URL}/api/postStatus/${postId}`)
     return response.data.result;
 }
 
 export async function savePost(userId,postDto){
     console.log("savePost");
-    const response=await axios.post(`http://172.16.51.4:8080/api/post/save/${userId}`,postDto);
+    const response=await axios.post(`${BACKEND_API_BASE_URL}/api/post/save/${userId}`,postDto);
     console.log("response: ",response);
     return response;
 }
