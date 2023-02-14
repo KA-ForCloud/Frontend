@@ -1,9 +1,7 @@
 import axios from 'axios';
 
 
-export const BACKEND_API_BASE_URL="http://172.16.51.4:8080";
-
-
+export const BACKEND_API_BASE_URL="http://172.16.51.145:8080";
 
 
 export async function getPosts(){
