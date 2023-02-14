@@ -108,7 +108,7 @@ function KakaoLogin() {
                     console.log('ACCESS_TOKEN', ACCESS_TOKEN);
                     console.log("in");
                     
-                    fetch(`http://172.16.51.4:8080/api/user/register/${ACCESS_TOKEN}`,{
+                    fetch("http://172.16.51.4:8080/api/user/register/${ACCESS_TOKEN}",{
                       method: "POST",
                         
                     })
