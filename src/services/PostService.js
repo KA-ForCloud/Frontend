@@ -7,6 +7,7 @@ export const BACKEND_API_BASE_URL="http://210.109.61.15:8080";
 export async function getPosts(){
     console.log("getPosts");
 //     const response=await axios.get(`${BACKEND_API_BASE_URL}/api/post`);
+    let response = "";
     fetch("http://172.16.51.4:8080/api/post")
         .then((response) => response.json())
         .then((data) => console.log(data));
