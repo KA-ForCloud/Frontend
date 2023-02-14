@@ -121,7 +121,7 @@ function Portfolio() {
     
 
     function getPortInfo(){
-        axios.get(`/api/user/info/${users.id}`)
+        axios.get(`${BACKEND_API_BASE_URL}/api/user/info/${users.id}`)
 			.then((response) => {
                 console.log('get data.data.token', "-", response, "-");
                 console.log(filename);
@@ -154,7 +154,7 @@ function Portfolio() {
             })
         }
         function getCategoryInfo(){
-            axios.get(`/api/userCategory/${users.id}`)
+            axios.get(`${BACKEND_API_BASE_URL}/api/userCategory/${users.id}`)
                 .then((response) => {
                     console.log('get categorydata.data.token', "-", response, "-");
                     userCategoryDto.java = response.data.java;
@@ -222,7 +222,7 @@ function Portfolio() {
             
             if(filecheck){
             setFilecheck(false);
-            axios.post(`/api/user/upload/${users.id}`,formData)
+            axios.post(`${BACKEND_API_BASE_URL}/api/user/upload/${users.id}`,formData)
 			.then((response) => {
                 console.log('response.data.token', "-", response, "-");
                 console.log(filename);
@@ -291,7 +291,7 @@ function Portfolio() {
 
             
             console.log("userCategoryDto",userJson);
-			axios.post(`/api/user/port/save/${users.id}?portname=${filename}`,userDto)
+			axios.post(`${BACKEND_API_BASE_URL}/api/user/port/save/${users.id}?portname=${filename}`,userDto)
 			.then((response) => {
                 console.log('response.data.token', "-", response, "-");
                 console.log(filename);
