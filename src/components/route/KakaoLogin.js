@@ -107,49 +107,58 @@ function KakaoLogin() {
 
                     console.log('ACCESS_TOKEN', ACCESS_TOKEN);
                     console.log("in");
-                    axios.post(`${BACKEND_API_BASE_URL}/api/user/register/${ACCESS_TOKEN}`)
-                        .then((response) => {
-                            console.log("response:"+response);
-                            console.log('response.data.token', "-", response.data.id, "-");
-                            userHandler(
-                                {
-                                    token: response.data.token,
-                                    kakaoToken: ACCESS_TOKEN,
-                                    kakaoRefreshToken: REFRESH_TOKEN,
-                                    id: response.data.id,
-                                    name: data.kakao_account.profile.nickname,
-                                    profileImg: data.kakao_account.profile.profile_image_url,
-                                    email: data.kakao_account.email,
-                                    age: age,
-                                    gender: data.kakao_account.gender,
-                                    isFirst: users.isFirst,
-                                    school: response.data.school,
-                                    tech: response.data.tech,
-                                    portname: response.data.port,
-                                    portsave: response.data.portsave_name,
-                                    refresh: true,
-                                    push: false,
-                                    login: true,
-                                }
-                            )
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                            console.log('실패');
-                            return "error";
-                        })
-                        .finally(() => {
-                        console.log(users);
-                    });
+                    
+                    fetch(`http://172.16.51.4:8080/api/user/register/${ACCESS_TOKEN}`,{
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                    })
+                      .then((response) => response.json())
+                      .then((data) => console.log(data));
+//                     axios.post(`${BACKEND_API_BASE_URL}/api/user/register/${ACCESS_TOKEN}`)
+//                         .then((response) => {
+//                             console.log("response:"+response);
+//                             console.log('response.data.token', "-", response.data.id, "-");
+//                             userHandler(
+//                                 {
+//                                     token: response.data.token,
+//                                     kakaoToken: ACCESS_TOKEN,
+//                                     kakaoRefreshToken: REFRESH_TOKEN,
+//                                     id: response.data.id,
+//                                     name: data.kakao_account.profile.nickname,
+//                                     profileImg: data.kakao_account.profile.profile_image_url,
+//                                     email: data.kakao_account.email,
+//                                     age: age,
+//                                     gender: data.kakao_account.gender,
+//                                     isFirst: users.isFirst,
+//                                     school: response.data.school,
+//                                     tech: response.data.tech,
+//                                     portname: response.data.port,
+//                                     portsave: response.data.portsave_name,
+//                                     refresh: true,
+//                                     push: false,
+//                                     login: true,
+//                                 }
+//                             )
+//                         })
+//                         .catch((error) => {
+//                             console.log(error);
+//                             console.log('실패');
+//                             return "error";
+//                         })
+//                         .finally(() => {
+//                         console.log(users);
+//                     });
 
-                } else {
-                    console.log("유저 정보 가져오기 실패");
-                }
+//                 } else {
+//                     console.log("유저 정보 가져오기 실패");
+//                 }
 
-            })
-            .finally(() => {
-                navigate('/');
-            });
+//             })
+//             .finally(() => {
+//                 navigate('/');
+//             });
     };
 
     useEffect(() => {
