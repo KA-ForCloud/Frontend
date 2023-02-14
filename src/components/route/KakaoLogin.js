@@ -109,10 +109,7 @@ function KakaoLogin() {
                     console.log("in");
                     
                     fetch(`http://172.16.51.4:8080/api/user/register/${ACCESS_TOKEN}`,{
-                      method: "POST",
-                      headers: {
-                        "Content-Type": "application/json",
-                      }
+                      method: "POST"
                     })
                       .then((response) => response.json())
                       .then((data) => console.log(data));
