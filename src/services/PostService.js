@@ -102,7 +102,7 @@ export async function updatePostStatus(postId){
 
 export async function savePost(userId,postDto){
     console.log("savePost");
-    const response=await axios.post(`https://172.16.48.118:8080/api/post/save/${userId}`,postDto);
+    const response=await axios.post(`http://172.16.51.4:8080/api/post/save/${userId}`,postDto);
     console.log("response: ",response);
     return response;
 }
