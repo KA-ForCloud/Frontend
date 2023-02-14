@@ -110,10 +110,10 @@ function Portfolio() {
 
   
     useEffect(() => {
-        setTimeout(function () {
-            getPortInfo();
-            getCategoryInfo();
-        }, 1000);
+//         setTimeout(function () {
+//             getPortInfo();
+//             getCategoryInfo();
+//         }, 1000);
       
 
     }, [])
