@@ -1,5 +1,4 @@
 import axios from 'axios';
-import httpClient from 'react-http-client';
 
 export const BACKEND_API_BASE_URL="http://210.109.61.15:8080";
 
