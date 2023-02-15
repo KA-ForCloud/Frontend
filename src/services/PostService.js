@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { XMLHttpRequest } from 'xmlhttprequest-ts';
+import httpClient from 'react-http-client';
 
 export const BACKEND_API_BASE_URL="http://210.109.61.15:8080";
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+
 
 export async function getPosts(){
     console.log("getPosts");
@@ -12,18 +12,11 @@ export async function getPosts(){
     //     .then((response) => response.json())
     //     .then((data) => console.log(data));
 
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === xhr.DONE) {
-            if (xhr.status === 200 || xhr.status === 201) {
-                console.log(xhr.responseText);
-            } else {
-                console.error(xhr.responseText);
-            }
-        }
-    };
-    xhr.open('GET', 'http://172.16.51.4:8080/api/post');
-    xhr.send();
+    const getResponse = await httpClient.get(
+        'http://172.16.51.4:8080/api/post'
+        );
+           
+    console.log(getResponse);
     return response.data.result;
 }
 
