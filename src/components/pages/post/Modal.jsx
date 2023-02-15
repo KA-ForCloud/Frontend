@@ -13,7 +13,7 @@ import { userState } from '../../../atom';
 function Modal(props) {
     const navigate = useNavigate();
     const users = useRecoilValue(userState);
-    // const socket=useSelector(state=>state.socket.socket);
+    const socket=useSelector(state=>state.socket.socket);
     const {open, close, header, postId, category, updateApplicant, getCurrentCategory} = props;
 
     const Register = () => {
