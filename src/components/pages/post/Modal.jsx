@@ -60,7 +60,7 @@ function Modal(props) {
                     console.log("response",response);
                     // TODO : 입장 메세지 발송
                     const enterMsg=response.data.result.name+"님이 입장하셨습니다.";
-                    // enter(socket,response.data.result.roomId,enterMsg,response.data.result.memberId,response.data.result.name,getDate(),"enter");
+                    enter(socket,response.data.result.roomId,enterMsg,response.data.result.memberId,response.data.result.name,getDate(),"enter");
                 }
 
             })

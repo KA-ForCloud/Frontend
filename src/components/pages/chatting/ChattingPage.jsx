@@ -107,7 +107,7 @@ export default function ChattingPage() {
     useEffect(()=>{
 
         if(socket===null){
-    		socket=new SockJS(`/stomp/chat`);
+    		socket=new SockJS(`http://210.109.61.15:8081/stomp/chat`);
     		let client=stomp.over(socket);
     		client.connect({},function(){
       		    console.log("client1 ",client);
