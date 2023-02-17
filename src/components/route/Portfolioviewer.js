@@ -49,7 +49,7 @@ function Portfolioviewer() {
 
                 navigate('/portfolioview');  
                 if ( window.location == 'https://teamchat.shop/portfolioview' ) {
-                     window.location.href=`/api/user/attached/`+state.portsave;
+                     window.location.href=`${BACKEND_API_BASE_URL}/api/user/attached/`+state.portsave;
                 }
                 
                 navigate('/portfolioview');

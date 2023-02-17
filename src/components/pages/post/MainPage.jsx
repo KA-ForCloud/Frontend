@@ -24,7 +24,7 @@ function MainPage() {
 
   const [popularCategoryList, setPopularCategoryList] = useState([]);
   useEffect(() => {
-    let socket=new SockJS('http://210.109.61.15:8081/stomp');
+    let socket=new SockJS('http://210.109.61.15:8081/stomp/chat');
     client=stomp.over(socket);
     client.connect({},function(){
       console.log("client1 ",client);
@@ -44,7 +44,6 @@ function MainPage() {
       });
     }
   }, []);
-
   useEffect(() => {
     if(postList.length !== 0){
       getPopularCategorys().then((response) => {

@@ -117,7 +117,7 @@ function CreatePost() {
 
 	useEffect(() => {
 		if (socket===null) {
-    		socket=new SockJS('http://210.109.61.15:8081/stomp');
+    		socket=new SockJS('http://210.109.61.15:8081/stomp/chat');
     		let client=stomp.over(socket);
     		client.connect({},function(){
       			console.log("client1 ",client);
@@ -371,7 +371,7 @@ function CreatePost() {
 				else{
 					const chattingId=response.data.result;
 					const msg=users.name+"님이 입장하셨습니다.";
-					enter(socket,chattingId,msg,users.id,users.name,getDate(),"msg");
+					// enter(socket,chattingId,msg,users.id,users.name,getDate(),"msg");
 					navigate('/mainPage');
 				}
 			})
