@@ -48,7 +48,7 @@ function Portfolioviewer() {
             case 'download':
 
                 navigate('/portfolioview');  
-                if ( window.location == 'https://teamchat.shop/portfolioview' ) {
+                if ( window.location == 'http://teamchat.shop/portfolioview' ) {
                      window.location.href=`${BACKEND_API_BASE_URL}/api/user/attached/`+state.portsave;
                 }
                 
