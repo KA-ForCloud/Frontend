@@ -337,8 +337,8 @@ function Portfolio() {
             case 'download':
                 navigate('/portfolio');
                 console.log(users.portsave);    
-                if ( window.location == 'https://teamchat.shop/portfolioview' ) {
-                     window.location.href=`/api/user/attached/`+users.portsave;
+                if ( window.location == 'http://teamchat.shop/portfolioview' ) {
+                     window.location.href=`${BACKEND_API_BASE_URL}/api/user/attached/`+users.portsave;
                 }
                 
                 navigate('/portfolio');

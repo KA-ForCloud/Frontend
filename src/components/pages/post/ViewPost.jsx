@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useRecoilValue} from 'recoil';
-import { getApplicant, deleteMyPost, updatePostView, updatePostStatus, getCurrentPostCategory, deleteAllApplicant } from "../../../services/PostService";
+import { getApplicant, deleteMyPost, updatePostView, updatePostStatus, getCurrentPostCategory, deleteAllApplicant, BACKEND_API_BASE_URL } from "../../../services/PostService";
 import Modal from "./Modal";
 import { userState } from '../../../atom';
 import axios from 'axios';
@@ -114,7 +114,7 @@ function ViewPost() {
     }
 
     function getPortInfo(userId){
-        axios.get(`/api/user/info/${userId}`)
+        axios.get(`${BACKEND_API_BASE_URL}/api/user/info/${userId}`)
             .then((response) => {
                 userDto.name = response.data.user_name;
                 userDto.profileImg = response.data.user_image;
