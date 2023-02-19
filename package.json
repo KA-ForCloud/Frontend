@@ -89,5 +89,7 @@
     "tailwindcss": "^3.2.1",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.0"
-  }
+  },
+  "proxy": "http://172.16.51.4:8080"
+  
 }
