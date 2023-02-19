@@ -34,7 +34,7 @@ function ChattingListItem(props) {
         setNumDiv(false);
         // dispatch(saveRoomId(item.chattingId));
         setNumberOfChattings(0);
-        updateLastRead(memberId,item.chattingId,chatCnt);
+        // updateLastRead(memberId,item.chattingId,chatCnt);
         selectedRoom(item,item.title);
         // setNumDiv(false);
         navigate(`/rooms/${item.chattingId}`);
