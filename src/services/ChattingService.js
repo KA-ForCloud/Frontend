@@ -121,7 +121,7 @@ export async function submitFile(data){
             'Content-Type' : 'multipart/form-data'
         }
     }
-    const response=await axios.post(`/chat/file`,data,config);
+    const response=await axios.post(`${CHATTING}/chat/file`,data,config);
     console.log("response",response);
     // const lastReadNum=await axios.get(`/api/member/${memberId}/`)
     return response;
