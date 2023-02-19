@@ -22,7 +22,7 @@ export async function getMyPost(userId){
 }
 
 export async function getProject(userId){
-    const response=await axios.get(` /api/project/${userId}`)
+    const response=await axios.get(`/api/project/${userId}`)
     // const response=await axios.get(`/api/project/${userId}`)
 
     return response.data.result;
