@@ -52,8 +52,8 @@ function ChattingListItem(props) {
         getChattingListItemInfo(item.chattingId).then((response)=>{
             console.log("====response",response);
             // console.log("item.last",item.last);
-            setNumberOfChattings(response.data.result.number-1-item.last); // 안읽은 메세지 개수 = 전체 메세지 개수 - 1 - 참여자가 마지막으로 읽은 메세지 인덱스
-            setChatCnt(response.data.result.number);
+            // setNumberOfChattings(response.data.result.number-1-item.last); // 안읽은 메세지 개수 = 전체 메세지 개수 - 1 - 참여자가 마지막으로 읽은 메세지 인덱스
+            // setChatCnt(response.data.result.number);
             console.log("last",response.data.result.last);
             if(response.data.result.last.msg==="exit") {
                 console.log("exit roomId",response.data.result.last.roomId);
