@@ -17,7 +17,7 @@ export async function getRooms(memberId){
 
 // 채팅 내역 가져오기
 export async function getChattings(roomId){
-    const response=await axios.get(`/chat/${roomId}`);
+    const response=await axios.get(`${CHATTING}/chat/${roomId}`);
     // console.log("[getChattings] ",response);
     return response;
 }
@@ -45,7 +45,7 @@ export async function endRoom(roomId,memberId){
 }
 // ChattingListItem에 넣기 위한 데이터 가져오기 - 채팅 이력에 의한 채팅 개수, 마지막 채팅
 export async function getChattingListItemInfo(roomId){
-    const response=await axios.get(`/chat/chatting/${roomId}`);
+    const response=await axios.get(`${CHATTING}/chat/chatting/${roomId}`);
     // const lastReadNum=await axios.get(`/api/member/${memberId}/`)
     return response;
 }
