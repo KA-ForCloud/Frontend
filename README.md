@@ -1,7 +1,7 @@
 
-<h1 align="middle">Comfy</h1>
+<h1 align="middle">Teamchat</h1>
 
-<p align="middle">설문지 제작 어쩌구</p>
+<p align="middle">개발자 사이드 프로젝트 어쩌구</p>
 
 <div align="center">
     <p dir="auto">
