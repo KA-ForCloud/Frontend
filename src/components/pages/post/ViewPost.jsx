@@ -114,7 +114,7 @@ function ViewPost() {
     }
 
     function getPortInfo(userId){
-        axios.get(`${BACKEND_API_BASE_URL}/api/user/info/${userId}`)
+        axios.get(`/api/user/info/${userId}`)
             .then((response) => {
                 userDto.name = response.data.user_name;
                 userDto.profileImg = response.data.user_image;
