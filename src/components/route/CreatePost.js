@@ -371,7 +371,7 @@ function CreatePost() {
 				else{
 					const chattingId=response.data.result;
 					const msg=users.name+"님이 입장하셨습니다.";
-					// enter(socket,chattingId,msg,users.id,users.name,getDate(),"msg");
+					enter(socket,chattingId,msg,users.id,users.name,getDate(),"msg");
 					navigate('/mainPage');
 				}
 			})
