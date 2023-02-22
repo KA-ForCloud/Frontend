@@ -22,6 +22,7 @@ function ViewOngoingProject(){
 
     useEffect(()=>{
         getAllFiles(postId).then((response)=>{
+            console.log("getAllFiles response: ",response);
             if(response.data.code!==1000) console.log("ERROR");
             else{
                 setMinutes(response.data.result.minutesList);
