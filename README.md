@@ -127,10 +127,10 @@
 
 # 팀원 🤼‍♀️
 
-| BE+FE+SA | BE+FE+SA | BE+FA+SA  | SA 
-| :-----: | :-----: | :-----:  | :-----: | :-----:  |
+| BE+FE+SA | BE+FE+SA | BE+FE+SA  | SA |
+| :-----: | :-----: | :-----:  | :-----: | 
 | <img src="https://avatars.githubusercontent.com/u/76048180?v=4" width=400px alt="이민서"/> | <img src="https://avatars.githubusercontent.com/u/81918138?v=4" width=400px alt="정호진"/> | \  | \  | \ |
-| [이민서](https://github.com/minseo300)| [정호진](https://github.com/hojin19082)   | --   | -- | -- |
+| [이민서](https://github.com/minseo300)| [정호진](https://github.com/hojin19082)   | --   | -- |
 
 
 
