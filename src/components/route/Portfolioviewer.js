@@ -47,12 +47,12 @@ function Portfolioviewer() {
 		switch(id){
             case 'download':
 
-                navigate('/portfolioview');  
-                if ( window.location == 'http://teamchat.shop/portfolioview' ) {
+                navigate('/portfolioviewer');  
+                if ( window.location == 'http://teamchat.shop/portfolioviewer' ) {
                      window.location.href=`/api/user/attached/`+state.portsave;
                 }
                 
-                navigate('/portfolioview');
+                navigate('/portfolioviewer');
 
 
                 forceUpdate();
